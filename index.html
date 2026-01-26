@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPRESIONES GRAFIC - Diseño e Impresión</title>
+    <link href="templatemo-3d-coverflow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/59164793488?text=Hola%20IMPRESIONES%20GRAFIC,%20quiero%20consultar%20sobre%20sus%20servicios" 
+       class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <a href="#home" class="logo-container">
+            <div class="logo">
+                <img src="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png" 
+                     alt="IMPRESIONES GRAFIC Logo"
+                     class="logo-image">
+            </div>
+            <div class="logo-text">IMPRESIONES GRAFIC</div>
+        </a>
+        
+        <nav class="main-menu" id="mainMenu">
+            <a href="#home" class="menu-item active">INICIO</a>
+            <a href="#servicios" class="menu-item">SERVICIOS</a>
+            <a href="#portafolio" class="menu-item">PORTAFOLIO</a>
+            <a href="#catalogos" class="menu-item">CATÁLOGOS</a>
+            <a href="#about" class="menu-item">ACERCA DE</a>
+            <a href="#contact" class="menu-item">CONTACTO</a>
+        </nav>
+        
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="section">
+        <div class="coverflow-wrapper">
+            <div class="info">
+                <p class="experience-text">25 años de experiencia</p>
+                <p class="tagline">Diseño e Impresión de Calidad en Oruro</p>
+            </div>
+
+            <div class="coverflow-container" tabindex="0">
+                <div class="coverflow" id="coverflow">
+                    <div class="coverflow-item" data-index="0">
+                        <div class="cover image-loading">
+                            <img src="images/mountain-landscape.jpg" alt="Tarjetas de Presentación" loading="lazy"
+                                 onerror="this.src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=600&fit=crop'">
+                        </div>
+                        <div class="reflection"></div>
+                    </div>
+                    <div class="coverflow-item" data-index="1">
+                        <div class="cover image-loading">
+                            <img src="images/forest-path.jpg" alt="Reconocimientos" loading="lazy"
+                                 onerror="this.src='https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=600&fit=crop'">
+                        </div>
+                        <div class="reflection"></div>
+                    </div>
+                    <div class="coverflow-item" data-index="2">
+                        <div class="cover image-loading">
+                            <img src="images/serene-water-mirroring.jpg" alt="Invitaciones" loading="lazy"
+                                 onerror="this.src='https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=600&h=600&fit=crop'">
+                        </div>
+                        <div class="reflection"></div>
+                    </div>
+                    <div class="coverflow-item" data-index="3">
+                        <div class="cover image-loading">
+                            <img src="images/ocean-sunset-golden-hour.jpg" alt="Afiches Publicitarios" loading="lazy"
+                                 onerror="this.src='https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=600&h=600&fit=crop'">
+                        </div>
+                        <div class="reflection"></div>
+                    </div>
+                    <div class="coverflow-item" data-index="4">
+                        <div class="cover image-loading">
+                            <img src="images/rolling-sand-dunes.jpg" alt="Calendarios Personalizados" loading="lazy"
+                                 onerror="this.src='https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=600&h=600&fit=crop'">
+                        </div>
+                        <div class="reflection"></div>
+                    </div>
+                    <div class="coverflow-item" data-index="5">
+                        <div class="cover image-loading">
+                            <img src="images/starry-night.jpg" alt="Trofeos Exclusivos" loading="lazy"
+                                 onerror="this.src='https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=600&h=600&fit=crop'">
+                        </div>
+                        <div class="reflection"></div>
+                    </div>
+                    <div class="coverflow-item" data-index="6">
+                        <div class="cover image-loading">
+                            <img src="images/cascading-waterfall.jpg" alt="Material Corporativo" loading="lazy"
+                                 onerror="this.src='https://images.unsplash.com/photo-1512273222628-4daea6e55abb?w=600&h=600&fit=crop'">
+                        </div>
+                        <div class="reflection"></div>
+                    </div>
+                </div>
+
+                <button class="nav-button prev" onclick="navigate(-1)">‹</button>
+                <button class="nav-button next" onclick="navigate(1)">›</button>
+
+                <div class="dots-container" id="dots"></div>
+                
+                <!-- Play/Pause Button -->
+                <button class="play-pause-button" id="playPauseBtn" onclick="toggleAutoplay()">
+                    <span class="play-icon">▶</span>
+                    <span class="pause-icon" style="display: none;">❚❚</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios Section -->
+    <section id="servicios" class="section">
+        <div class="servicios-content">
+            <div class="servicios-header">
+                <h2>NUESTROS SERVICIOS</h2>
+                <p>Diseño, impresión y presencia digital en un solo lugar</p>
+            </div>
+            
+            <div class="servicios-grid">
+                <div class="servicio-card" data-service="tarjetas">
+                    <div class="servicio-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h3>DISEÑO DE TARJETAS PERSONALES</h3>
+                    <p>DISEÑO PROPIO ELABORADO PARA TU NEGOCIO</p>
+                    <ul class="servicio-features">
+                        <li>1000 TARJETAS</li>
+                        <li>DISEÑO PERSONALIZADO</li>
+                        <li>ENTREGA RAPIDA</li>
+                        <li>IMPRESION DE CALIDAD</li>
+                    </ul>
+                    <button class="servicio-btn" onclick="scrollToContact()">Consultar este servicio</button>
+                </div>
+                
+                <div class="servicio-card" data-service="reconocimientos">
+                    <div class="servicio-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>RECONOCIMIENTOS Y TROFEOS</h3>
+                    <p>DISEÑOS SUPER EXCLUSIVOS QUE MARCAN LA DIFERENCIA</p>
+                    <ul class="servicio-features">
+                        <li>CALIDAD EN MATERIAL</li>
+                        <li>DISEÑO 100% PERSONALIZADO</li>
+                        <li>ENTREGA RAPIDA</li>
+                        <li>REVISION DEL DISEÑO</li>
+                    </ul>
+                    <button class="servicio-btn" onclick="scrollToContact()">Consultar este servicio</button>
+                </div>
+                
+                <div class="servicio-card" data-service="invitaciones">
+                    <div class="servicio-icon">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <h3>INVITACIONES PARA TODO ACONTECIMIENTO</h3>
+                    <p>Invitaciones únicas y elegantes, diseñadas para reflejar la importancia de cada acontecimiento especial.</p>
+                    <ul class="servicio-features">
+                        <li>Calidad premium en materiales</li>
+                        <li>Diseño 100% personalizado</li>
+                        <li>Entrega rápida y puntual</li>
+                        <li>Revisión del diseño incluidos</li>
+                    </ul>
+                    <button class="servicio-btn" onclick="scrollToContact()">Consultar este servicio</button>
+                </div>
+                
+                <div class="servicio-card" data-service="afiches">
+                    <div class="servicio-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>AFICHES Y CALENDARIOS</h3>
+                    <p>Afiches y calendarios personalizados que combinan diseño creativo, impresión de alta calidad y funcionalidad.</p>
+                    <ul class="servicio-features">
+                        <li>Diseño 100% personalizado</li>
+                        <li>Materiales de alta calidad</li>
+                        <li>Impresión nítida y colores duraderos</li>
+                        <li>Entrega rápida y garantizada</li>
+                    </ul>
+                    <button class="servicio-btn" onclick="scrollToContact()">Consultar este servicio</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portafolio Section -->
+    <section id="portafolio" class="section">
+        <div class="portafolio-content">
+            <div class="portafolio-header">
+                <h2>PORTAFOLIO DE SERVICIOS</h2>
+                <p>Portafolio de Servicios en Creación y Producción Gráfica</p>
+            </div>
+            
+            <div class="portfolio-filter" id="portfolioFilter">
+                <button class="filter-btn active" data-filter="all">TODOS</button>
+                <button class="filter-btn" data-filter="tarjetas">TARJETAS Y AFICHES</button>
+                <button class="filter-btn" data-filter="reconocimientos">RECONOCIMIENTOS</button>
+                <button class="filter-btn" data-filter="trofeos">TROFEOS</button>
+                <button class="filter-btn" data-filter="invitaciones">INVITACIONES</button>
+            </div>
+            
+            <div class="portfolio-grid">
+                <div class="portfolio-item" data-category="tarjetas">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/m5hNpSyn/Tarjetas-Personales-Corporativas.png" 
+                             alt="Tarjetas Personales Corporativas">
+                        <div class="portfolio-overlay">
+                            <h4>Tarjetas Personales Corporativas</h4>
+                            <p>Diseño e impresión de alta calidad</p>
+                            <button class="view-details">Ver detalles</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="reconocimientos">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/F40gmXP5/Reconocimientos-Personalizados.png" 
+                             alt="Reconocimientos Personalizados">
+                        <div class="portfolio-overlay">
+                            <h4>Reconocimientos Personalizados</h4>
+                            <p>Certificados y diplomas de calidad</p>
+                            <button class="view-details">Ver detalles</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="trofeos">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/cS2cFRZV/Trofeos-Exclusivos.jpg" 
+                             alt="Trofeos Exclusivos">
+                        <div class="portfolio-overlay">
+                            <h4>Trofeos Exclusivos</h4>
+                            <p>Diseños únicos para eventos especiales</p>
+                            <button class="view-details">Ver detalles</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="invitaciones">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/67pqHvw7/Invitaciones-Elegantes.jpg" 
+                             alt="Invitaciones Elegantes">
+                        <div class="portfolio-overlay">
+                            <h4>Invitaciones Elegantes</h4>
+                            <p>Para bodas, cumpleaños y eventos</p>
+                            <button class="view-details">Ver detalles</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="tarjetas">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/1YX1QJpH/Afiches-Publicitarios.jpg" 
+                             alt="Afiches Publicitarios">
+                        <div class="portfolio-overlay">
+                            <h4>Afiches Publicitarios</h4>
+                            <p>Diseño creativo e impactante</p>
+                            <button class="view-details">Ver detalles</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="reconocimientos">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/Y7KJ5BBz/Certificados-Institucionales-D.jpg" 
+                             alt="Certificados Institucionales">
+                        <div class="portfolio-overlay">
+                            <h4>Certificados Institucionales</h4>
+                            <p>Diseño formal y profesional</p>
+                            <button class="view-details">Ver detalles</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catálogos Section -->
+    <section id="catalogos" class="section">
+        <div class="catalogos-content">
+            <div class="catalogos-header">
+                <h2>CATÁLOGOS DIGITALES</h2>
+                <p>Explora nuestra completa colección de productos directamente en tu navegador</p>
+            </div>
+            
+            <div class="catalogos-grid">
+                <!-- Catálogo 1: Invitaciones -->
+                <div class="catalogo-card" onclick="openPdfViewer('catalogos/catalogo-invitaciones.pdf', 'Catálogo de Invitaciones')">
+                    <div class="catalogo-icon" style="background: linear-gradient(135deg, #FF6B6B, #FF8E53);">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <h3>Invitaciones Elegantes</h3>
+                    <p>Diseños exclusivos para bodas, cumpleaños, eventos corporativos y ocasiones especiales</p>
+                    <div class="catalogo-meta">
+                        <span><i class="fas fa-palette"></i> +30 diseños</span>
+                        <span><i class="fas fa-eye"></i> Solo visualización</span>
+                    </div>
+                    <div class="catalogo-footer">
+                        <button class="btn-ver-catalogo">
+                            <i class="fas fa-external-link-alt"></i> Ver Catálogo
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Catálogo 2: Medallas y Accesorios en Acrílico -->
+                <div class="catalogo-card" onclick="openPdfViewer('catalogos/catalogo-medallas-accesorios-acrilico.pdf', 'Catálogo de Medallas y Accesorios en Acrílico')">
+                    <div class="catalogo-icon" style="background: linear-gradient(135deg, #4ECDC4, #44A08D);">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3>Medallas y Accesorios</h3>
+                    <p>Acrílico de alta calidad para eventos deportivos, reconocimientos y premios especiales</p>
+                    <div class="catalogo-meta">
+                        <span><i class="fas fa-shapes"></i> Acrílico premium</span>
+                        <span><i class="fas fa-eye"></i> Solo visualización</span>
+                    </div>
+                    <div class="catalogo-footer">
+                        <button class="btn-ver-catalogo">
+                            <i class="fas fa-external-link-alt"></i> Ver Catálogo
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Catálogo 3: Pines -->
+                <div class="catalogo-card" onclick="openPdfViewer('catalogos/catalogo-pines.pdf', 'Catálogo de Pines')">
+                    <div class="catalogo-icon" style="background: linear-gradient(135deg, #C56CD6, #3425AF);">
+                        <i class="fas fa-map-pin"></i>
+                    </div>
+                    <h3>Pines Personalizados</h3>
+                    <p>Pines de alta calidad para identificación corporativa, eventos y coleccionables</p>
+                    <div class="catalogo-meta">
+                        <span><i class="fas fa-gem"></i> Calidad premium</span>
+                        <span><i class="fas fa-eye"></i> Solo visualización</span>
+                    </div>
+                    <div class="catalogo-footer">
+                        <button class="btn-ver-catalogo">
+                            <i class="fas fa-external-link-alt"></i> Ver Catálogo
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Catálogo 4: Porta Certificados -->
+                <div class="catalogo-card" onclick="openPdfViewer('catalogos/catalogo-porta-certificados.pdf', 'Catálogo de Porta Certificados')">
+                    <div class="catalogo-icon" style="background: linear-gradient(135deg, #F9CA24, #F093FB);">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Porta Certificados</h3>
+                    <p>Elegantes portadores para diplomas, certificados y documentos importantes</p>
+                    <div class="catalogo-meta">
+                        <span><i class="fas fa-folder-open"></i> Varios modelos</span>
+                        <span><i class="fas fa-eye"></i> Solo visualización</span>
+                    </div>
+                    <div class="catalogo-footer">
+                        <button class="btn-ver-catalogo">
+                            <i class="fas fa-external-link-alt"></i> Ver Catálogo
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Catálogo 5: Indumentaria Minimalista Blanco (1) -->
+                <div class="catalogo-card" onclick="openPdfViewer('catalogos/catalogo-indumentaria-minimalista-1.pdf', 'Catálogo de Indumentaria Minimalista Blanco - Colección 1')">
+                    <div class="catalogo-icon" style="background: linear-gradient(135deg, #FFFFFF, #F8F9FA); color: #333;">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>Indumentaria Minimalista</h3>
+                    <p>Colección 1: Diseños elegantes en blanco para un estilo profesional y moderno</p>
+                    <div class="catalogo-meta">
+                        <span><i class="fas fa-snowflake"></i> Estilo minimalista</span>
+                        <span><i class="fas fa-eye"></i> Solo visualización</span>
+                    </div>
+                    <div class="catalogo-footer">
+                        <button class="btn-ver-catalogo">
+                            <i class="fas fa-external-link-alt"></i> Ver Catálogo
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Catálogo 6: Indumentaria Minimalista Blanco (2) -->
+                <div class="catalogo-card" onclick="openPdfViewer('catalogos/catalogo-indumentaria-minimalista-2.pdf', 'Catálogo de Indumentaria Minimalista Blanco - Colección 2')">
+                    <div class="catalogo-icon" style="background: linear-gradient(135deg, #E0E0E0, #BDBDBD); color: #333;">
+                        <i class="fas fa-vest"></i>
+                    </div>
+                    <h3>Indumentaria Minimalista 2</h3>
+                    <p>Colección 2: Más opciones en blanco para completar tu look profesional</p>
+                    <div class="catalogo-meta">
+                        <span><i class="fas fa-layer-group"></i> Segunda colección</span>
+                        <span><i class="fas fa-eye"></i> Solo visualización</span>
+                    </div>
+                    <div class="catalogo-footer">
+                        <button class="btn-ver-catalogo">
+                            <i class="fas fa-external-link-alt"></i> Ver Catálogo
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Catálogo 7: Reconocimientos en Acrílico -->
+                <div class="catalogo-card" onclick="openPdfViewer('catalogos/catalogo-reconocimientos-acrilico.pdf', 'Catálogo de Reconocimientos en Acrílico')">
+                    <div class="catalogo-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Reconocimientos en Acrílico</h3>
+                    <p>Diseños exclusivos en acrílico para premios, reconocimientos y logros especiales</p>
+                    <div class="catalogo-meta">
+                        <span><i class="fas fa-star"></i> Diseños exclusivos</span>
+                        <span><i class="fas fa-eye"></i> Solo visualización</span>
+                    </div>
+                    <div class="catalogo-footer">
+                        <button class="btn-ver-catalogo">
+                            <i class="fas fa-external-link-alt"></i> Ver Catálogo
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="catalogos-nota">
+                <p><i class="fas fa-info-circle"></i> Todos los catálogos son de solo visualización. Para precios, personalización y cotizaciones, <a href="#contact">contáctanos directamente</a>.</p>
+                <p><i class="fas fa-clock"></i> Los catálogos se actualizan periódicamente con nuevos diseños</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="about-content">
+            <div class="about-header">
+                <h2>DESCUBRE IMPRESIONES GRAFIC</h2>
+                <p>CONTAMOS CON 25 AÑOS DE EXPERIENCIA EN DISEÑO Y CREACION GRAFICA</p>
+            </div>
+            
+            <div class="about-main">
+                <div class="about-visual">
+                    <div class="showcase-display">
+                        <div class="showcase-main">
+                            <div class="corner-decoration top-left"></div>
+                            <div class="corner-decoration bottom-right"></div>
+                            
+                            <div class="showcase-logo">
+                                <img src="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png" 
+                                     alt="IMPRESIONES GRAFIC Logo"
+                                     class="showcase-logo-image">
+                            </div>
+                            
+                            <h3 class="showcase-title">DONDE TUS IDEAS SON UNA REALIDAD</h3>
+                            <p class="showcase-subtitle">Transforma tus ideas en diseños impactantes</p>
+                            
+                            <div class="showcase-badges">
+                                <a href="#" class="badge">DISEÑO</a>
+                                <a href="#" class="badge">IMPRESIÓN</a>
+                                <a href="#" class="badge">CALIDAD</a>
+                                <a href="#" class="badge">CREATIVIDAD</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-info">
+                    <h3>IMPRESIONES GRAFIC</h3>
+                    <p>IMPRESIONES GRAFIC cuenta con 25 años de trayectoria en la ciudad de Oruro, ofreciendo servicios de diseño e impresión para todo tipo de acontecimientos. A lo largo de su historia, se ha caracterizado por la calidad en sus materiales, diseños personalizados y atención responsable, ganándose la confianza de personas, instituciones y empresas.</p>
+                    <p>Hoy, combina experiencia y tecnología para brindar soluciones gráficas creativas, manteniendo el compromiso y la dedicación que la identifican desde su apertura.</p>
+                    
+                    <ul class="feature-list">
+                        <li>25 años de experiencia en diseño e impresión gráfica</li>
+                        <li>Diseños personalizados para todo tipo de acontecimientos</li>
+                        <li>Materiales de calidad garantizada</li>
+                        <li>Entrega rápida y puntual</li>
+                        <li>Atención responsable y trato personalizado</li>
+                    </ul>
+                    
+                    <a href="#contact" class="cta-button">
+                        Inicia tu Proyecto
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Proceso de Trabajo -->
+            <div class="proceso-trabajo">
+                <h3>PROCESO DE ELABORACIÓN</h3>
+                <div class="proceso-steps">
+                    <div class="proceso-step">
+                        <div class="step-number">1</div>
+                        <h4>CONSULTA INICIAL</h4>
+                        <p>CONTRATO DEL TRABAJO Y REQUERIMIENTOS DEL CLIENTE</p>
+                    </div>
+                    <div class="proceso-step">
+                        <div class="step-number">2</div>
+                        <h4>ELABORACIÓN DEL DISEÑO</h4>
+                        <p>DESARROLLO RÁPIDO Y POSTERIOR REVISIÓN DEL CLIENTE</p>
+                    </div>
+                    <div class="proceso-step">
+                        <div class="step-number">3</div>
+                        <h4>IMPRESIÓN Y ELABORACIÓN FINAL</h4>
+                        <p>ACABADO Y DETALLADO DEL TRABAJO</p>
+                    </div>
+                    <div class="proceso-step">
+                        <div class="step-number">4</div>
+                        <h4>ENTREGA FINAL</h4>
+                        <p>ENTREGA PERSONAL O ENVÍO NACIONAL</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-section">
+                <div class="stat-item">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">DISEÑOS PERSONALIZADOS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">CLIENTES CONTENTOS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">CONFIABILIDAD Y TRAYECTORIA</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">72h</div>
+                    <div class="stat-label">TIEMPO PROMEDIO DE ENTREGA</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="contact-content">
+            <div class="contact-header">
+                <h2>Hablemos sobre tu <span class="highlight">próximo proyecto</span></h2>
+                <p>Estamos aquí para ayudarte a materializar tus ideas</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info-section">
+                    <h3><i class="fas fa-comment-dots"></i> ¿POR QUÉ ELEGIRNOS?</h3>
+                    <p>En <strong>IMPRESIONES GRAFIC</strong> combinamos <strong>25 años de experiencia</strong> con tecnología de punta para ofrecerte soluciones gráficas completas. Desde el concepto inicial hasta el producto final, te acompañamos en cada paso.</p>
+                    
+                    <div class="contact-benefits">
+                        <div class="benefit-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>RESPUESTA RÁPIDA</h4>
+                                <p>Te respondemos en menos de 2 horas</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-percentage"></i>
+                            <div>
+                                <h4>PRESUPUESTO INMEDIATO</h4>
+                                <p>Sin compromiso, en menos de 24 horas</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h4>GARANTÍA DE CALIDAD</h4>
+                                <p>Si no te gusta, lo reimprimimos</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-details">
+                        <h4><i class="fas fa-map-marker-alt"></i> INFORMACIÓN DE CONTACTO</h4>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>TELÉFONO / WHATSAPP</h4>
+                                <p>+591 6479 3488</p>
+                                <p>Disponible de Lunes a Sábado</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>CORREO ELECTRÓNICO</h4>
+                                <p>impresionesgrafic2025@gmail.com</p>
+                                <p>Respuesta en menos de 24 horas</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>DIRECCIÓN</h4>
+                                <p>AV. 6 de Agosto y Herrera</p>
+                                <p>Oruro, Bolivia</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-business-time"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>HORARIO DE ATENCIÓN</h4>
+                                <p>Lunes a Viernes: 8:30 AM - 6:30 PM</p>
+                                <p>Sábados: 9:00 AM - 1:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <h4><i class="fas fa-share-alt"></i> SÍGUENOS EN REDES</h4>
+                        <div class="social-buttons">
+                            <a href="https://www.facebook.com/share/1GbzLQbdWL/?mibextid=wwXIfr" 
+                               class="social-btn facebook" 
+                               title="Facebook"
+                               target="_blank">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/impresiones_grafic?igsh=MWNlcDBpbWVobG4yZQ%3D%3D&utm_source=qr" 
+                               class="social-btn instagram" 
+                               title="Instagram"
+                               target="_blank">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/@impresiones_grafic?_r=1&_t=ZS-93OXcbIn8Sr" 
+                               class="social-btn tiktok" 
+                               title="TikTok"
+                               target="_blank">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                            <a href="https://wa.me/59164793488" 
+                               class="social-btn whatsapp" 
+                               title="WhatsApp"
+                               target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-section">
+                    <div class="form-header">
+                        <h3><i class="fas fa-paper-plane"></i> SOLICITA TU COTIZACIÓN</h3>
+                        <p>Completa el formulario y te contactaremos en menos de 2 horas</p>
+                    </div>
+                    
+                    <form class="contact-form" id="consultaForm" onsubmit="handleSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name"><i class="fas fa-user"></i> Nombre completo *</label>
+                                <input type="text" id="name" name="name" required placeholder="Ej: Juan Pérez">
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="fas fa-envelope"></i> Correo electrónico *</label>
+                                <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone"><i class="fas fa-phone"></i> Teléfono / WhatsApp *</label>
+                                <input type="tel" id="phone" name="phone" required placeholder="+591 6479 3488">
+                            </div>
+                            <div class="form-group">
+                                <label for="company"><i class="fas fa-building"></i> Empresa / Institución</label>
+                                <input type="text" id="company" name="company" placeholder="Opcional">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="service"><i class="fas fa-concierge-bell"></i> Servicio de interés *</label>
+                            <select id="service" name="service" required>
+                                <option value="">Selecciona un servicio</option>
+                                <option value="tarjetas">Tarjetas Personales</option>
+                                <option value="reconocimientos">Reconocimientos y Trofeos</option>
+                                <option value="invitaciones">Invitaciones Especiales</option>
+                                <option value="afiches">Afiches y Calendarios</option>
+                                <option value="volantes">Volantes y Folletos</option>
+                                <option value="diseno">Diseño Gráfico</option>
+                                <option value="otros">Otros servicios</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="quantity"><i class="fas fa-calculator"></i> Cantidad aproximada</label>
+                            <input type="text" id="quantity" name="quantity" placeholder="Ej: 1000 tarjetas, 200 invitaciones">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message"><i class="fas fa-comment-dots"></i> Descripción del proyecto *</label>
+                            <textarea id="message" name="message" rows="4" required 
+                                      placeholder="Describe tu proyecto, incluye colores, tamaños, fechas de entrega, etc..."></textarea>
+                        </div>
+                        
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="newsletter" name="newsletter">
+                            <label for="newsletter">Deseo recibir promociones y novedades por correo</label>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> ENVIAR SOLICITUD
+                        </button>
+                        
+                        <p class="form-note"><i class="fas fa-lock"></i> Tus datos están seguros y no serán compartidos con terceros.</p>
+                    </form>
+                    
+                    <div class="contact-alternative">
+                        <p><strong>¿Prefieres contacto directo?</strong></p>
+                        <a href="https://wa.me/59164793488" class="whatsapp-btn" target="_blank">
+                            <i class="fab fa-whatsapp"></i> Escríbenos por WhatsApp
+                        </a>
+                        <p class="alternative-note">Respuesta inmediata en horario laboral</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mapa -->
+            <div class="map-section">
+                <h3><i class="fas fa-map"></i> NUESTRA UBICACIÓN</h3>
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Oruro, Bolivia</p>
+                        <a href="https://maps.google.com?q=Churrasqueria%20El%20Mana,%20Av.%206%20de%20Agosto%20895,%20Oruro&ftid=0x93e2b0bab06e0c8f:0xb3c73135f02bbf5b&entry=gps&shh=CAE&lucs=,94297699,94275415,94231188,94280568,47071704,94218641,94282134,94286869&g_st=iw" 
+                           target="_blank" 
+                           class="map-link">
+                            <i class="fas fa-external-link-alt"></i> Ver en Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h4>Servicios</h4>
+                    <a href="#servicios">Tarjetas Personales</a>
+                    <a href="#servicios">Reconocimientos</a>
+                    <a href="#servicios">Invitaciones</a>
+                    <a href="#servicios">Afiches y Calendarios</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Recursos</h4>
+                    <a href="#portafolio">Portafolio</a>
+                    <a href="#catalogos">Catálogos</a>
+                    <a href="#about">Proceso de Trabajo</a>
+                    <a href="#contact">Contáctanos</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>IMPRESIONES GRAFIC</h4>
+                    <p>TRANSFORMA TUS IDEAS EN REALIDAD</p>
+                    <p>PERSONALIZACIÓN AL 100%</p>
+                    <p>TROFEOS • INVITACIONES • RECONOCIMIENTOS • Y MUCHOS MÁS</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    © 2025 IMPRESIONES GRAFIC. Todos los derechos reservados. | 25 años de experiencia
+                </div>
+                <div class="certifications">
+                    <span class="cert-badge">💳 Pagos Seguros</span>
+                    <span class="cert-badge">⭐ 100% Satisfacción</span>
+                    <span class="cert-badge">🏆 Calidad Garantizada</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to top button -->
+    <div class="scroll-to-top" id="scrollToTop">
+        <span>↑</span>
+    </div>
+
+<script src="templatemo-3d-coverflow-scripts.js"></script>
+
+</body>
+</html>

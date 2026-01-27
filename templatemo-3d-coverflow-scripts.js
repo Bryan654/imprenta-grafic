@@ -1,14 +1,9 @@
 /*
-
 TemplateMo 595 3d coverflow
-
 https://templatemo.com/tm-595-3d-coverflow
-
 */
 
-// JavaScript Document
-
-// ===== VARIABLES GLOBALES =====
+// ===== VARIABLES GLOBALES OPTIMIZADAS =====
 const items = document.querySelectorAll('.coverflow-item');
 const dotsContainer = document.getElementById('dots');
 const container = document.querySelector('.coverflow-container');
@@ -16,64 +11,120 @@ const menuToggle = document.getElementById('menuToggle');
 const mainMenu = document.getElementById('mainMenu');
 let currentIndex = 3;
 let isAnimating = false;
+let isMobile = window.innerWidth <= 768;
+let isAndroid = /Android/i.test(navigator.userAgent);
+let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-// ===== COVERFLOW FUNCTIONS =====
+// ===== DETECCIÓN DE DISPOSITIVO Y NAVEGADOR =====
+function detectDeviceAndBrowser() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    
+    // Detectar Android
+    if (/android/.test(userAgent)) {
+        document.body.classList.add('android-device');
+        isAndroid = true;
+        console.log('Dispositivo Android detectado');
+    }
+    
+    // Detectar iOS
+    if (/iphone|ipad|ipod/.test(userAgent)) {
+        document.body.classList.add('ios-device');
+        isIOS = true;
+        console.log('Dispositivo iOS detectado');
+    }
+    
+    // Detectar Chrome en Android (problemas específicos)
+    if (/chrome/.test(userAgent) && /android/.test(userAgent)) {
+        document.body.classList.add('android-chrome');
+        console.log('Chrome en Android detectado - aplicando correcciones');
+    }
+    
+    // Detectar Safari en iOS
+    if (/safari/.test(userAgent) && !/chrome/.test(userAgent) && /iphone|ipad/.test(userAgent)) {
+        document.body.classList.add('ios-safari');
+        console.log('Safari en iOS detectado');
+    }
+    
+    // Detectar conexión lenta
+    if ('connection' in navigator) {
+        const connection = navigator.connection;
+        if (connection.saveData === true || connection.effectiveType.includes('2g') || connection.effectiveType.includes('3g')) {
+            document.body.classList.add('slow-connection');
+            console.log('Conexión lenta detectada - optimizando');
+        }
+    }
+}
 
-// Mobile menu toggle - MEJORADO
+// ===== COVERFLOW FUNCTIONS OPTIMIZADAS =====
+
+// Mobile menu toggle - OPTIMIZADO PARA TACTO
 menuToggle.addEventListener('click', (e) => {
     e.stopPropagation();
     menuToggle.classList.toggle('active');
     mainMenu.classList.toggle('active');
-    menuToggle.setAttribute('aria-expanded', menuToggle.classList.contains('active'));
+    const isExpanded = menuToggle.classList.contains('active');
+    menuToggle.setAttribute('aria-expanded', isExpanded);
+    menuToggle.setAttribute('aria-label', isExpanded ? 'Cerrar menú' : 'Abrir menú');
+    
+    // Bloquear scroll cuando el menú está abierto
+    document.body.style.overflow = isExpanded ? 'hidden' : '';
 });
 
-// Close mobile menu when clicking on menu items
+// Cerrar menú al hacer clic en items
 document.querySelectorAll('.menu-item').forEach(item => {
     item.addEventListener('click', (e) => {
         if (window.innerWidth <= 768) {
             menuToggle.classList.remove('active');
             mainMenu.classList.remove('active');
             menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Abrir menú');
+            document.body.style.overflow = '';
         }
     });
 });
 
-// Close mobile menu when clicking outside
+// Cerrar menú al hacer clic fuera
 document.addEventListener('click', (e) => {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 768 && mainMenu.classList.contains('active')) {
         if (!menuToggle.contains(e.target) && !mainMenu.contains(e.target)) {
             menuToggle.classList.remove('active');
             mainMenu.classList.remove('active');
             menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Abrir menú');
+            document.body.style.overflow = '';
         }
     }
 });
 
-// Close mobile menu on ESC key
+// Cerrar menú con ESC
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && window.innerWidth <= 768) {
+    if (e.key === 'Escape' && window.innerWidth <= 768 && mainMenu.classList.contains('active')) {
         menuToggle.classList.remove('active');
         mainMenu.classList.remove('active');
         menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Abrir menú');
+        document.body.style.overflow = '';
     }
 });
 
-// Create dots
-items.forEach((_, index) => {
-    const dot = document.createElement('div');
-    dot.className = 'dot';
-    dot.setAttribute('role', 'button');
-    dot.setAttribute('tabindex', '0');
-    dot.setAttribute('aria-label', `Ir a la imagen ${index + 1}`);
-    dot.onclick = () => goToIndex(index);
-    dot.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            goToIndex(index);
-        }
+// Crear dots
+function createDots() {
+    items.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.setAttribute('role', 'button');
+        dot.setAttribute('tabindex', '0');
+        dot.setAttribute('aria-label', `Ir a la imagen ${index + 1}`);
+        dot.onclick = () => goToIndex(index);
+        dot.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                goToIndex(index);
+            }
+        });
+        dotsContainer.appendChild(dot);
     });
-    dotsContainer.appendChild(dot);
-});
+}
 
 const dots = document.querySelectorAll('.dot');
 let autoplayInterval = null;
@@ -81,55 +132,69 @@ let isPlaying = true;
 const playIcon = document.querySelector('.play-icon');
 const pauseIcon = document.querySelector('.pause-icon');
 
+// Función optimizada para dispositivos móviles
 function updateCoverflow() {
     if (isAnimating) return;
     isAnimating = true;
 
+    const isMobileView = window.innerWidth <= 768;
+    const centerOffset = isMobileView ? 160 : 200; // Menor offset en móvil
+    const zOffset = isMobileView ? 120 : 180; // Menor profundidad en móvil
+    const rotation = isMobileView ? 40 : 60; // Menor rotación en móvil
+
     items.forEach((item, index) => {
         let offset = index - currentIndex;
         
+        // Ajustar para vista circular
         if (offset > items.length / 2) {
             offset = offset - items.length;
-        }
-        else if (offset < -items.length / 2) {
+        } else if (offset < -items.length / 2) {
             offset = offset + items.length;
         }
         
         const absOffset = Math.abs(offset);
         const sign = Math.sign(offset);
         
-        let translateX = offset * 200;
-        let translateZ = -absOffset * 180;
-        let rotateY = -sign * Math.min(absOffset * 60, 60);
+        // Calcular transformaciones
+        let translateX = offset * centerOffset;
+        let translateZ = -absOffset * zOffset;
+        let rotateY = -sign * Math.min(absOffset * rotation, rotation);
         let opacity = 1 - (absOffset * 0.2);
         let scale = 1 - (absOffset * 0.08);
 
+        // Ocultar elementos muy lejos
         if (absOffset > 3) {
             opacity = 0;
             translateX = sign * 700;
         }
 
-        item.style.transform = `
+        // Aplicar transformaciones optimizadas
+        const transform = `
             translateX(${translateX}px) 
             translateZ(${translateZ}px) 
             rotateY(${rotateY}deg)
             scale(${scale})
         `;
+        
+        item.style.transform = transform;
         item.style.opacity = opacity;
         item.style.zIndex = 100 - absOffset;
+        item.style.willChange = 'transform, opacity';
 
         item.classList.toggle('active', index === currentIndex);
         item.setAttribute('aria-hidden', index !== currentIndex);
     });
 
+    // Actualizar dots
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentIndex);
         dot.setAttribute('aria-current', index === currentIndex ? 'true' : 'false');
     });
 
+    // Permitir siguiente animación
     setTimeout(() => {
         isAnimating = false;
-    }, 600);
+    }, isMobileView ? 400 : 600); // Animación más rápida en móvil
 }
 
 function navigate(direction) {
@@ -154,7 +219,7 @@ function goToIndex(index) {
     handleUserInteraction();
 }
 
-// Keyboard navigation
+// Navegación con teclado optimizada
 container.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') {
         e.preventDefault();
@@ -174,21 +239,23 @@ container.addEventListener('keydown', (e) => {
     }
 });
 
-// Click on items to select
+// Click en items
 items.forEach((item, index) => {
     item.addEventListener('click', () => goToIndex(index));
 });
 
-// Touch/swipe support - MEJORADO
+// ===== TOUCH/SWIPE SUPPORT OPTIMIZADO =====
 let touchStartX = 0;
 let touchEndX = 0;
-let touchStartY = 0;
-let touchEndY = 0;
+let touchStartTime = 0;
 let isSwiping = false;
+const swipeThreshold = 50;
+const swipeTimeThreshold = 300;
 
+// Eventos táctiles optimizados
 container.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].clientX;
-    touchStartY = e.changedTouches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+    touchStartTime = Date.now();
     isSwiping = true;
 }, { passive: true });
 
@@ -201,67 +268,65 @@ container.addEventListener('touchend', (e) => {
     if (!isSwiping) return;
     
     touchEndX = e.changedTouches[0].clientX;
-    touchEndY = e.changedTouches[0].clientY;
+    const touchEndTime = Date.now();
     
-    handleSwipe();
-    isSwiping = false;
-}, { passive: true });
-
-function handleSwipe() {
-    const swipeThreshold = 50;
     const diffX = touchStartX - touchEndX;
-    const diffY = touchStartY - touchEndY;
+    const diffTime = touchEndTime - touchStartTime;
     
-    // Only horizontal swipes
-    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > swipeThreshold) {
+    // Solo procesar swipe si fue rápido
+    if (Math.abs(diffX) > swipeThreshold && diffTime < swipeTimeThreshold) {
         handleUserInteraction();
         
         if (diffX > 0) {
-            navigate(1);
+            navigate(1); // Swipe izquierda = siguiente
         } else {
-            navigate(-1);
+            navigate(-1); // Swipe derecha = anterior
         }
+    }
+    
+    isSwiping = false;
+}, { passive: true });
+
+// ===== INICIALIZACIÓN DE IMÁGENES OPTIMIZADA =====
+function initializeImages() {
+    items.forEach((item, index) => {
+        const img = item.querySelector('img');
+        const reflection = item.querySelector('.reflection');
+        
+        if (img.complete) {
+            handleImageLoad(img, reflection);
+        } else {
+            img.onload = () => handleImageLoad(img, reflection);
+            img.onerror = () => {
+                img.parentElement.classList.add('image-loading');
+                console.warn(`Error cargando imagen ${index + 1}`);
+            };
+        }
+    });
+}
+
+function handleImageLoad(img, reflection) {
+    img.parentElement.classList.remove('image-loading');
+    if (reflection) {
+        reflection.style.backgroundImage = `url(${img.src})`;
+        reflection.style.backgroundSize = 'cover';
+        reflection.style.backgroundPosition = 'center';
     }
 }
 
-// Initialize images and reflections
-items.forEach((item, index) => {
-    const img = item.querySelector('img');
-    const reflection = item.querySelector('.reflection');
-    
-    if (img.complete) {
-        img.parentElement.classList.remove('image-loading');
-        if (reflection) {
-            reflection.style.backgroundImage = `url(${img.src})`;
-            reflection.style.backgroundSize = 'cover';
-            reflection.style.backgroundPosition = 'center';
-        }
-    } else {
-        img.onload = function() {
-            this.parentElement.classList.remove('image-loading');
-            if (reflection) {
-                reflection.style.backgroundImage = `url(${this.src})`;
-                reflection.style.backgroundSize = 'cover';
-                reflection.style.backgroundPosition = 'center';
-            }
-        };
-        
-        img.onerror = function() {
-            this.parentElement.classList.add('image-loading');
-        };
-    }
-});
-
-// Autoplay functionality
+// ===== AUTOPLAY FUNCTIONS OPTIMIZADAS =====
 function startAutoplay() {
     if (autoplayInterval) {
         clearInterval(autoplayInterval);
     }
     
+    // Intervalo más lento en móvil
+    const interval = isMobile ? 5000 : 4000;
+    
     autoplayInterval = setInterval(() => {
         currentIndex = (currentIndex + 1) % items.length;
         updateCoverflow();
-    }, 4000);
+    }, interval);
     
     isPlaying = true;
     playIcon.style.display = 'none';
@@ -292,7 +357,7 @@ function handleUserInteraction() {
     stopAutoplay();
 }
 
-// Add event listeners to stop autoplay on manual navigation
+// Event listeners para detener autoplay
 items.forEach((item) => {
     item.addEventListener('click', handleUserInteraction);
     item.addEventListener('touchstart', handleUserInteraction);
@@ -312,53 +377,48 @@ container.addEventListener('keydown', (e) => {
     }
 });
 
-// ===== NUEVAS FUNCIONALIDADES =====
-
-// 1. FILTRO DE PORTAFOLIO
+// ===== FILTRO DE PORTAFOLIO OPTIMIZADO =====
 function initPortfolioFilter() {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
     
     filterBtns.forEach(btn => {
         btn.addEventListener('click', function() {
-            // Remove active class from all buttons
+            // Remover active de todos los botones
             filterBtns.forEach(b => {
                 b.classList.remove('active');
                 b.setAttribute('aria-pressed', 'false');
             });
-            // Add active class to clicked button
+            
+            // Agregar active al botón clickeado
             this.classList.add('active');
             this.setAttribute('aria-pressed', 'true');
             
             const filterValue = this.getAttribute('data-filter');
             
-            // Filter portfolio items
+            // Filtrar items con animación suave
             portfolioItems.forEach(item => {
-                if (filterValue === 'all') {
+                const category = item.getAttribute('data-category');
+                
+                if (filterValue === 'all' || category === filterValue) {
                     item.style.display = 'block';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'scale(1)';
-                    }, 10);
+                    // Forzar reflow para animación
+                    void item.offsetWidth;
+                    item.style.opacity = '1';
+                    item.style.transform = 'scale(1)';
                 } else {
-                    if (item.getAttribute('data-category') === filterValue) {
-                        item.style.display = 'block';
-                        setTimeout(() => {
-                            item.style.opacity = '1';
-                            item.style.transform = 'scale(1)';
-                        }, 10);
-                    } else {
-                        item.style.opacity = '0';
-                        item.style.transform = 'scale(0.8)';
-                        setTimeout(() => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        if (category !== filterValue && filterValue !== 'all') {
                             item.style.display = 'none';
-                        }, 300);
-                    }
+                        }
+                    }, 300);
                 }
             });
         });
         
-        // Keyboard support for filter buttons
+        // Soporte para teclado
         btn.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -368,33 +428,37 @@ function initPortfolioFilter() {
     });
 }
 
-// 2. SCROLL TO CONTACT
+// ===== SCROLL TO CONTACT OPTIMIZADO =====
 function scrollToContact(service = '') {
     const contactSection = document.getElementById('contact');
+    const header = document.getElementById('header');
+    const headerHeight = header ? header.offsetHeight : 80;
     
-    // Scroll a la sección de contacto
-    contactSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
+    // Scroll suave a la sección de contacto
+    window.scrollTo({
+        top: contactSection.offsetTop - headerHeight,
+        behavior: 'smooth'
     });
     
-    // Si se especificó un servicio, llenar el campo correspondiente
+    // Si se especificó un servicio, llenar el campo
     if (service && service !== '') {
         setTimeout(() => {
             const serviceSelect = document.getElementById('service');
             if (serviceSelect) {
-                // Buscar opción que coincida con el servicio
                 const options = Array.from(serviceSelect.options);
                 const matchingOption = options.find(option => 
-                    option.text.toLowerCase().includes(service.toLowerCase())
+                    option.text.toLowerCase().includes(service.toLowerCase()) ||
+                    option.value.toLowerCase().includes(service.toLowerCase())
                 );
                 
                 if (matchingOption) {
                     serviceSelect.value = matchingOption.value;
+                    
+                    // Desplegar el select en móvil
+                    if (isMobile) {
+                        serviceSelect.focus();
+                    }
                 }
-                
-                // Enfocar el formulario
-                serviceSelect.focus();
             }
         }, 500);
     }
@@ -403,7 +467,7 @@ function scrollToContact(service = '') {
     showNotification(`Perfecto! Te llevamos al formulario de contacto para ${service || 'tu consulta'}`, 'info');
 }
 
-// 3. FORM SUBMISSION HANDLER
+// ===== FORM SUBMISSION HANDLER OPTIMIZADO =====
 function handleSubmit(event, formType = 'consulta') {
     event.preventDefault();
     
@@ -412,19 +476,19 @@ function handleSubmit(event, formType = 'consulta') {
     const originalText = submitBtn.innerHTML;
     const formData = new FormData(form);
     
-    // Validar formulario antes de enviar
+    // Validar formulario
     if (!validateForm(form)) {
         showNotification('Por favor, completa todos los campos requeridos correctamente.', 'error');
-        return;
+        return false;
     }
     
     // Mostrar estado de carga
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
     submitBtn.disabled = true;
     
-    // Simular envío (en producción aquí iría fetch a backend)
+    // Simular envío (en producción esto sería fetch a backend)
     setTimeout(() => {
-        // Mostrar mensaje de éxito
+        // Éxito
         showNotification('✅ Mensaje enviado correctamente. Te contactaremos pronto.', 'success');
         
         // Reset form
@@ -434,41 +498,47 @@ function handleSubmit(event, formType = 'consulta') {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
         
-        // Enviar evento a Google Analytics (si está configurado)
+        // Enviar evento a analytics si está disponible
         if (typeof gtag !== 'undefined') {
             gtag('event', 'form_submit', {
                 'event_category': 'contact',
                 'event_label': formType
             });
         }
+        
+        // Scroll al inicio del formulario
+        form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
     }, 1500);
+    
+    return false;
 }
 
-// 4. NOTIFICATION SYSTEM - MEJORADO
+// ===== NOTIFICATION SYSTEM OPTIMIZADO =====
 function showNotification(message, type = 'info') {
-    // Remove existing notifications
+    // Remover notificaciones existentes
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => {
         notification.remove();
     });
     
-    // Create notification element
+    // Crear elemento de notificación
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.setAttribute('role', 'alert');
     notification.setAttribute('aria-live', 'polite');
     notification.innerHTML = `
         <div class="notification-content">
-            <span class="notification-icon" aria-hidden="true">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+            <span class="notification-icon" aria-hidden="true">${getNotificationIcon(type)}</span>
             <span class="notification-message">${message}</span>
         </div>
         <button class="notification-close" aria-label="Cerrar notificación">&times;</button>
     `;
     
-    // Add styles
+    // Estilos inline para rendimiento
     notification.style.cssText = `
         position: fixed;
-        top: 90px;
+        top: ${isMobile ? '80px' : '90px'};
         right: 20px;
         background: ${getNotificationColor(type)};
         color: white;
@@ -481,21 +551,22 @@ function showNotification(message, type = 'info') {
         justify-content: space-between;
         min-width: 280px;
         max-width: 90%;
-        animation: slideIn 0.3s ease;
-        backdrop-filter: blur(10px);
+        animation: notificationSlideIn 0.3s ease;
         border: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     `;
     
-    // Add CSS for animation
+    // Agregar estilos CSS si no existen
     if (!document.querySelector('#notification-styles')) {
         const style = document.createElement('style');
         style.id = 'notification-styles';
         style.textContent = `
-            @keyframes slideIn {
+            @keyframes notificationSlideIn {
                 from { transform: translateX(100%); opacity: 0; }
                 to { transform: translateX(0); opacity: 1; }
             }
-            @keyframes slideOut {
+            @keyframes notificationSlideOut {
                 from { transform: translateX(0); opacity: 1; }
                 to { transform: translateX(100%); opacity: 0; }
             }
@@ -516,6 +587,10 @@ function showNotification(message, type = 'info') {
                 line-height: 1;
                 min-width: 30px;
                 min-height: 30px;
+                opacity: 0.8;
+            }
+            .notification-close:hover {
+                opacity: 1;
             }
             @media (max-width: 480px) {
                 .notification {
@@ -528,16 +603,16 @@ function showNotification(message, type = 'info') {
         document.head.appendChild(style);
     }
     
-    // Add to DOM
+    // Agregar al DOM
     document.body.appendChild(notification);
     
-    // Close button functionality
+    // Funcionalidad del botón cerrar
     const closeBtn = notification.querySelector('.notification-close');
     closeBtn.addEventListener('click', () => {
         closeNotification(notification);
     });
     
-    // Close on ESC
+    // Cerrar con ESC
     const closeOnEsc = (e) => {
         if (e.key === 'Escape') {
             closeNotification(notification);
@@ -546,14 +621,14 @@ function showNotification(message, type = 'info') {
     };
     document.addEventListener('keydown', closeOnEsc);
     
-    // Auto-remove after 5 seconds
+    // Auto-remover después de 5 segundos
     const autoRemove = setTimeout(() => {
         if (notification.parentNode) {
             closeNotification(notification);
         }
     }, 5000);
     
-    // Pause auto-remove on hover
+    // Pausar auto-remove al hover
     notification.addEventListener('mouseenter', () => {
         clearTimeout(autoRemove);
     });
@@ -565,10 +640,12 @@ function showNotification(message, type = 'info') {
             }
         }, 3000);
     });
+    
+    return notification;
 }
 
 function closeNotification(notification) {
-    notification.style.animation = 'slideOut 0.3s ease';
+    notification.style.animation = 'notificationSlideOut 0.3s ease';
     setTimeout(() => {
         if (notification.parentNode) {
             notification.remove();
@@ -576,7 +653,16 @@ function closeNotification(notification) {
     }, 300);
 }
 
-// Obtener color de notificación por tipo
+function getNotificationIcon(type) {
+    const icons = {
+        'success': '✅',
+        'error': '❌',
+        'warning': '⚠️',
+        'info': 'ℹ️'
+    };
+    return icons[type] || icons.info;
+}
+
 function getNotificationColor(type) {
     const colors = {
         'success': 'rgba(81, 207, 102, 0.95)',
@@ -584,11 +670,10 @@ function getNotificationColor(type) {
         'warning': 'rgba(255, 193, 7, 0.95)',
         'info': 'rgba(78, 205, 196, 0.95)'
     };
-    
     return colors[type] || colors.info;
 }
 
-// 5. VIEW DETAILS MODAL FOR PORTFOLIO CON DESCRIPCIONES DETALLADAS
+// ===== PORTFOLIO MODALS OPTIMIZADOS =====
 function initPortfolioModals() {
     const viewDetailsBtns = document.querySelectorAll('.view-details');
     
@@ -602,7 +687,7 @@ function initPortfolioModals() {
             const title = portfolioItem.querySelector('h4').textContent;
             const shortDescription = portfolioItem.querySelector('p').textContent;
             
-            // DESCRIPCIONES DETALLADAS PARA CADA PROYECTO
+            // Descripciones detalladas
             const detailedDescriptions = [
                 {
                     title: "Tarjetas Personales Corporativas",
@@ -648,7 +733,7 @@ function initPortfolioModals() {
                 }
             ];
             
-            // Obtener la descripción detallada según el índice
+            // Obtener descripción detallada
             const detailedInfo = detailedDescriptions[index] || {
                 title: title,
                 description: shortDescription,
@@ -657,373 +742,16 @@ function initPortfolioModals() {
                 delivery: "Variable"
             };
             
-            // Create modal
-            const modal = document.createElement('div');
-            modal.className = 'portfolio-modal';
-            modal.setAttribute('role', 'dialog');
-            modal.setAttribute('aria-labelledby', 'modal-title');
-            modal.setAttribute('aria-modal', 'true');
-            modal.innerHTML = `
-                <div class="modal-overlay" tabindex="-1"></div>
-                <div class="modal-content">
-                    <button class="modal-close" aria-label="Cerrar modal">&times;</button>
-                    <img src="${imageSrc}" alt="${detailedInfo.title}" loading="lazy">
-                    <div class="modal-info">
-                        <h3 id="modal-title">${detailedInfo.title}</h3>
-                        <p class="modal-description">${detailedInfo.description}</p>
-                        
-                        <div class="modal-features">
-                            <h4><i class="fas fa-check-circle" aria-hidden="true"></i> Características del servicio:</h4>
-                            <ul>
-                                ${detailedInfo.features.map(feature => `<li><i class="fas fa-check" aria-hidden="true"></i> ${feature}</li>`).join('')}
-                            </ul>
-                        </div>
-                        
-                        <div class="modal-details-grid">
-                            <div class="detail-item">
-                                <i class="fas fa-tag" aria-hidden="true"></i>
-                                <div>
-                                    <h5>Precio aproximado</h5>
-                                    <p class="price">${detailedInfo.price}</p>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-shipping-fast" aria-hidden="true"></i>
-                                <div>
-                                    <h5>Tiempo de entrega</h5>
-                                    <p>${detailedInfo.delivery}</p>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-palette" aria-hidden="true"></i>
-                                <div>
-                                    <h5>Diseño incluido</h5>
-                                    <p>3 revisiones</p>
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-award" aria-hidden="true"></i>
-                                <div>
-                                    <h5>Garantía</h5>
-                                    <p>100% satisfacción</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="modal-actions">
-                            <button class="btn-primary" onclick="scrollToContact('${detailedInfo.title.split(' ')[0].toLowerCase()}')">
-                                <i class="fas fa-comments" aria-hidden="true"></i> Solicitar presupuesto personalizado
-                            </button>
-                            <button class="btn-secondary modal-close-btn">
-                                <i class="fas fa-times" aria-hidden="true"></i> Cerrar
-                            </button>
-                        </div>
-                        
-                        <p class="modal-note"><i class="fas fa-info-circle" aria-hidden="true"></i> Los precios pueden variar según cantidad, materiales y especificaciones del proyecto.</p>
-                    </div>
-                </div>
-            `;
-            
-            // Add styles for the enhanced modal
-            if (!document.querySelector('#modal-styles')) {
-                const style = document.createElement('style');
-                style.id = 'modal-styles';
-                style.textContent = `
-                    .portfolio-modal {
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        z-index: 10000;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        padding: 20px;
-                    }
-                    .modal-overlay {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        background: rgba(0,0,0,0.9);
-                        backdrop-filter: blur(10px);
-                    }
-                    .modal-content {
-                        position: relative;
-                        background: #1a1a2e;
-                        border-radius: 20px;
-                        max-width: 800px;
-                        width: 100%;
-                        max-height: 90vh;
-                        overflow-y: auto;
-                        animation: modalFadeIn 0.3s ease;
-                        border: 1px solid rgba(255,255,255,0.1);
-                    }
-                    @keyframes modalFadeIn {
-                        from { opacity: 0; transform: scale(0.9); }
-                        to { opacity: 1; transform: scale(1); }
-                    }
-                    @keyframes modalFadeOut {
-                        from { opacity: 1; transform: scale(1); }
-                        to { opacity: 0; transform: scale(0.9); }
-                    }
-                    .modal-close {
-                        position: absolute;
-                        top: 15px;
-                        right: 15px;
-                        background: rgba(255,255,255,0.1);
-                        border: none;
-                        color: white;
-                        width: 40px;
-                        height: 40px;
-                        border-radius: 50%;
-                        font-size: 24px;
-                        cursor: pointer;
-                        z-index: 1;
-                        transition: all 0.3s ease;
-                    }
-                    .modal-close:hover {
-                        background: rgba(255,255,255,0.2);
-                        transform: rotate(90deg);
-                    }
-                    .modal-content img {
-                        width: 100%;
-                        height: 300px;
-                        object-fit: cover;
-                        border-radius: 20px 20px 0 0;
-                    }
-                    .modal-info {
-                        padding: 25px;
-                    }
-                    .modal-info h3 {
-                        color: white;
-                        margin-bottom: 15px;
-                        font-size: 1.6rem;
-                    }
-                    .modal-description {
-                        color: rgba(255,255,255,0.8);
-                        line-height: 1.6;
-                        margin-bottom: 25px;
-                        font-size: 1rem;
-                    }
-                    .modal-features {
-                        margin-bottom: 25px;
-                    }
-                    .modal-features h4 {
-                        color: white;
-                        margin-bottom: 15px;
-                        font-size: 1.1rem;
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                    }
-                    .modal-features h4 i {
-                        color: var(--accent-color);
-                    }
-                    .modal-features ul {
-                        list-style: none;
-                        display: grid;
-                        grid-template-columns: repeat(2, 1fr);
-                        gap: 10px;
-                    }
-                    @media (max-width: 768px) {
-                        .modal-features ul {
-                            grid-template-columns: 1fr;
-                        }
-                    }
-                    .modal-features li {
-                        color: rgba(255,255,255,0.7);
-                        padding: 8px 0;
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                        font-size: 0.9rem;
-                    }
-                    .modal-features li i {
-                        color: var(--secondary-color);
-                        font-size: 0.8rem;
-                    }
-                    .modal-details-grid {
-                        display: grid;
-                        grid-template-columns: repeat(2, 1fr);
-                        gap: 20px;
-                        margin-bottom: 25px;
-                        background: rgba(255,255,255,0.05);
-                        padding: 20px;
-                        border-radius: 15px;
-                        border: 1px solid rgba(255,255,255,0.1);
-                    }
-                    @media (max-width: 480px) {
-                        .modal-details-grid {
-                            grid-template-columns: 1fr;
-                        }
-                    }
-                    .detail-item {
-                        display: flex;
-                        align-items: center;
-                        gap: 15px;
-                    }
-                    .detail-item i {
-                        width: 40px;
-                        height: 40px;
-                        background: linear-gradient(135deg, #667eea, #764ba2);
-                        border-radius: 10px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        font-size: 1.1rem;
-                        color: white;
-                    }
-                    .detail-item h5 {
-                        color: rgba(255,255,255,0.9);
-                        font-size: 0.85rem;
-                        margin-bottom: 5px;
-                        font-weight: 600;
-                    }
-                    .detail-item p {
-                        color: rgba(255,255,255,0.7);
-                        font-size: 0.85rem;
-                        margin: 0;
-                    }
-                    .detail-item .price {
-                        color: var(--accent-color);
-                        font-weight: 700;
-                        font-size: 1rem;
-                    }
-                    .modal-actions {
-                        display: flex;
-                        gap: 15px;
-                        margin-bottom: 20px;
-                    }
-                    @media (max-width: 480px) {
-                        .modal-actions {
-                            flex-direction: column;
-                        }
-                    }
-                    .btn-primary {
-                        background: linear-gradient(135deg, #667eea, #764ba2);
-                        color: white;
-                        border: none;
-                        padding: 14px 20px;
-                        border-radius: 30px;
-                        font-weight: 600;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-                        flex: 1;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        gap: 10px;
-                        font-size: 0.95rem;
-                        min-height: 48px;
-                    }
-                    .btn-primary:hover {
-                        transform: translateY(-2px);
-                        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-                    }
-                    .btn-secondary {
-                        background: rgba(255,255,255,0.1);
-                        color: white;
-                        border: 1px solid rgba(255,255,255,0.2);
-                        padding: 14px 20px;
-                        border-radius: 30px;
-                        font-weight: 600;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        gap: 10px;
-                        font-size: 0.95rem;
-                        min-height: 48px;
-                    }
-                    .btn-secondary:hover {
-                        background: rgba(255,255,255,0.2);
-                    }
-                    .modal-note {
-                        color: rgba(255,255,255,0.5);
-                        font-size: 0.8rem;
-                        text-align: center;
-                        margin-top: 20px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        gap: 8px;
-                    }
-                    .modal-note i {
-                        color: var(--secondary-color);
-                    }
-                    @media (max-width: 768px) {
-                        .portfolio-modal {
-                            padding: 10px;
-                        }
-                        .modal-content img {
-                            height: 200px;
-                        }
-                        .modal-info {
-                            padding: 20px;
-                        }
-                        .modal-info h3 {
-                            font-size: 1.3rem;
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
-            // Add to DOM
+            // Crear modal
+            const modal = createPortfolioModal(detailedInfo, imageSrc);
             document.body.appendChild(modal);
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            document.body.style.overflow = 'hidden';
             
-            // Focus trap for modal
-            const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-            const firstFocusableElement = focusableElements[0];
-            const lastFocusableElement = focusableElements[focusableElements.length - 1];
-            
-            if (firstFocusableElement) {
-                setTimeout(() => firstFocusableElement.focus(), 100);
-            }
-            
-            // Close modal functionality
-            const closeModal = () => {
-                modal.style.animation = 'modalFadeOut 0.3s ease';
-                setTimeout(() => {
-                    if (modal.parentNode) {
-                        document.body.removeChild(modal);
-                        document.body.style.overflow = '';
-                    }
-                }, 300);
-            };
-            
-            modal.querySelector('.modal-close').addEventListener('click', closeModal);
-            modal.querySelector('.modal-close-btn').addEventListener('click', closeModal);
-            modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
-            
-            // Focus trap
-            modal.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeModal();
-                }
-                
-                if (e.key === 'Tab') {
-                    if (e.shiftKey) {
-                        if (document.activeElement === firstFocusableElement) {
-                            e.preventDefault();
-                            lastFocusableElement.focus();
-                        }
-                    } else {
-                        if (document.activeElement === lastFocusableElement) {
-                            e.preventDefault();
-                            firstFocusableElement.focus();
-                        }
-                    }
-                }
-            });
+            // Configurar funcionalidades del modal
+            setupModalFunctionality(modal);
         });
         
-        // Keyboard support for view details buttons
+        // Soporte para teclado
         btn.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -1033,7 +761,378 @@ function initPortfolioModals() {
     });
 }
 
-// 6. FORM VALIDATION FUNCTIONS - MEJORADO
+function createPortfolioModal(detailedInfo, imageSrc) {
+    const modal = document.createElement('div');
+    modal.className = 'portfolio-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-labelledby', 'modal-title');
+    modal.setAttribute('aria-modal', 'true');
+    
+    modal.innerHTML = `
+        <div class="modal-overlay" tabindex="-1"></div>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Cerrar modal">&times;</button>
+            <img src="${imageSrc}" alt="${detailedInfo.title}" loading="lazy">
+            <div class="modal-info">
+                <h3 id="modal-title">${detailedInfo.title}</h3>
+                <p class="modal-description">${detailedInfo.description}</p>
+                
+                <div class="modal-features">
+                    <h4><i class="fas fa-check-circle" aria-hidden="true"></i> Características del servicio:</h4>
+                    <ul>
+                        ${detailedInfo.features.map(feature => `<li><i class="fas fa-check" aria-hidden="true"></i> ${feature}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="modal-details-grid">
+                    <div class="detail-item">
+                        <i class="fas fa-tag" aria-hidden="true"></i>
+                        <div>
+                            <h5>Precio aproximado</h5>
+                            <p class="price">${detailedInfo.price}</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-shipping-fast" aria-hidden="true"></i>
+                        <div>
+                            <h5>Tiempo de entrega</h5>
+                            <p>${detailedInfo.delivery}</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-palette" aria-hidden="true"></i>
+                        <div>
+                            <h5>Diseño incluido</h5>
+                            <p>3 revisiones</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-award" aria-hidden="true"></i>
+                        <div>
+                            <h5>Garantía</h5>
+                            <p>100% satisfacción</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn-primary" onclick="scrollToContact('${detailedInfo.title.split(' ')[0].toLowerCase()}')">
+                        <i class="fas fa-comments" aria-hidden="true"></i> Solicitar presupuesto personalizado
+                    </button>
+                    <button class="btn-secondary modal-close-btn">
+                        <i class="fas fa-times" aria-hidden="true"></i> Cerrar
+                    </button>
+                </div>
+                
+                <p class="modal-note"><i class="fas fa-info-circle" aria-hidden="true"></i> Los precios pueden variar según cantidad, materiales y especificaciones del proyecto.</p>
+            </div>
+        </div>
+    `;
+    
+    // Agregar estilos si no existen
+    if (!document.querySelector('#modal-styles')) {
+        addModalStyles();
+    }
+    
+    return modal;
+}
+
+function addModalStyles() {
+    const style = document.createElement('style');
+    style.id = 'modal-styles';
+    style.textContent = `
+        .portfolio-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .modal-content {
+            position: relative;
+            background: #1a1a2e;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalFadeIn 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes modalFadeOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.9); }
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        .modal-close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+        .modal-content img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 20px 20px 0 0;
+        }
+        .modal-info {
+            padding: 25px;
+        }
+        .modal-info h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+        .modal-description {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+        .modal-features {
+            margin-bottom: 25px;
+        }
+        .modal-features h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal-features h4 i {
+            color: var(--accent-color);
+        }
+        .modal-features ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        @media (max-width: 768px) {
+            .modal-features ul {
+                grid-template-columns: 1fr;
+            }
+        }
+        .modal-features li {
+            color: rgba(255,255,255,0.7);
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+        .modal-features li i {
+            color: var(--secondary-color);
+            font-size: 0.8rem;
+        }
+        .modal-details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        @media (max-width: 480px) {
+            .modal-details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .detail-item i {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: white;
+        }
+        .detail-item h5 {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .detail-item p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+        .detail-item .price {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 480px) {
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            min-height: 48px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 14px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            min-height: 48px;
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .modal-note {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .modal-note i {
+            color: var(--secondary-color);
+        }
+        @media (max-width: 768px) {
+            .portfolio-modal {
+                padding: 10px;
+            }
+            .modal-content img {
+                height: 200px;
+            }
+            .modal-info {
+                padding: 20px;
+            }
+            .modal-info h3 {
+                font-size: 1.3rem;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function setupModalFunctionality(modal) {
+    const closeModal = () => {
+        modal.style.animation = 'modalFadeOut 0.3s ease';
+        setTimeout(() => {
+            if (modal.parentNode) {
+                document.body.removeChild(modal);
+                document.body.style.overflow = '';
+            }
+        }, 300);
+    };
+    
+    modal.querySelector('.modal-close').addEventListener('click', closeModal);
+    modal.querySelector('.modal-close-btn').addEventListener('click', closeModal);
+    modal.querySelector('.modal-overlay').addEventListener('click', closeModal);
+    
+    // Focus trap
+    const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    const firstFocusableElement = focusableElements[0];
+    const lastFocusableElement = focusableElements[focusableElements.length - 1];
+    
+    if (firstFocusableElement) {
+        setTimeout(() => firstFocusableElement.focus(), 100);
+    }
+    
+    // Teclado
+    modal.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+        
+        if (e.key === 'Tab') {
+            if (e.shiftKey) {
+                if (document.activeElement === firstFocusableElement) {
+                    e.preventDefault();
+                    lastFocusableElement.focus();
+                }
+            } else {
+                if (document.activeElement === lastFocusableElement) {
+                    e.preventDefault();
+                    firstFocusableElement.focus();
+                }
+            }
+        }
+    });
+}
+
+// ===== FORM VALIDATION OPTIMIZADA =====
 function initFormValidation() {
     const forms = document.querySelectorAll('form');
     
@@ -1043,7 +1142,6 @@ function initFormValidation() {
     });
 }
 
-// Configurar validación de formulario
 function setupFormValidation(form) {
     const inputs = form.querySelectorAll('input, textarea, select');
     
@@ -1058,12 +1156,11 @@ function setupFormValidation(form) {
             clearError(input);
         });
         
-        // Submit on Enter for textareas (but allow Shift+Enter for new lines)
+        // Submit con Enter en textarea
         if (input.tagName === 'TEXTAREA') {
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-                    // Find the submit button and click it
                     const submitBtn = form.querySelector('button[type="submit"]');
                     if (submitBtn) {
                         submitBtn.click();
@@ -1074,7 +1171,6 @@ function setupFormValidation(form) {
     });
 }
 
-// Validar formulario completo
 function validateForm(form) {
     const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
     let isValid = true;
@@ -1088,7 +1184,6 @@ function validateForm(form) {
     return isValid;
 }
 
-// Validar input individual
 function validateInput(input) {
     const value = input.value.trim();
     let isValid = true;
@@ -1116,14 +1211,6 @@ function validateInput(input) {
         }
     }
     
-    if (input.id === 'quantity' && value) {
-        const quantityRegex = /^\d+\s*[a-zA-Z]*$/;
-        if (!quantityRegex.test(value)) {
-            isValid = false;
-            errorMessage = 'Ej: 1000 tarjetas, 200 invitaciones';
-        }
-    }
-    
     if (!isValid) {
         showInputError(input, errorMessage);
     } else {
@@ -1133,7 +1220,6 @@ function validateInput(input) {
     return isValid;
 }
 
-// Mostrar error en input
 function showInputError(input, message) {
     clearError(input);
     
@@ -1152,13 +1238,12 @@ function showInputError(input, message) {
     input.style.borderColor = 'var(--accent-color)';
     input.style.boxShadow = '0 0 0 2px rgba(255, 107, 107, 0.1)';
     
-    // Focus the input if it's the first error
+    // Enfocar el input si es el primer error
     if (!document.querySelector('.input-error:first-of-type')) {
-        input.focus();
+        setTimeout(() => input.focus(), 100);
     }
 }
 
-// Limpiar error de input
 function clearError(input) {
     const error = input.parentNode.querySelector('.input-error');
     if (error) {
@@ -1168,7 +1253,7 @@ function clearError(input) {
     input.style.boxShadow = '';
 }
 
-// 7. SMOOTH SCROLLING AND ACTIVE MENU ITEM - MEJORADO
+// ===== SMOOTH SCROLLING AND ACTIVE MENU ITEM OPTIMIZADO =====
 const sections = document.querySelectorAll('.section');
 const menuItems = document.querySelectorAll('.menu-item');
 const header = document.getElementById('header');
@@ -1216,7 +1301,7 @@ function updateActiveMenuItem() {
     }
 }
 
-// Throttle scroll event for performance
+// Throttle scroll event
 let scrollTimeout;
 window.addEventListener('scroll', () => {
     if (!scrollTimeout) {
@@ -1232,17 +1317,18 @@ menuItems.forEach(item => {
     item.addEventListener('click', (e) => {
         const targetId = item.getAttribute('href');
         
-        // Check if it's an internal link (starts with #)
         if (targetId && targetId.startsWith('#') && targetId !== '#') {
             e.preventDefault();
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                // Close mobile menu if open
+                // Cerrar menú móvil si está abierto
                 if (window.innerWidth <= 768) {
                     menuToggle.classList.remove('active');
                     mainMenu.classList.remove('active');
                     menuToggle.setAttribute('aria-expanded', 'false');
+                    menuToggle.setAttribute('aria-label', 'Abrir menú');
+                    document.body.style.overflow = '';
                 }
                 
                 const headerHeight = header.offsetHeight;
@@ -1253,11 +1339,10 @@ menuItems.forEach(item => {
                     behavior: 'smooth'
                 });
                 
-                // Update URL without page reload
+                // Actualizar URL sin recargar
                 history.pushState(null, null, targetId);
             }
         }
-        // External links will open normally in new tab
     });
 });
 
@@ -1281,9 +1366,9 @@ scrollToTopBtn.addEventListener('keydown', (e) => {
     }
 });
 
-// ===== VISOR DE PDF MEJORADO =====
+// ===== PDF VIEWER OPTIMIZADO =====
 function openPdfViewer(pdfUrl, title = 'Catálogo') {
-    // Crear el modal del visor PDF
+    // Crear modal
     const modal = document.createElement('div');
     modal.className = 'pdf-viewer-modal';
     modal.setAttribute('role', 'dialog');
@@ -1322,207 +1407,211 @@ function openPdfViewer(pdfUrl, title = 'Catálogo') {
     
     // Agregar estilos si no existen
     if (!document.querySelector('#pdf-viewer-styles')) {
-        const style = document.createElement('style');
-        style.id = 'pdf-viewer-styles';
-        style.textContent = `
-            .pdf-viewer-modal {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                z-index: 10000;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 20px;
-            }
-            .pdf-modal-overlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.95);
-                backdrop-filter: blur(10px);
-            }
-            .pdf-modal-content {
-                position: relative;
-                background: #1a1a2e;
-                border-radius: 20px;
-                width: 95%;
-                max-width: 1200px;
-                height: 90vh;
-                display: flex;
-                flex-direction: column;
-                animation: modalSlideIn 0.3s ease;
-                border: 1px solid rgba(255,255,255,0.1);
-                box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            }
-            @keyframes modalSlideIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(50px) scale(0.95);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                }
-            }
-            @keyframes modalSlideOut {
-                from {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                }
-                to {
-                    opacity: 0;
-                    transform: translateY(50px) scale(0.95);
-                }
-            }
-            .pdf-modal-header {
-                padding: 20px 25px;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                background: rgba(0,0,0,0.3);
-                border-radius: 20px 20px 0 0;
-            }
-            .pdf-modal-header h3 {
-                color: white;
-                margin: 0;
-                font-size: 1.4rem;
-            }
-            .pdf-modal-actions {
-                display: flex;
-                gap: 10px;
-            }
-            .btn-fullscreen, .btn-close-pdf {
-                background: rgba(255,255,255,0.1);
-                border: none;
-                color: white;
-                width: 40px;
-                height: 40px;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 1.1rem;
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .btn-fullscreen:hover {
-                background: rgba(255,255,255,0.2);
-                transform: scale(1.1);
-            }
-            .btn-close-pdf:hover {
-                background: var(--accent-color);
-                transform: scale(1.1);
-            }
-            .pdf-viewer-container {
-                flex: 1;
-                padding: 20px;
-                min-height: 400px;
-            }
-            .pdf-viewer-container iframe {
-                width: 100%;
-                height: 100%;
-                border-radius: 10px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            }
-            .pdf-modal-footer {
-                padding: 15px 25px;
-                border-top: 1px solid rgba(255,255,255,0.1);
-                text-align: center;
-                background: rgba(0,0,0,0.3);
-                border-radius: 0 0 20px 20px;
-            }
-            .pdf-modal-footer p {
-                color: rgba(255,255,255,0.7);
-                font-size: 0.9rem;
-                margin-bottom: 8px;
-            }
-            .pdf-modal-footer i {
-                color: var(--secondary-color);
-                margin-right: 8px;
-            }
-            .pdf-note {
-                color: var(--accent-color) !important;
-                font-weight: 600;
-                font-size: 0.85rem !important;
-            }
-            
-            /* Modo pantalla completa */
-            .pdf-viewer-modal.fullscreen .pdf-modal-content {
-                width: 100%;
-                height: 100vh;
-                max-width: none;
-                border-radius: 0;
-            }
-            
-            /* Responsive */
-            @media (max-width: 768px) {
-                .pdf-viewer-modal {
-                    padding: 10px;
-                }
-                .pdf-modal-content {
-                    width: 100%;
-                    height: 100vh;
-                    border-radius: 0;
-                }
-                .pdf-viewer-container {
-                    padding: 10px;
-                }
-                .pdf-modal-header {
-                    padding: 15px 20px;
-                }
-                .pdf-modal-header h3 {
-                    font-size: 1.2rem;
-                }
-                .pdf-modal-footer p {
-                    font-size: 0.8rem;
-                }
-            }
-            
-            @media (max-width: 480px) {
-                .pdf-modal-header {
-                    padding: 12px 15px;
-                }
-                .pdf-modal-header h3 {
-                    font-size: 1.1rem;
-                }
-                .btn-fullscreen, .btn-close-pdf {
-                    width: 36px;
-                    height: 36px;
-                    font-size: 1rem;
-                }
-                .pdf-viewer-container {
-                    padding: 8px;
-                }
-                .pdf-modal-footer {
-                    padding: 12px 15px;
-                }
-            }
-        `;
-        document.head.appendChild(style);
+        addPdfViewerStyles();
     }
     
     // Agregar al DOM
     document.body.appendChild(modal);
-    document.body.style.overflow = 'hidden'; // Bloquear scroll
+    document.body.style.overflow = 'hidden';
     
-    // Funcionalidades
+    // Configurar funcionalidades
+    setupPdfViewerFunctionality(modal, title);
+}
+
+function addPdfViewerStyles() {
+    const style = document.createElement('style');
+    style.id = 'pdf-viewer-styles';
+    style.textContent = `
+        .pdf-viewer-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .pdf-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .pdf-modal-content {
+            position: relative;
+            background: #1a1a2e;
+            border-radius: 20px;
+            width: 95%;
+            max-width: 1200px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: modalSlideIn 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        @keyframes modalSlideOut {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+        }
+        .pdf-modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px 20px 0 0;
+        }
+        .pdf-modal-header h3 {
+            color: white;
+            margin: 0;
+            font-size: 1.4rem;
+        }
+        .pdf-modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-fullscreen, .btn-close-pdf {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-fullscreen:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+        .btn-close-pdf:hover {
+            background: var(--accent-color);
+            transform: scale(1.1);
+        }
+        .pdf-viewer-container {
+            flex: 1;
+            padding: 20px;
+            min-height: 400px;
+        }
+        .pdf-viewer-container iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .pdf-modal-footer {
+            padding: 15px 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            background: rgba(0,0,0,0.3);
+            border-radius: 0 0 20px 20px;
+        }
+        .pdf-modal-footer p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .pdf-modal-footer i {
+            color: var(--secondary-color);
+            margin-right: 8px;
+        }
+        .pdf-note {
+            color: var(--accent-color) !important;
+            font-weight: 600;
+            font-size: 0.85rem !important;
+        }
+        
+        /* Modo pantalla completa */
+        .pdf-viewer-modal.fullscreen .pdf-modal-content {
+            width: 100%;
+            height: 100vh;
+            max-width: none;
+            border-radius: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .pdf-viewer-modal {
+                padding: 10px;
+            }
+            .pdf-modal-content {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+            }
+            .pdf-viewer-container {
+                padding: 10px;
+            }
+            .pdf-modal-header {
+                padding: 15px 20px;
+            }
+            .pdf-modal-header h3 {
+                font-size: 1.2rem;
+            }
+            .pdf-modal-footer p {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .pdf-modal-header {
+                padding: 12px 15px;
+            }
+            .pdf-modal-header h3 {
+                font-size: 1.1rem;
+            }
+            .btn-fullscreen, .btn-close-pdf {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+            .pdf-viewer-container {
+                padding: 8px;
+            }
+            .pdf-modal-footer {
+                padding: 12px 15px;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function setupPdfViewerFunctionality(modal, title) {
     const closeBtn = modal.querySelector('.btn-close-pdf');
     const fullscreenBtn = modal.querySelector('.btn-fullscreen');
     const overlay = modal.querySelector('.pdf-modal-overlay');
     const iframe = modal.querySelector('iframe');
     
-    // Focus trap for modal
-    const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    const firstFocusableElement = focusableElements[0];
-    const lastFocusableElement = focusableElements[focusableElements.length - 1];
-    
-    // Focus first element
+    // Enfocar botón cerrar
     setTimeout(() => closeBtn.focus(), 100);
     
     // Cerrar modal
@@ -1554,7 +1643,7 @@ function openPdfViewer(pdfUrl, title = 'Catálogo') {
         }
     });
     
-    // Focus trap
+    // Focus trap y teclado
     modal.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             if (modal.classList.contains('fullscreen')) {
@@ -1566,86 +1655,114 @@ function openPdfViewer(pdfUrl, title = 'Catálogo') {
                 closeModal();
             }
         }
-        
-        if (e.key === 'Tab') {
-            if (e.shiftKey) {
-                if (document.activeElement === firstFocusableElement) {
-                    e.preventDefault();
-                    lastFocusableElement.focus();
-                }
-            } else {
-                if (document.activeElement === lastFocusableElement) {
-                    e.preventDefault();
-                    firstFocusableElement.focus();
-                }
-            }
-        }
     });
     
-    // Enfocar el iframe para permitir navegación con teclado
+    // Enfocar iframe después de un momento
     setTimeout(() => iframe.focus(), 300);
 }
 
-// 8. INITIALIZE EVERYTHING - MEJORADO
-function initAll() {
-    // Initialize coverflow
-    updateCoverflow();
-    container.setAttribute('tabindex', '0');
-    container.focus();
-    startAutoplay();
+// ===== AJUSTES RESPONSIVE =====
+function adjustCoverflowForScreen() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    isMobile = width <= 768;
     
-    // Initialize new features
+    // Ajustar tamaño de items según dispositivo
+    if (width < 480) {
+        items.forEach(item => {
+            item.style.width = '160px';
+            item.style.height = '160px';
+        });
+    } else if (width < 768) {
+        items.forEach(item => {
+            item.style.width = '180px';
+            item.style.height = '180px';
+        });
+    } else if (width < 1024) {
+        items.forEach(item => {
+            item.style.width = '220px';
+            item.style.height = '220px';
+        });
+    } else {
+        items.forEach(item => {
+            item.style.width = '260px';
+            item.style.height = '260px';
+        });
+    }
+    
+    // Ajustar altura del contenedor
+    if (isMobile && width > height) { // Landscape en móvil
+        container.style.height = '250px';
+    } else {
+        container.style.height = isMobile ? '250px' : '350px';
+    }
+    
+    updateCoverflow();
+}
+
+// Throttle resize event
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        adjustCoverflowForScreen();
+        
+        // Cerrar menú móvil al cambiar a desktop
+        if (window.innerWidth > 768) {
+            menuToggle.classList.remove('active');
+            mainMenu.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Abrir menú');
+            document.body.style.overflow = '';
+        }
+        
+        // Actualizar detección de dispositivo
+        isMobile = window.innerWidth <= 768;
+    }, 250);
+});
+
+// ===== INICIALIZACIÓN COMPLETA =====
+function initAll() {
+    console.log('Inicializando IMPRESIONES GRAFIC...');
+    
+    // Detectar dispositivo
+    detectDeviceAndBrowser();
+    
+    // Inicializar componentes en orden
+    createDots();
+    initializeImages();
+    updateCoverflow();
+    
+    // Configurar coverflow
+    container.setAttribute('tabindex', '0');
+    container.setAttribute('aria-label', 'Galería de trabajos - Use flechas para navegar');
+    
+    // Inicializar autoplay (más lento en móvil)
+    setTimeout(() => {
+        startAutoplay();
+    }, 1000);
+    
+    // Inicializar otras funcionalidades
     initPortfolioFilter();
     initPortfolioModals();
     initFormValidation();
     
-    // Initial active menu item update
+    // Actualizar menú activo
     updateActiveMenuItem();
     
-    // Add loading class to body and remove when everything is loaded
+    // Configurar ARIA attributes
+    setAriaAttributes();
+    
+    // Ajustar coverflow para pantalla actual
+    adjustCoverflowForScreen();
+    
+    // Marcar como cargado
     document.body.classList.add('loaded');
     
-    // Initialize touch event improvements
-    initTouchEvents();
-    
-    // Set ARIA attributes for interactive elements
-    setAriaAttributes();
+    console.log('Sitio inicializado correctamente');
 }
 
-// Initialize touch events improvements
-function initTouchEvents() {
-    // Prevent double tap zoom on buttons
-    const buttons = document.querySelectorAll('button, a');
-    buttons.forEach(button => {
-        button.addEventListener('touchstart', (e) => {
-            // Add active state for touch feedback
-            button.classList.add('touch-active');
-            setTimeout(() => {
-                button.classList.remove('touch-active');
-            }, 300);
-        }, { passive: true });
-    });
-    
-    // Improve scroll performance on mobile
-    let lastTouchY = 0;
-    document.addEventListener('touchstart', (e) => {
-        lastTouchY = e.touches[0].clientY;
-    }, { passive: true });
-    
-    document.addEventListener('touchmove', (e) => {
-        const currentTouchY = e.touches[0].clientY;
-        const diff = currentTouchY - lastTouchY;
-        
-        // If user is scrolling up/down significantly, stop coverflow autoplay
-        if (Math.abs(diff) > 10) {
-            handleUserInteraction();
-        }
-        
-        lastTouchY = currentTouchY;
-    }, { passive: true });
-}
-
-// Set ARIA attributes for better accessibility
+// Configurar ARIA attributes
 function setAriaAttributes() {
     // Menu toggle
     menuToggle.setAttribute('aria-label', 'Abrir menú');
@@ -1670,20 +1787,20 @@ function setAriaAttributes() {
     // Service cards
     document.querySelectorAll('.servicio-card').forEach((card, index) => {
         card.setAttribute('role', 'article');
-        card.setAttribute('aria-label', `Servicio ${index + 1}`);
+        card.setAttribute('aria-label', `Servicio: ${card.querySelector('h3').textContent}`);
     });
     
     // Portfolio items
     document.querySelectorAll('.portfolio-item').forEach((item, index) => {
         item.setAttribute('role', 'article');
-        item.setAttribute('aria-label', `Proyecto ${index + 1}`);
+        item.setAttribute('aria-label', `Proyecto: ${item.querySelector('h4').textContent}`);
     });
     
     // Catalog cards
     document.querySelectorAll('.catalogo-card').forEach((card, index) => {
         card.setAttribute('role', 'button');
         card.setAttribute('tabindex', '0');
-        card.setAttribute('aria-label', `Abrir catálogo ${index + 1}`);
+        card.setAttribute('aria-label', `Abrir catálogo: ${card.querySelector('h3').textContent}`);
         card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -1711,9 +1828,9 @@ function setAriaAttributes() {
     }
 }
 
-// 9. LOADING ANIMATION - MEJORADO
+// ===== LOADING Y WELCOME =====
 window.addEventListener('load', function() {
-    // Remove loading state if any
+    // Remover estado de carga si existe
     const loadingElement = document.querySelector('.loading');
     if (loadingElement) {
         loadingElement.style.opacity = '0';
@@ -1722,84 +1839,26 @@ window.addEventListener('load', function() {
         }, 300);
     }
     
-    // Initialize everything
+    // Inicializar todo
     initAll();
     
-    // Show welcome notification after a delay
+    // Mostrar notificación de bienvenida
     setTimeout(() => {
         showNotification('👋 ¡Bienvenido a IMPRESIONES GRAFIC! Explora nuestros servicios de diseño e impresión.', 'info');
-    }, 1500);
+    }, 2000);
     
-    // Add loaded class to body for any post-load animations
+    // Marcar como completamente cargado
     document.body.classList.add('fully-loaded');
 });
 
-// 10. RESPONSIVE ADJUSTMENTS - MEJORADO
-function adjustCoverflowForScreen() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const isLandscape = width > height;
-    
-    if (width < 480) {
-        items.forEach(item => {
-            item.style.width = '160px';
-            item.style.height = '160px';
-        });
-    } else if (width < 768) {
-        items.forEach(item => {
-            item.style.width = '180px';
-            item.style.height = '180px';
-        });
-    } else if (width < 1024) {
-        items.forEach(item => {
-            item.style.width = '220px';
-            item.style.height = '220px';
-        });
-    } else {
-        items.forEach(item => {
-            item.style.width = '260px';
-            item.style.height = '260px';
-        });
-    }
-    
-    // Adjust container height for mobile landscape
-    if (isLandscape && width < 1024) {
-        container.style.height = '250px';
-    } else {
-        container.style.height = '350px';
-    }
-    
-    updateCoverflow();
-}
-
-// Throttle resize event
-let resizeTimeout;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        adjustCoverflowForScreen();
-        
-        // Close mobile menu on resize to desktop
-        if (window.innerWidth > 768) {
-            menuToggle.classList.remove('active');
-            mainMenu.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-        }
-    }, 250);
-});
-
-// Initialize on DOM ready
+// Inicializar en DOM ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAll);
 } else {
     initAll();
 }
 
-// Adjust coverflow on initial load
-setTimeout(adjustCoverflowForScreen, 100);
-
 // ===== EXPORT FUNCIONES GLOBALES =====
-// Estas funciones deben estar disponibles globalmente para los onclick en HTML
 window.scrollToContact = scrollToContact;
 window.handleSubmit = handleSubmit;
 window.navigate = navigate;
@@ -1807,24 +1866,24 @@ window.goToIndex = goToIndex;
 window.toggleAutoplay = toggleAutoplay;
 window.openPdfViewer = openPdfViewer;
 
-// Error handling
+// ===== ERROR HANDLING Y PERFORMANCE =====
 window.addEventListener('error', (e) => {
     console.error('Error en la aplicación:', e.error);
+    // En producción, enviar a servicio de tracking
 });
 
-// Unhandled promise rejection
 window.addEventListener('unhandledrejection', (e) => {
     console.error('Promesa rechazada no manejada:', e.reason);
 });
 
-// Performance monitoring (solo en desarrollo)
+// Performance monitoring
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     window.addEventListener('load', () => {
         if ('performance' in window) {
             const perfData = window.performance.getEntriesByType('navigation')[0];
             if (perfData) {
-                console.log('Tiempo de carga:', {
-                    'DOM Content Loaded': perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+                console.log('Performance:', {
+                    'DOM Loaded': perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
                     'Load Complete': perfData.loadEventEnd - perfData.loadEventStart,
                     'Total Time': perfData.loadEventEnd - perfData.fetchStart
                 });
@@ -1833,60 +1892,35 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
     });
 }
 
-// Service Worker registration (opcional)
-if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(error => {
-            console.log('Service Worker registration failed:', error);
-        });
+// Optimizaciones para Android específicas
+if (isAndroid) {
+    console.log('Aplicando optimizaciones específicas para Android');
+    
+    // Reducir animaciones en Android
+    document.documentElement.style.setProperty('--transition-normal', '0.25s ease');
+    document.documentElement.style.setProperty('--transition-slow', '0.4s ease');
+    
+    // Detener autoplay en conexiones lentas
+    if (document.body.classList.contains('slow-connection')) {
+        stopAutoplay();
+    }
+}
+
+// Optimizaciones para iOS específicas
+if (isIOS) {
+    console.log('Aplicando optimizaciones específicas para iOS');
+    
+    // Mejorar scroll en iOS
+    document.querySelectorAll('.section').forEach(section => {
+        section.style.webkitOverflowScrolling = 'touch';
     });
 }
 
-// Detect slow network
-if ('connection' in navigator) {
-    const connection = navigator.connection;
-    if (connection) {
-        if (connection.saveData === true || connection.effectiveType.includes('2g')) {
-            // Reduce animations for slow connections
-            document.documentElement.style.setProperty('--transition-normal', '0.2s ease');
-            document.documentElement.style.setProperty('--transition-slow', '0.3s ease');
-            stopAutoplay(); // Stop autoplay on slow connections
-        }
-    }
+// Service Worker (opcional)
+if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(error => {
+            console.log('Service Worker no registrado:', error);
+        });
+    });
 }
-
-// Prevent pinch zoom on iOS (optional)
-document.addEventListener('touchmove', function(e) {
-    if (e.scale !== 1) {
-        e.preventDefault();
-    }
-}, { passive: false });
-
-// Add CSS for touch feedback
-const touchStyles = document.createElement('style');
-touchStyles.textContent = `
-    .touch-active {
-        opacity: 0.8 !important;
-        transform: scale(0.98) !important;
-    }
-    
-    @media (hover: none) and (pointer: coarse) {
-        button, a, .menu-item, .filter-btn, .servicio-btn, .view-details, 
-        .btn-ver-catalogo, .submit-btn, .whatsapp-btn, .social-btn, 
-        .cta-button, .badge, .catalogo-card {
-            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
-        }
-    }
-    
-    /* Improve scrolling on iOS */
-    .section, .coverflow-container, .portfolio-grid, .catalogos-grid {
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    /* Prevent text size adjustment on orientation change */
-    html {
-        -webkit-text-size-adjust: 100%;
-        text-size-adjust: 100%;
-    }
-`;
-document.head.appendChild(touchStyles);

@@ -135,7 +135,7 @@
             <div class="logo-text">IMPRESIONES GRAFIC</div>
         </a>
         
-        <nav class="main-menu" id="mainMenu" aria-label="Navegación principal" style="display: none;">
+        <nav class="main-menu" id="mainMenu" aria-label="Navegación principal">
             <a href="#home" class="menu-item active" aria-current="page">
                 <span class="menu-text">INICIO</span>
             </a>
@@ -163,9 +163,9 @@
                 aria-controls="mainMenu"
                 aria-haspopup="true">
             <span class="sr-only">Menú</span>
-            <span></span>
-            <span></span>
-            <span></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
         </button>
     </header>
 
@@ -1212,33 +1212,42 @@
         // Ocultar preloader cuando todo cargue
         window.addEventListener('load', function() {
             setTimeout(function() {
-                document.getElementById('preloader').style.opacity = '0';
-                document.body.classList.add('loaded');
-                setTimeout(function() {
-                    document.getElementById('preloader').style.display = 'none';
-                }, 500);
+                const preloader = document.getElementById('preloader');
+                if (preloader) {
+                    preloader.style.opacity = '0';
+                    document.body.classList.add('loaded');
+                    setTimeout(function() {
+                        preloader.style.display = 'none';
+                    }, 500);
+                }
             }, 500);
         });
 
-        // Prevenir envío de formulario por defecto (manejado por JavaScript)
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('consultaForm');
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    // La validación y envío se manejan en handleSubmit
-                    return true;
-                });
-            }
-        });
-
         // Mejorar accesibilidad de botones
-        document.querySelectorAll('button, a, [role="button"]').forEach(element => {
-            element.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    this.click();
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('button, a, [role="button"]').forEach(element => {
+                element.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
             });
+            
+            // Configuración inicial del menú
+            const menuToggle = document.getElementById('menuToggle');
+            const mainMenu = document.getElementById('mainMenu');
+            const width = window.innerWidth;
+            
+            if (width <= 768) {
+                // MÓVIL
+                if (menuToggle) menuToggle.style.display = 'flex';
+                if (mainMenu) mainMenu.style.display = 'none';
+            } else {
+                // DESKTOP
+                if (menuToggle) menuToggle.style.display = 'none';
+                if (mainMenu) mainMenu.style.display = 'flex';
+            }
         });
     </script>
 </body>

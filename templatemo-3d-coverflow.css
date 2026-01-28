@@ -226,6 +226,7 @@ p {
     background-clip: text;
 }
 
+/* ===== MENÚ PRINCIPAL - ESCRITORIO ===== */
 .main-menu {
     display: flex;
     align-items: center;
@@ -299,7 +300,7 @@ p {
     box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
 }
 
-/* Mobile menu toggle optimizado */
+/* ===== MENÚ HAMBURGUESA - SOLO MÓVIL ===== */
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -336,7 +337,7 @@ p {
     transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* ===== MENÚ HAMBURGUESA MEJORADO - VERSIÓN CORREGIDA ===== */
+/* ===== MENÚ HAMBURGUESA MEJORADO - RESPONSIVE ===== */
 @media (max-width: 768px) {
     .header {
         padding: 0 20px;
@@ -347,10 +348,12 @@ p {
         height: 65px;
     }
 
+    /* Mostrar hamburguesa en móvil */
     .menu-toggle {
         display: flex;
     }
 
+    /* Ocultar menú principal en móvil */
     .main-menu {
         display: none;
         position: fixed;
@@ -358,7 +361,7 @@ p {
         left: 0;
         right: 0;
         bottom: 0;
-        background: #000000; /* Negro 100% sólido */
+        background: #000000;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -413,6 +416,17 @@ p {
     .logo-image {
         width: 45px;
         height: 45px;
+    }
+}
+
+/* ===== ESCRITORIO: OCULTAR HAMBURGUESA, MOSTRAR MENÚ ===== */
+@media (min-width: 769px) {
+    .menu-toggle {
+        display: none !important;
+    }
+    
+    .main-menu {
+        display: flex !important;
     }
 }
 
@@ -2920,5 +2934,31 @@ body.fully-loaded {
 @media (min-width: 769px) {
     .mobile-hidden {
         display: block;
+    }
+}
+
+/* ===== CORRECCIONES FINALES DEL MENÚ ===== */
+/* Asegurar que en escritorio el menú esté siempre visible */
+@media (min-width: 769px) {
+    .main-menu {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .menu-toggle {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+
+/* Asegurar que en móvil el menú hamburguesa funcione */
+@media (max-width: 768px) {
+    .main-menu:not(.active) {
+        display: none !important;
+    }
+    
+    .main-menu.active {
+        display: flex !important;
     }
 }

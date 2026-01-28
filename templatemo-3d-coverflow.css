@@ -353,6 +353,10 @@ p {
 
     .main-menu {
         display: none;
+    }
+
+    #mainMenu {
+        display: none;
         position: fixed;
         top: 0;
         left: 0;
@@ -368,8 +372,8 @@ p {
         overflow-y: auto;
     }
 
-    .main-menu.active {
-        display: flex;
+    #mainMenu.menu-open {
+        display: flex !important;
     }
 
     .menu-item {
@@ -2920,5 +2924,66 @@ body.fully-loaded {
 @media (min-width: 769px) {
     .mobile-hidden {
         display: block;
+    }
+}
+
+/* ===== CORRECCIÓN ESPECÍFICA PARA MENÚ HAMBURGUESA ===== */
+/* Clase que el JavaScript añadirá para mostrar el menú */
+.menu-open {
+    display: flex !important;
+}
+
+/* Corrección para el estado activo del toggle */
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-10px);
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Asegurar que el menú móvil se vea correctamente */
+@media (max-width: 768px) {
+    #mainMenu {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #000000;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        gap: 15px;
+        z-index: 999;
+        overflow-y: auto;
+    }
+    
+    #mainMenu.menu-open {
+        display: flex !important;
+    }
+    
+    .menu-item {
+        width: 90%;
+        max-width: 280px;
+        padding: 18px 20px;
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+        color: white;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin: 0;
+        border-bottom: none;
     }
 }

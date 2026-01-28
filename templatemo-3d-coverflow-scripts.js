@@ -3,6 +3,14 @@ TemplateMo 595 3d coverflow
 https://templatemo.com/tm-595-3d-coverflow
 */
 
+// ===== CONFIGURACIÓN SUPABASE =====
+const SUPABASE_URL = 'https://gsqzlzswyrdvenxiqtci.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzcXpsenN3eXJkdmVueGlxdGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg2OTY4NTcsImV4cCI6MjA1NDI3Mjg1N30.ZmlAn6CRnWnl-l3fJcFiy4u1mANPhPV1sDqbYhPrprI';
+
+// Inicializar Supabase
+const { createClient } = supabase;
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // ===== VARIABLES GLOBALES OPTIMIZADAS =====
 const items = document.querySelectorAll('.coverflow-item');
 const dotsContainer = document.getElementById('dots');
@@ -19,45 +27,33 @@ let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 function detectDeviceAndBrowser() {
     const userAgent = navigator.userAgent.toLowerCase();
     
-    // Detectar Android
     if (/android/.test(userAgent)) {
         document.body.classList.add('android-device');
         isAndroid = true;
-        console.log('Dispositivo Android detectado');
     }
     
-    // Detectar iOS
     if (/iphone|ipad|ipod/.test(userAgent)) {
         document.body.classList.add('ios-device');
         isIOS = true;
-        console.log('Dispositivo iOS detectado');
     }
     
-    // Detectar Chrome en Android (problemas específicos)
     if (/chrome/.test(userAgent) && /android/.test(userAgent)) {
         document.body.classList.add('android-chrome');
-        console.log('Chrome en Android detectado - aplicando correcciones');
     }
     
-    // Detectar Safari en iOS
     if (/safari/.test(userAgent) && !/chrome/.test(userAgent) && /iphone|ipad/.test(userAgent)) {
         document.body.classList.add('ios-safari');
-        console.log('Safari en iOS detectado');
     }
     
-    // Detectar conexión lenta
     if ('connection' in navigator) {
         const connection = navigator.connection;
         if (connection.saveData === true || connection.effectiveType.includes('2g') || connection.effectiveType.includes('3g')) {
             document.body.classList.add('slow-connection');
-            console.log('Conexión lenta detectada - optimizando');
         }
     }
 }
 
 // ===== COVERFLOW FUNCTIONS OPTIMIZADAS =====
-
-// Mobile menu toggle - OPTIMIZADO PARA TACTO
 if (menuToggle) {
     menuToggle.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -68,13 +64,10 @@ if (menuToggle) {
         const isExpanded = menuToggle.classList.contains('active');
         menuToggle.setAttribute('aria-expanded', isExpanded);
         menuToggle.setAttribute('aria-label', isExpanded ? 'Cerrar menú' : 'Abrir menú');
-        
-        // Bloquear scroll cuando el menú está abierto
         document.body.style.overflow = isExpanded ? 'hidden' : '';
     });
 }
 
-// Cerrar menú al hacer clic en items
 document.querySelectorAll('.menu-item').forEach(item => {
     item.addEventListener('click', (e) => {
         if (window.innerWidth <= 768) {
@@ -91,7 +84,6 @@ document.querySelectorAll('.menu-item').forEach(item => {
     });
 });
 
-// Cerrar menú al hacer clic fuera
 document.addEventListener('click', (e) => {
     if (window.innerWidth <= 768 && mainMenu && mainMenu.classList.contains('active')) {
         if (menuToggle && !menuToggle.contains(e.target) && !mainMenu.contains(e.target)) {
@@ -104,7 +96,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Cerrar menú con ESC
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && window.innerWidth <= 768 && mainMenu && mainMenu.classList.contains('active')) {
         if (menuToggle) {
@@ -146,7 +137,6 @@ let isPlaying = true;
 const playIcon = document.querySelector('.play-icon');
 const pauseIcon = document.querySelector('.pause-icon');
 
-// Función optimizada para dispositivos móviles
 function updateCoverflow() {
     if (isAnimating) return;
     isAnimating = true;
@@ -159,7 +149,6 @@ function updateCoverflow() {
     items.forEach((item, index) => {
         let offset = index - currentIndex;
         
-        // Ajustar para vista circular
         if (offset > items.length / 2) {
             offset = offset - items.length;
         } else if (offset < -items.length / 2) {
@@ -169,20 +158,17 @@ function updateCoverflow() {
         const absOffset = Math.abs(offset);
         const sign = Math.sign(offset);
         
-        // Calcular transformaciones
         let translateX = offset * centerOffset;
         let translateZ = -absOffset * zOffset;
         let rotateY = -sign * Math.min(absOffset * rotation, rotation);
         let opacity = 1 - (absOffset * 0.2);
         let scale = 1 - (absOffset * 0.08);
 
-        // Ocultar elementos muy lejos
         if (absOffset > 3) {
             opacity = 0;
             translateX = sign * 700;
         }
 
-        // Aplicar transformaciones optimizadas
         const transform = `
             translateX(${translateX}px) 
             translateZ(${translateZ}px) 
@@ -199,13 +185,11 @@ function updateCoverflow() {
         item.setAttribute('aria-hidden', index !== currentIndex);
     });
 
-    // Actualizar dots
     dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentIndex);
         dot.setAttribute('aria-current', index === currentIndex ? 'true' : 'false');
     });
 
-    // Permitir siguiente animación
     setTimeout(() => {
         isAnimating = false;
     }, isMobileView ? 400 : 600);
@@ -233,7 +217,6 @@ function goToIndex(index) {
     handleUserInteraction();
 }
 
-// Navegación con teclado optimizada
 if (container) {
     container.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
@@ -255,7 +238,6 @@ if (container) {
     });
 }
 
-// Click en items
 items.forEach((item, index) => {
     item.addEventListener('click', () => goToIndex(index));
 });
@@ -268,7 +250,6 @@ let isSwiping = false;
 const swipeThreshold = 50;
 const swipeTimeThreshold = 300;
 
-// Eventos táctiles optimizados
 if (container) {
     container.addEventListener('touchstart', (e) => {
         touchStartX = e.touches[0].clientX;
@@ -290,7 +271,6 @@ if (container) {
         const diffX = touchStartX - touchEndX;
         const diffTime = touchEndTime - touchStartTime;
         
-        // Solo procesar swipe si fue rápido
         if (Math.abs(diffX) > swipeThreshold && diffTime < swipeTimeThreshold) {
             handleUserInteraction();
             
@@ -319,7 +299,6 @@ function initializeImages() {
                 if (img.parentElement) {
                     img.parentElement.classList.add('image-loading');
                 }
-                console.warn(`Error cargando imagen ${index + 1}`);
             };
         }
     });
@@ -342,7 +321,6 @@ function startAutoplay() {
         clearInterval(autoplayInterval);
     }
     
-    // Intervalo más lento en móvil
     const interval = isMobile ? 5000 : 4000;
     
     autoplayInterval = setInterval(() => {
@@ -381,7 +359,6 @@ function handleUserInteraction() {
     stopAutoplay();
 }
 
-// Event listeners para detener autoplay
 items.forEach((item) => {
     item.addEventListener('click', handleUserInteraction);
     item.addEventListener('touchstart', handleUserInteraction);
@@ -413,25 +390,21 @@ function initPortfolioFilter() {
     
     filterBtns.forEach(btn => {
         btn.addEventListener('click', function() {
-            // Remover active de todos los botones
             filterBtns.forEach(b => {
                 b.classList.remove('active');
                 b.setAttribute('aria-pressed', 'false');
             });
             
-            // Agregar active al botón clickeado
             this.classList.add('active');
             this.setAttribute('aria-pressed', 'true');
             
             const filterValue = this.getAttribute('data-filter');
             
-            // Filtrar items con animación suave
             portfolioItems.forEach(item => {
                 const category = item.getAttribute('data-category');
                 
                 if (filterValue === 'all' || category === filterValue) {
                     item.style.display = 'block';
-                    // Forzar reflow para animación
                     void item.offsetWidth;
                     item.style.opacity = '1';
                     item.style.transform = 'scale(1)';
@@ -447,7 +420,6 @@ function initPortfolioFilter() {
             });
         });
         
-        // Soporte para teclado
         btn.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -465,13 +437,11 @@ function scrollToContact(service = '') {
     
     if (!contactSection) return;
     
-    // Scroll suave a la sección de contacto
     window.scrollTo({
         top: contactSection.offsetTop - headerHeight,
         behavior: 'smooth'
     });
     
-    // Si se especificó un servicio, llenar el campo
     if (service && service !== '') {
         setTimeout(() => {
             const serviceSelect = document.getElementById('service');
@@ -485,7 +455,6 @@ function scrollToContact(service = '') {
                 if (matchingOption) {
                     serviceSelect.value = matchingOption.value;
                     
-                    // Desplegar el select en móvil
                     if (isMobile) {
                         serviceSelect.focus();
                     }
@@ -494,12 +463,11 @@ function scrollToContact(service = '') {
         }, 500);
     }
     
-    // Mostrar notificación
     showNotification(`Perfecto! Te llevamos al formulario de contacto para ${service || 'tu consulta'}`, 'info');
 }
 
-// ===== FORM SUBMISSION HANDLER OPTIMIZADO =====
-function handleSubmit(event, formType = 'consulta') {
+// ===== FORM SUBMISSION HANDLER MODIFICADO CON SUPABASE =====
+async function handleSubmit(event) {
     event.preventDefault();
     
     const form = event.target;
@@ -507,55 +475,238 @@ function handleSubmit(event, formType = 'consulta') {
     if (!submitBtn) return false;
     
     const originalText = submitBtn.innerHTML;
-    const formData = new FormData(form);
     
-    // Validar formulario
-    if (!validateForm(form)) {
-        showNotification('Por favor, completa todos los campos requeridos correctamente.', 'error');
-        return false;
-    }
-    
-    // Mostrar estado de carga
+    // Mostrar loading
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
     submitBtn.disabled = true;
     
-    // Simular envío
-    setTimeout(() => {
-        // Éxito
-        showNotification('✅ Mensaje enviado correctamente. Te contactaremos pronto.', 'success');
-        
-        // Reset form
-        form.reset();
-        
-        // Restaurar botón
+    // Generar código único
+    const codigo = 'COT-' + Date.now().toString().slice(-8);
+    
+    // Preparar datos para Supabase
+    const cotizacionData = {
+        nombre: form.name.value.trim(),
+        email: form.email.value.trim(),
+        telefono: form.phone.value.trim(),
+        empresa: form.company.value.trim() || null,
+        servicio: form.service.value,
+        cantidad: form.quantity.value.trim() || null,
+        descripcion: form.message.value.trim(),
+        newsletter: form.newsletter.checked,
+        codigo: codigo,
+        estado: 'NUEVO'
+    };
+    
+    // Validación
+    if (!cotizacionData.nombre || !cotizacionData.email || !cotizacionData.telefono) {
+        showNotification('❌ Completa los campos obligatorios (*)', 'error');
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
+        return false;
+    }
+    
+    try {
+        // 1. GUARDAR EN SUPABASE
+        console.log('Enviando datos a Supabase...', cotizacionData);
+        const { data, error } = await supabaseClient
+            .from('cotizaciones')
+            .insert([cotizacionData])
+            .select();
         
-        // Enviar evento a analytics si está disponible
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'form_submit', {
-                'event_category': 'contact',
-                'event_label': formType
-            });
+        if (error) {
+            console.error('Error Supabase:', error);
+            throw error;
         }
         
-        // Scroll al inicio del formulario
-        form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        console.log('Datos guardados en Supabase:', data);
         
-    }, 1500);
+        // 2. Enviar notificación por WhatsApp (opcional)
+        enviarNotificacionWhatsApp(cotizacionData);
+        
+        // 3. Mostrar éxito
+        showNotification(
+            `✅ Cotización #${codigo} registrada en nuestro sistema. Te contactaremos en <strong>menos de 2 horas</strong>.`,
+            'success'
+        );
+        
+        // 4. Mostrar comprobante
+        mostrarComprobante(codigo, cotizacionData);
+        
+        // 5. Resetear formulario
+        setTimeout(() => {
+            form.reset();
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }, 2000);
+        
+    } catch (error) {
+        console.error('Error completo:', error);
+        
+        // Fallback: Enviar por WhatsApp directamente
+        showNotification('⚠️ Redirigiendo a WhatsApp para enviar tu solicitud...', 'warning');
+        
+        const mensajeWhatsApp = `*SOLICITUD DE COTIZACIÓN*%0A%0A
+👤 *Nombre:* ${cotizacionData.nombre}%0A
+📧 *Email:* ${cotizacionData.email}%0A
+📱 *Teléfono:* ${cotizacionData.telefono}%0A
+${cotizacionData.empresa ? `🏢 *Empresa:* ${cotizacionData.empresa}%0A` : ''}
+🛠 *Servicio:* ${cotizacionData.servicio}%0A
+📦 *Cantidad:* ${cotizacionData.cantidad || 'Por definir'}%0A%0A
+💬 *Descripción:*%0A${cotizacionData.descripcion}%0A%0A
+*URGENTE: Contactar en menos de 2 horas*`;
+        
+        setTimeout(() => {
+            window.open(`https://wa.me/59164793488?text=${encodeURIComponent(mensajeWhatsApp)}`, '_blank');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            form.reset();
+        }, 1500);
+    }
     
     return false;
 }
 
+// Función para mostrar comprobante
+function mostrarComprobante(codigo, datos) {
+    const comprobanteHTML = `
+        <div class="comprobante">
+            <div class="comprobante-header">
+                <i class="fas fa-check-circle"></i>
+                <h3>¡Solicitud Registrada!</h3>
+            </div>
+            <div class="comprobante-body">
+                <p><strong>Número de seguimiento:</strong> ${codigo}</p>
+                <p><strong>Cliente:</strong> ${datos.nombre}</p>
+                <p><strong>Servicio:</strong> ${datos.servicio}</p>
+                <p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-BO')}</p>
+                <p><strong>Estado:</strong> <span class="estado-nuevo">EN REVISIÓN</span></p>
+            </div>
+            <div class="comprobante-footer">
+                <p><small>Guarda este número para referencia. Te contactaremos en menos de 2 horas.</small></p>
+                <button onclick="window.open('https://wa.me/59164793488?text=Consulta%20cotización%20${codigo}', '_blank')" 
+                        class="whatsapp-btn-small">
+                    <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Insertar después del formulario
+    const formSection = document.querySelector('.contact-form-section');
+    const existingComprobante = formSection.querySelector('.comprobante');
+    if (existingComprobante) existingComprobante.remove();
+    
+    formSection.insertAdjacentHTML('beforeend', comprobanteHTML);
+    
+    // Agregar estilos CSS para el comprobante
+    if (!document.querySelector('#comprobante-styles')) {
+        const style = document.createElement('style');
+        style.id = 'comprobante-styles';
+        style.textContent = `
+            .comprobante {
+                background: rgba(102, 126, 234, 0.1);
+                border: 2px solid rgba(102, 126, 234, 0.3);
+                border-radius: 15px;
+                padding: 25px;
+                margin-top: 25px;
+                animation: fadeIn 0.5s ease;
+            }
+            .comprobante-header {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            .comprobante-header i {
+                color: #51cf66;
+                font-size: 2rem;
+            }
+            .comprobante-header h3 {
+                color: white;
+                margin: 0;
+                font-size: 1.5rem;
+            }
+            .comprobante-body p {
+                color: rgba(255,255,255,0.9);
+                margin-bottom: 10px;
+                font-size: 0.95rem;
+            }
+            .estado-nuevo {
+                background: #667eea;
+                color: white;
+                padding: 5px 15px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+            .comprobante-footer {
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+            .comprobante-footer p {
+                color: rgba(255,255,255,0.7);
+                font-size: 0.85rem;
+                margin-bottom: 15px;
+            }
+            .whatsapp-btn-small {
+                background: #25D366;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 30px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                width: 100%;
+                transition: all 0.3s ease;
+            }
+            .whatsapp-btn-small:hover {
+                background: #1da851;
+                transform: translateY(-2px);
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// Función para enviar notificación por WhatsApp
+function enviarNotificacionWhatsApp(datos) {
+    const mensaje = `*🚨 NUEVA COTIZACIÓN AUTOMÁTICA*%0A%0A
+📋 *Código:* ${datos.codigo}%0A
+👤 *Cliente:* ${datos.nombre}%0A
+📱 *Teléfono:* ${datos.telefono}%0A
+📧 *Email:* ${datos.email}%0A
+🏢 *Empresa:* ${datos.empresa || 'No especificada'}%0A
+🛠 *Servicio:* ${datos.servicio}%0A
+📦 *Cantidad:* ${datos.cantidad || 'Por definir'}%0A
+📝 *Newsletter:* ${datos.newsletter ? 'SÍ' : 'NO'}%0A%0A
+💬 *Descripción:*%0A${datos.descripcion}%0A%0A
+⏰ *URGENTE: Contactar en menos de 2 horas*%0A
+📅 ${new Date().toLocaleString('es-BO')}`;
+    
+    // Esta función podría llamar a una API para enviar WhatsApp automático
+    // Por ahora solo creamos el enlace
+    console.log('Mensaje WhatsApp preparado:', mensaje);
+    
+    // Para enviar automáticamente necesitarías un servicio como Twilio
+    // Por ahora el operador deberá hacer click manualmente
+}
+
 // ===== NOTIFICATION SYSTEM OPTIMIZADO =====
 function showNotification(message, type = 'info') {
-    // Remover notificaciones existentes
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => {
         notification.remove();
     });
     
-    // Crear elemento de notificación
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.setAttribute('role', 'alert');
@@ -568,7 +719,6 @@ function showNotification(message, type = 'info') {
         <button class="notification-close" aria-label="Cerrar notificación">&times;</button>
     `;
     
-    // Estilos inline para rendimiento
     notification.style.cssText = `
         position: fixed;
         top: ${isMobile ? '80px' : '90px'};
@@ -590,7 +740,6 @@ function showNotification(message, type = 'info') {
         -webkit-backdrop-filter: blur(10px);
     `;
     
-    // Agregar estilos CSS si no existen
     if (!document.querySelector('#notification-styles')) {
         const style = document.createElement('style');
         style.id = 'notification-styles';
@@ -636,16 +785,13 @@ function showNotification(message, type = 'info') {
         document.head.appendChild(style);
     }
     
-    // Agregar al DOM
     document.body.appendChild(notification);
     
-    // Funcionalidad del botón cerrar
     const closeBtn = notification.querySelector('.notification-close');
     closeBtn.addEventListener('click', () => {
         closeNotification(notification);
     });
     
-    // Cerrar con ESC
     const closeOnEsc = (e) => {
         if (e.key === 'Escape') {
             closeNotification(notification);
@@ -654,14 +800,12 @@ function showNotification(message, type = 'info') {
     };
     document.addEventListener('keydown', closeOnEsc);
     
-    // Auto-remover después de 5 segundos
     const autoRemove = setTimeout(() => {
         if (notification.parentNode) {
             closeNotification(notification);
         }
     }, 5000);
     
-    // Pausar auto-remove al hover
     notification.addEventListener('mouseenter', () => {
         clearTimeout(autoRemove);
     });
@@ -728,53 +872,51 @@ function initPortfolioModals() {
             const title = titleElement.textContent;
             const shortDescription = descriptionElement ? descriptionElement.textContent : '';
             
-            // Descripciones detalladas
             const detailedDescriptions = [
                 {
                     title: "Tarjetas Personales Corporativas",
-                    description: "En IMPRESIONES GRAFIC diseñamos tarjetas de presentación que no solo transmiten información, sino que cuentan la historia de tu marca. Utilizamos materiales premium como cartulina couché de 300g, acabados en relieve, troquelados especiales y barniz UV selectivo para crear piezas que dejan una impresión duradera.",
-                    features: ["Diseño personalizado con 3 revisiones", "Materiales premium (cartulina 300g)", "Acabados especiales (relieve, troquelado)", "Impresión full color de alta resolución", "Entrega en 48 horas hábiles", "Mínimo 100 unidades"],
+                    description: "En IMPRESIONES GRAFIC diseñamos tarjetas de presentación que no solo transmiten información, sino que cuentan la historia de tu marca.",
+                    features: ["Diseño personalizado con 3 revisiones", "Materiales premium (cartulina 300g)", "Acabados especiales", "Impresión full color de alta resolución"],
                     price: "Desde Bs. 150",
                     delivery: "48 horas"
                 },
                 {
                     title: "Reconocimientos Personalizados",
-                    description: "Nuestros reconocimientos y diplomas son diseñados para premiar la excelencia. Trabajamos con papeles especiales como pergamino, texturizados y con marcas de agua, incorporando elementos gráficos que reflejan la importancia del logro. Cada pieza es única y diseñada según la institución o evento.",
-                    features: ["Diseño elegante y formal", "Papeles especiales (pergamino, texturizados)", "Marcos de madera o acrílico opcional", "Personalización completa de textos", "Numeración y validación oficial", "Embalaje protector premium"],
+                    description: "Nuestros reconocimientos y diplomas son diseñados para premiar la excelencia.",
+                    features: ["Diseño elegante y formal", "Papeles especiales", "Personalización completa", "Numeración oficial"],
                     price: "Desde Bs. 80",
                     delivery: "72 horas"
                 },
                 {
                     title: "Trofeos Exclusivos",
-                    description: "Creamos trofeos que se convierten en símbolos de logro y reconocimiento. Combinamos diferentes materiales como cristal tallado, acrílico láser, metal cromado y bases de mármol sintético para piezas realmente memorables. Cada trofeo cuenta una historia de triunfo.",
-                    features: ["Combinación de materiales premium", "Grabado láser personalizado", "Bases estables y elegantes", "Diseño exclusivo para cada evento", "Embalaje de lujo con espuma", "Instalación en evento (opcional)"],
+                    description: "Creamos trofeos que se convierten en símbolos de logro y reconocimiento.",
+                    features: ["Combinación de materiales premium", "Grabado láser personalizado", "Diseño exclusivo", "Embalaje de lujo"],
                     price: "Desde Bs. 200",
                     delivery: "5-7 días"
                 },
                 {
                     title: "Invitaciones Elegantes",
-                    description: "Transformamos tus momentos especiales en recuerdos tangibles. Diseñamos invitaciones que anticipan la magia de tu evento, utilizando técnicas como letterpress, foil stamping, cortes láser y papeles especiales importados. Cada detalle es cuidadosamente considerado.",
-                    features: ["Diseño único para cada evento", "Papeles importados de alta calidad", "Técnicas especiales (foil, relieve)", "Sobres personalizados y lacrados", "Coordinación completa del diseño", "Muestras físicas antes de producción"],
+                    description: "Transformamos tus momentos especiales en recuerdos tangibles.",
+                    features: ["Diseño único para cada evento", "Papeles importados", "Técnicas especiales", "Sobres personalizados"],
                     price: "Desde Bs. 3 por unidad",
                     delivery: "5 días"
                 },
                 {
                     title: "Afiches Publicitarios",
-                    description: "Diseñamos afiches que no solo informan, sino que impactan y persuaden. Trabajamos con impresión de gran formato hasta 150x100cm, materiales resistentes a la intemperie y técnicas de visualización estratégica para maximizar el alcance de tu mensaje.",
-                    features: ["Gran formato hasta 150x100cm", "Materiales resistentes a la intemperie", "Impresión en alta resolución", "Diseño optimizado para visualización", "Instalación profesional incluida", "Resistencia UV para exteriores"],
+                    description: "Diseñamos afiches que no solo informan, sino que impactan y persuaden.",
+                    features: ["Gran formato hasta 150x100cm", "Materiales resistentes", "Impresión alta resolución", "Instalación profesional"],
                     price: "Desde Bs. 50",
                     delivery: "24-48 horas"
                 },
                 {
                     title: "Certificados Institucionales",
-                    description: "Documentos oficiales que otorgan validez y prestigio. Diseñamos certificados con elementos de seguridad, numeración serial, marcas de agua y firmas digitales, garantizando autenticidad y profesionalismo para instituciones educativas, empresas y organizaciones.",
-                    features: ["Elementos de seguridad integrados", "Numeración serial consecutiva", "Marcas de agua y fondos seguridad", "Papeles de calidad archivística", "Validación oficial y firmas", "Diseño acorde a normativa institucional"],
+                    description: "Documentos oficiales que otorgan validez y prestigio.",
+                    features: ["Elementos de seguridad", "Numeración serial", "Marcas de agua", "Validación oficial"],
                     price: "Desde Bs. 25 por unidad",
                     delivery: "3 días"
                 }
             ];
             
-            // Obtener descripción detallada
             const detailedInfo = detailedDescriptions[index] || {
                 title: title,
                 description: shortDescription,
@@ -783,16 +925,13 @@ function initPortfolioModals() {
                 delivery: "Variable"
             };
             
-            // Crear modal
             const modal = createPortfolioModal(detailedInfo, imageSrc);
             document.body.appendChild(modal);
             document.body.style.overflow = 'hidden';
             
-            // Configurar funcionalidades del modal
             setupModalFunctionality(modal);
         });
         
-        // Soporte para teclado
         btn.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -840,37 +979,20 @@ function createPortfolioModal(detailedInfo, imageSrc) {
                             <p>${detailedInfo.delivery}</p>
                         </div>
                     </div>
-                    <div class="detail-item">
-                        <i class="fas fa-palette" aria-hidden="true"></i>
-                        <div>
-                            <h5>Diseño incluido</h5>
-                            <p>3 revisiones</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-award" aria-hidden="true"></i>
-                        <div>
-                            <h5>Garantía</h5>
-                            <p>100% satisfacción</p>
-                        </div>
-                    </div>
                 </div>
                 
                 <div class="modal-actions">
                     <button class="btn-primary" onclick="scrollToContact('${detailedInfo.title.split(' ')[0].toLowerCase()}')">
-                        <i class="fas fa-comments" aria-hidden="true"></i> Solicitar presupuesto personalizado
+                        <i class="fas fa-comments" aria-hidden="true"></i> Solicitar presupuesto
                     </button>
                     <button class="btn-secondary modal-close-btn">
                         <i class="fas fa-times" aria-hidden="true"></i> Cerrar
                     </button>
                 </div>
-                
-                <p class="modal-note"><i class="fas fa-info-circle" aria-hidden="true"></i> Los precios pueden variar según cantidad, materiales y especificaciones del proyecto.</p>
             </div>
         </div>
     `;
     
-    // Agregar estilos si no existen
     if (!document.querySelector('#modal-styles')) {
         addModalStyles();
     }
@@ -902,7 +1024,6 @@ function addModalStyles() {
             bottom: 0;
             background: rgba(0,0,0,0.9);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
         }
         .modal-content {
             position: relative;
@@ -936,11 +1057,6 @@ function addModalStyles() {
             font-size: 24px;
             cursor: pointer;
             z-index: 1;
-            transition: all 0.3s ease;
-        }
-        .modal-close:hover {
-            background: rgba(255,255,255,0.2);
-            transform: rotate(90deg);
         }
         .modal-content img {
             width: 100%;
@@ -960,27 +1076,13 @@ function addModalStyles() {
             color: rgba(255,255,255,0.8);
             line-height: 1.6;
             margin-bottom: 25px;
-            font-size: 1rem;
-        }
-        .modal-features {
-            margin-bottom: 25px;
-        }
-        .modal-features h4 {
-            color: white;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .modal-features h4 i {
-            color: var(--accent-color);
         }
         .modal-features ul {
             list-style: none;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
+            margin-bottom: 25px;
         }
         @media (max-width: 768px) {
             .modal-features ul {
@@ -993,26 +1095,12 @@ function addModalStyles() {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 0.9rem;
-        }
-        .modal-features li i {
-            color: var(--secondary-color);
-            font-size: 0.8rem;
         }
         .modal-details-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             margin-bottom: 25px;
-            background: rgba(255,255,255,0.05);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        @media (max-width: 480px) {
-            .modal-details-grid {
-                grid-template-columns: 1fr;
-            }
         }
         .detail-item {
             display: flex;
@@ -1034,7 +1122,6 @@ function addModalStyles() {
             color: rgba(255,255,255,0.9);
             font-size: 0.85rem;
             margin-bottom: 5px;
-            font-weight: 600;
         }
         .detail-item p {
             color: rgba(255,255,255,0.7);
@@ -1042,14 +1129,13 @@ function addModalStyles() {
             margin: 0;
         }
         .detail-item .price {
-            color: var(--accent-color);
+            color: #FF6B6B;
             font-weight: 700;
             font-size: 1rem;
         }
         .modal-actions {
             display: flex;
             gap: 15px;
-            margin-bottom: 20px;
         }
         @media (max-width: 480px) {
             .modal-actions {
@@ -1064,18 +1150,11 @@ function addModalStyles() {
             border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            font-size: 0.95rem;
-            min-height: 48px;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
         .btn-secondary {
             background: rgba(255,255,255,0.1);
@@ -1085,43 +1164,10 @@ function addModalStyles() {
             border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            font-size: 0.95rem;
-            min-height: 48px;
-        }
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        .modal-note {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.8rem;
-            text-align: center;
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .modal-note i {
-            color: var(--secondary-color);
-        }
-        @media (max-width: 768px) {
-            .portfolio-modal {
-                padding: 10px;
-            }
-            .modal-content img {
-                height: 200px;
-            }
-            .modal-info {
-                padding: 20px;
-            }
-            .modal-info h3 {
-                font-size: 1.3rem;
-            }
         }
     `;
     document.head.appendChild(style);
@@ -1146,7 +1192,6 @@ function setupModalFunctionality(modal) {
     if (closeBtn2) closeBtn2.addEventListener('click', closeModal);
     if (overlay) overlay.addEventListener('click', closeModal);
     
-    // Focus trap
     const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
     if (focusableElements.length > 0) {
         const firstFocusableElement = focusableElements[0];
@@ -1156,7 +1201,6 @@ function setupModalFunctionality(modal) {
             setTimeout(() => firstFocusableElement.focus(), 100);
         }
         
-        // Teclado
         modal.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeModal();
@@ -1179,12 +1223,14 @@ function setupModalFunctionality(modal) {
     }
 }
 
-// ===== FORM VALIDATION OPTIMIZADA =====
+// ===== FORM VALIDATION =====
 function initFormValidation() {
     const forms = document.querySelectorAll('form');
     
     forms.forEach(form => {
-        form.addEventListener('submit', handleFormSubmit);
+        form.addEventListener('submit', function(e) {
+            // Ya tenemos handleSubmit global
+        });
         setupFormValidation(form);
     });
 }
@@ -1193,42 +1239,14 @@ function setupFormValidation(form) {
     const inputs = form.querySelectorAll('input, textarea, select');
     
     inputs.forEach(input => {
-        // Validación en tiempo real
         input.addEventListener('blur', () => {
             validateInput(input);
         });
         
-        // Limpiar errores al escribir
         input.addEventListener('input', () => {
             clearError(input);
         });
-        
-        // Submit con Enter en textarea
-        if (input.tagName === 'TEXTAREA') {
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    const submitBtn = form.querySelector('button[type="submit"]');
-                    if (submitBtn) {
-                        submitBtn.click();
-                    }
-                }
-            });
-        }
     });
-}
-
-function validateForm(form) {
-    const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
-    let isValid = true;
-    
-    inputs.forEach(input => {
-        if (!validateInput(input)) {
-            isValid = false;
-        }
-    });
-    
-    return isValid;
 }
 
 function validateInput(input) {
@@ -1236,7 +1254,6 @@ function validateInput(input) {
     let isValid = true;
     let errorMessage = '';
     
-    // Validaciones básicas
     if (input.hasAttribute('required') && !value) {
         isValid = false;
         errorMessage = 'Este campo es requerido';
@@ -1275,20 +1292,14 @@ function showInputError(input, message) {
     error.textContent = message;
     error.setAttribute('role', 'alert');
     error.style.cssText = `
-        color: var(--accent-color);
+        color: #FF6B6B;
         font-size: 0.85rem;
         margin-top: 5px;
         animation: fadeIn 0.3s ease;
     `;
     
     input.parentNode.appendChild(error);
-    input.style.borderColor = 'var(--accent-color)';
-    input.style.boxShadow = '0 0 0 2px rgba(255, 107, 107, 0.1)';
-    
-    // Enfocar el input si es el primer error
-    if (!document.querySelector('.input-error:first-of-type')) {
-        setTimeout(() => input.focus(), 100);
-    }
+    input.style.borderColor = '#FF6B6B';
 }
 
 function clearError(input) {
@@ -1297,16 +1308,14 @@ function clearError(input) {
         error.remove();
     }
     input.style.borderColor = '';
-    input.style.boxShadow = '';
 }
 
-// ===== SMOOTH SCROLLING AND ACTIVE MENU ITEM OPTIMIZADO =====
+// ===== SMOOTH SCROLLING AND ACTIVE MENU ITEM =====
 const sections = document.querySelectorAll('.section');
 const menuItems = document.querySelectorAll('.menu-item');
 const header = document.getElementById('header');
 const scrollToTopBtn = document.getElementById('scrollToTop');
 
-// Update active menu item on scroll
 function updateActiveMenuItem() {
     const scrollPosition = window.scrollY + 100;
     let currentSection = '';
@@ -1331,7 +1340,6 @@ function updateActiveMenuItem() {
         }
     });
 
-    // Header background on scroll
     if (header) {
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
@@ -1340,7 +1348,6 @@ function updateActiveMenuItem() {
         }
     }
 
-    // Show/hide scroll to top button
     if (scrollToTopBtn) {
         if (window.scrollY > 500) {
             scrollToTopBtn.classList.add('visible');
@@ -1352,7 +1359,6 @@ function updateActiveMenuItem() {
     }
 }
 
-// Throttle scroll event
 let scrollTimeout;
 window.addEventListener('scroll', () => {
     if (!scrollTimeout) {
@@ -1363,7 +1369,6 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Smooth scroll to section
 menuItems.forEach(item => {
     item.addEventListener('click', (e) => {
         const targetId = item.getAttribute('href');
@@ -1373,7 +1378,6 @@ menuItems.forEach(item => {
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                // Cerrar menú móvil si está abierto
                 if (window.innerWidth <= 768) {
                     if (menuToggle) {
                         menuToggle.classList.remove('active');
@@ -1394,14 +1398,12 @@ menuItems.forEach(item => {
                     behavior: 'smooth'
                 });
                 
-                // Actualizar URL sin recargar
                 history.pushState(null, null, targetId);
             }
         }
     });
 });
 
-// Logo click to scroll to top
 const logoContainer = document.querySelector('.logo-container');
 if (logoContainer) {
     logoContainer.addEventListener('click', (e) => {
@@ -1411,13 +1413,11 @@ if (logoContainer) {
     });
 }
 
-// Scroll to top button
 if (scrollToTopBtn) {
     scrollToTopBtn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Keyboard support for scroll to top
     scrollToTopBtn.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -1426,9 +1426,8 @@ if (scrollToTopBtn) {
     });
 }
 
-// ===== PDF VIEWER OPTIMIZADO =====
+// ===== PDF VIEWER =====
 function openPdfViewer(pdfUrl, title = 'Catálogo') {
-    // Crear modal
     const modal = document.createElement('div');
     modal.className = 'pdf-viewer-modal';
     modal.setAttribute('role', 'dialog');
@@ -1440,9 +1439,6 @@ function openPdfViewer(pdfUrl, title = 'Catálogo') {
             <div class="pdf-modal-header">
                 <h3 id="pdf-modal-title">${title}</h3>
                 <div class="pdf-modal-actions">
-                    <button class="btn-fullscreen" title="Pantalla completa" aria-label="Pantalla completa">
-                        <i class="fas fa-expand" aria-hidden="true"></i>
-                    </button>
                     <button class="btn-close-pdf" title="Cerrar" aria-label="Cerrar visor de PDF">
                         <i class="fas fa-times" aria-hidden="true"></i>
                     </button>
@@ -1455,228 +1451,25 @@ function openPdfViewer(pdfUrl, title = 'Catálogo') {
                     title="Visor de PDF - ${title}"
                     allowfullscreen
                     loading="lazy"
-                    aria-label="Visor de documento PDF"
                 ></iframe>
-            </div>
-            <div class="pdf-modal-footer">
-                <p><i class="fas fa-mouse-pointer" aria-hidden="true"></i> Usa las flechas para navegar • <i class="fas fa-search-plus" aria-hidden="true"></i> Rueda del mouse para zoom</p>
-                <p class="pdf-note"><i class="fas fa-info-circle" aria-hidden="true"></i> Catálogo de solo visualización</p>
             </div>
         </div>
     `;
     
-    // Agregar estilos si no existen
-    if (!document.querySelector('#pdf-viewer-styles')) {
-        addPdfViewerStyles();
-    }
-    
-    // Agregar al DOM
     document.body.appendChild(modal);
     document.body.style.overflow = 'hidden';
     
-    // Configurar funcionalidades
     setupPdfViewerFunctionality(modal, title);
-}
-
-function addPdfViewerStyles() {
-    const style = document.createElement('style');
-    style.id = 'pdf-viewer-styles';
-    style.textContent = `
-        .pdf-viewer-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .pdf-modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        .pdf-modal-content {
-            position: relative;
-            background: #1a1a2e;
-            border-radius: 20px;
-            width: 95%;
-            max-width: 1200px;
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            animation: modalSlideIn 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(50px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        @keyframes modalSlideOut {
-            from {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(50px) scale(0.95);
-            }
-        }
-        .pdf-modal-header {
-            padding: 20px 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0,0,0,0.3);
-            border-radius: 20px 20px 0 0;
-        }
-        .pdf-modal-header h3 {
-            color: white;
-            margin: 0;
-            font-size: 1.4rem;
-        }
-        .pdf-modal-actions {
-            display: flex;
-            gap: 10px;
-        }
-        .btn-fullscreen, .btn-close-pdf {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .btn-fullscreen:hover {
-            background: rgba(255,255,255,0.2);
-            transform: scale(1.1);
-        }
-        .btn-close-pdf:hover {
-            background: var(--accent-color);
-            transform: scale(1.1);
-        }
-        .pdf-viewer-container {
-            flex: 1;
-            padding: 20px;
-            min-height: 400px;
-        }
-        .pdf-viewer-container iframe {
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .pdf-modal-footer {
-            padding: 15px 25px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-            background: rgba(0,0,0,0.3);
-            border-radius: 0 0 20px 20px;
-        }
-        .pdf-modal-footer p {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-        }
-        .pdf-modal-footer i {
-            color: var(--secondary-color);
-            margin-right: 8px;
-        }
-        .pdf-note {
-            color: var(--accent-color) !important;
-            font-weight: 600;
-            font-size: 0.85rem !important;
-        }
-        
-        /* Modo pantalla completa */
-        .pdf-viewer-modal.fullscreen .pdf-modal-content {
-            width: 100%;
-            height: 100vh;
-            max-width: none;
-            border-radius: 0;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .pdf-viewer-modal {
-                padding: 10px;
-            }
-            .pdf-modal-content {
-                width: 100%;
-                height: 100vh;
-                border-radius: 0;
-            }
-            .pdf-viewer-container {
-                padding: 10px;
-            }
-            .pdf-modal-header {
-                padding: 15px 20px;
-            }
-            .pdf-modal-header h3 {
-                font-size: 1.2rem;
-            }
-            .pdf-modal-footer p {
-                font-size: 0.8rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .pdf-modal-header {
-                padding: 12px 15px;
-            }
-            .pdf-modal-header h3 {
-                font-size: 1.1rem;
-            }
-            .btn-fullscreen, .btn-close-pdf {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-            }
-            .pdf-viewer-container {
-                padding: 8px;
-            }
-            .pdf-modal-footer {
-                padding: 12px 15px;
-            }
-        }
-    `;
-    document.head.appendChild(style);
 }
 
 function setupPdfViewerFunctionality(modal, title) {
     const closeBtn = modal.querySelector('.btn-close-pdf');
-    const fullscreenBtn = modal.querySelector('.btn-fullscreen');
     const overlay = modal.querySelector('.pdf-modal-overlay');
-    const iframe = modal.querySelector('iframe');
     
     if (!closeBtn) return;
     
-    // Enfocar botón cerrar
     setTimeout(() => closeBtn.focus(), 100);
     
-    // Cerrar modal
     const closeModal = () => {
         modal.style.animation = 'modalSlideOut 0.3s ease';
         setTimeout(() => {
@@ -1690,43 +1483,11 @@ function setupPdfViewerFunctionality(modal, title) {
     closeBtn.addEventListener('click', closeModal);
     if (overlay) overlay.addEventListener('click', closeModal);
     
-    // Pantalla completa
-    if (fullscreenBtn) {
-        fullscreenBtn.addEventListener('click', () => {
-            modal.classList.toggle('fullscreen');
-            const icon = fullscreenBtn.querySelector('i');
-            if (modal.classList.contains('fullscreen')) {
-                icon.className = 'fas fa-compress';
-                fullscreenBtn.title = 'Salir de pantalla completa';
-                fullscreenBtn.setAttribute('aria-label', 'Salir de pantalla completa');
-            } else {
-                icon.className = 'fas fa-expand';
-                fullscreenBtn.title = 'Pantalla completa';
-                fullscreenBtn.setAttribute('aria-label', 'Pantalla completa');
-            }
-        });
-    }
-    
-    // Focus trap y teclado
     modal.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            if (modal.classList.contains('fullscreen')) {
-                modal.classList.remove('fullscreen');
-                if (fullscreenBtn) {
-                    fullscreenBtn.querySelector('i').className = 'fas fa-expand';
-                    fullscreenBtn.title = 'Pantalla completa';
-                    fullscreenBtn.setAttribute('aria-label', 'Pantalla completa');
-                }
-            } else {
-                closeModal();
-            }
+            closeModal();
         }
     });
-    
-    // Enfocar iframe después de un momento
-    if (iframe) {
-        setTimeout(() => iframe.focus(), 300);
-    }
 }
 
 // ===== AJUSTES RESPONSIVE =====
@@ -1735,16 +1496,13 @@ function adjustCoverflowForScreen() {
     const height = window.innerHeight;
     isMobile = width <= 768;
     
-    // CONFIGURACIÓN DEL MENÚ SEGÚN TAMAÑO
     if (menuToggle && mainMenu) {
         if (width <= 768) {
-            // MÓVIL: Mostrar hamburguesa
             menuToggle.style.display = 'flex';
             if (!mainMenu.classList.contains('active')) {
                 mainMenu.style.display = 'none';
             }
         } else {
-            // DESKTOP: Ocultar hamburguesa, mostrar menú
             menuToggle.style.display = 'none';
             mainMenu.style.display = 'flex';
             mainMenu.classList.remove('active');
@@ -1756,7 +1514,6 @@ function adjustCoverflowForScreen() {
         }
     }
     
-    // Ajustar tamaño de items según dispositivo
     if (width < 480) {
         items.forEach(item => {
             item.style.width = '160px';
@@ -1779,7 +1536,6 @@ function adjustCoverflowForScreen() {
         });
     }
     
-    // Ajustar altura del contenedor
     if (isMobile && width > height) {
         if (container) container.style.height = '250px';
     } else {
@@ -1789,14 +1545,12 @@ function adjustCoverflowForScreen() {
     updateCoverflow();
 }
 
-// Throttle resize event
 let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
         adjustCoverflowForScreen();
         
-        // Cerrar menú móvil al cambiar a desktop
         if (window.innerWidth > 768) {
             if (menuToggle) {
                 menuToggle.classList.remove('active');
@@ -1810,111 +1564,86 @@ window.addEventListener('resize', () => {
             document.body.style.overflow = '';
         }
         
-        // Actualizar detección de dispositivo
         isMobile = window.innerWidth <= 768;
     }, 250);
 });
 
 // ===== INICIALIZACIÓN COMPLETA =====
 function initAll() {
-    console.log('Inicializando IMPRESIONES GRAFIC...');
+    console.log('Inicializando IMPRESIONES GRAFIC con Supabase...');
     
-    // Detectar dispositivo
     detectDeviceAndBrowser();
     
-    // CONFIGURACIÓN INICIAL DEL MENÚ
     const width = window.innerWidth;
-    console.log('Ancho inicial:', width, 'px');
     
     if (menuToggle && mainMenu) {
         if (width <= 768) {
-            // MÓVIL
             menuToggle.style.display = 'flex';
             mainMenu.style.display = 'none';
             menuToggle.classList.remove('active');
             menuToggle.setAttribute('aria-expanded', 'false');
-            console.log('Configurado para móvil');
         } else {
-            // DESKTOP
             menuToggle.style.display = 'none';
             mainMenu.style.display = 'flex';
             mainMenu.classList.remove('active');
             menuToggle.classList.remove('active');
             menuToggle.setAttribute('aria-expanded', 'false');
             document.body.style.overflow = '';
-            console.log('Configurado para desktop');
         }
     }
     
-    // Inicializar componentes en orden
     createDots();
     initializeImages();
     updateCoverflow();
     
-    // Configurar coverflow
     if (container) {
         container.setAttribute('tabindex', '0');
         container.setAttribute('aria-label', 'Galería de trabajos - Use flechas para navegar');
     }
     
-    // Inicializar autoplay (más lento en móvil)
     setTimeout(() => {
         startAutoplay();
     }, 1000);
     
-    // Inicializar otras funcionalidades
     initPortfolioFilter();
     initPortfolioModals();
     initFormValidation();
     
-    // Actualizar menú activo
     updateActiveMenuItem();
-    
-    // Configurar ARIA attributes
     setAriaAttributes();
-    
-    // Ajustar coverflow para pantalla actual
     adjustCoverflowForScreen();
     
-    // Marcar como cargado
     document.body.classList.add('loaded');
     
-    console.log('Sitio inicializado correctamente');
+    console.log('Sitio inicializado correctamente con Supabase');
 }
 
-// Configurar ARIA attributes
 function setAriaAttributes() {
-    // Menu toggle
     if (menuToggle) {
         menuToggle.setAttribute('aria-label', 'Abrir menú');
         menuToggle.setAttribute('aria-expanded', 'false');
         menuToggle.setAttribute('aria-controls', 'mainMenu');
     }
     
-    // Main menu
     if (mainMenu) {
         mainMenu.setAttribute('aria-label', 'Menú principal');
     }
     
-    // Coverflow container
     if (container) {
         container.setAttribute('aria-label', 'Galería de trabajos');
         container.setAttribute('aria-roledescription', 'carousel');
         container.setAttribute('aria-live', 'polite');
     }
     
-    // Navigation buttons
     const prevBtn = document.querySelector('.nav-button.prev');
     const nextBtn = document.querySelector('.nav-button.next');
     
     if (prevBtn) prevBtn.setAttribute('aria-label', 'Imagen anterior');
     if (nextBtn) nextBtn.setAttribute('aria-label', 'Siguiente imagen');
     
-    // Play/Pause button
     const playPauseBtn = document.getElementById('playPauseBtn');
     if (playPauseBtn) playPauseBtn.setAttribute('aria-label', 'Reproducir presentación automática');
     
-    // Service cards
     document.querySelectorAll('.servicio-card').forEach((card, index) => {
         card.setAttribute('role', 'article');
         const title = card.querySelector('h3');
@@ -1923,7 +1652,6 @@ function setAriaAttributes() {
         }
     });
     
-    // Portfolio items
     document.querySelectorAll('.portfolio-item').forEach((item, index) => {
         item.setAttribute('role', 'article');
         const title = item.querySelector('h4');
@@ -1932,7 +1660,6 @@ function setAriaAttributes() {
         }
     });
     
-    // Catalog cards
     document.querySelectorAll('.catalogo-card').forEach((card, index) => {
         card.setAttribute('role', 'button');
         card.setAttribute('tabindex', '0');
@@ -1948,7 +1675,6 @@ function setAriaAttributes() {
         });
     });
     
-    // Form elements
     const form = document.getElementById('consultaForm');
     if (form) {
         form.setAttribute('aria-label', 'Formulario de contacto');
@@ -1969,7 +1695,6 @@ function setAriaAttributes() {
 
 // ===== LOADING Y WELCOME =====
 window.addEventListener('load', function() {
-    // Remover estado de carga si existe
     const loadingElement = document.querySelector('.loading');
     if (loadingElement) {
         loadingElement.style.opacity = '0';
@@ -1978,19 +1703,15 @@ window.addEventListener('load', function() {
         }, 300);
     }
     
-    // Inicializar todo
     initAll();
     
-    // Mostrar notificación de bienvenida
     setTimeout(() => {
         showNotification('👋 ¡Bienvenido a IMPRESIONES GRAFIC! Explora nuestros servicios de diseño e impresión.', 'info');
     }, 2000);
     
-    // Marcar como completamente cargado
     document.body.classList.add('fully-loaded');
 });
 
-// Inicializar en DOM ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAll);
 } else {
@@ -2005,7 +1726,7 @@ window.goToIndex = goToIndex;
 window.toggleAutoplay = toggleAutoplay;
 window.openPdfViewer = openPdfViewer;
 
-// ===== ERROR HANDLING Y PERFORMANCE =====
+// ===== ERROR HANDLING =====
 window.addEventListener('error', (e) => {
     console.error('Error en la aplicación:', e.error);
 });
@@ -2014,51 +1735,19 @@ window.addEventListener('unhandledrejection', (e) => {
     console.error('Promesa rechazada no manejada:', e.reason);
 });
 
-// Performance monitoring
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    window.addEventListener('load', () => {
-        if ('performance' in window) {
-            const perfData = window.performance.getEntriesByType('navigation')[0];
-            if (perfData) {
-                console.log('Performance:', {
-                    'DOM Loaded': perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
-                    'Load Complete': perfData.loadEventEnd - perfData.loadEventStart,
-                    'Total Time': perfData.loadEventEnd - perfData.fetchStart
-                });
-            }
-        }
-    });
-}
-
-// Optimizaciones para Android específicas
+// Optimizaciones para Android
 if (isAndroid) {
-    console.log('Aplicando optimizaciones específicas para Android');
-    
-    // Reducir animaciones en Android
     document.documentElement.style.setProperty('--transition-normal', '0.25s ease');
     document.documentElement.style.setProperty('--transition-slow', '0.4s ease');
     
-    // Detener autoplay en conexiones lentas
     if (document.body.classList.contains('slow-connection')) {
         stopAutoplay();
     }
 }
 
-// Optimizaciones para iOS específicas
+// Optimizaciones para iOS
 if (isIOS) {
-    console.log('Aplicando optimizaciones específicas para iOS');
-    
-    // Mejorar scroll en iOS
     document.querySelectorAll('.section').forEach(section => {
         section.style.webkitOverflowScrolling = 'touch';
-    });
-}
-
-// Service Worker (opcional)
-if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(error => {
-            console.log('Service Worker no registrado:', error);
-        });
     });
 }

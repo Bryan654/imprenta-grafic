@@ -378,7 +378,7 @@ p {
 
     .menu-item {
         width: 100%;
-        max-width: 280px;
+        max-width: 300px;
         padding: 18px 20px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         font-size: 18px;
@@ -388,7 +388,7 @@ p {
         color: rgba(255, 255, 255, 0.9);
         transition: all 0.3s ease;
         border-radius: 12px;
-        margin: 8px 0;
+        margin: 0;
         background: rgba(255, 255, 255, 0.05);
     }
 
@@ -413,7 +413,7 @@ p {
 
     .menu-item:last-child {
         border-bottom: none;
-        margin-bottom: 20px;
+        margin-bottom: 0;
     }
 
     /* Ajuste especial para pantallas muy pequeñas */
@@ -3274,6 +3274,7 @@ body.fully-loaded {
         display: block;
     }
 }
+
 
 
 

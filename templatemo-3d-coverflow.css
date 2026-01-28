@@ -353,7 +353,7 @@ p {
         justify-content: center;
         align-items: center;
         padding: 80px 30px 40px;
-        gap: 0;
+        gap: 10px;
         z-index: 999;
         overflow: hidden;
         animation: menuFadeIn 0.3s ease;
@@ -3274,6 +3274,7 @@ body.fully-loaded {
         display: block;
     }
 }
+
 
 
 

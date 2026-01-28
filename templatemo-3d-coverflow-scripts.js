@@ -57,16 +57,20 @@ function detectDeviceAndBrowser() {
 
 // ===== COVERFLOW FUNCTIONS OPTIMIZADAS =====
 
-// Mobile menu toggle - OPTIMIZADO PARA TACTO
+// Mobile menu toggle - OPTIMIZADO Y CORREGIDO
 menuToggle.addEventListener('click', (e) => {
     e.stopPropagation();
+    
+    // Toggle classes
     menuToggle.classList.toggle('active');
-    mainMenu.classList.toggle('active');
+    mainMenu.classList.toggle('menu-open');
+    
+    // Update ARIA attributes
     const isExpanded = menuToggle.classList.contains('active');
     menuToggle.setAttribute('aria-expanded', isExpanded);
     menuToggle.setAttribute('aria-label', isExpanded ? 'Cerrar menú' : 'Abrir menú');
     
-    // Bloquear scroll cuando el menú está abierto
+    // Lock scroll when menu is open
     document.body.style.overflow = isExpanded ? 'hidden' : '';
 });
 
@@ -75,7 +79,7 @@ document.querySelectorAll('.menu-item').forEach(item => {
     item.addEventListener('click', (e) => {
         if (window.innerWidth <= 768) {
             menuToggle.classList.remove('active');
-            mainMenu.classList.remove('active');
+            mainMenu.classList.remove('menu-open');
             menuToggle.setAttribute('aria-expanded', 'false');
             menuToggle.setAttribute('aria-label', 'Abrir menú');
             document.body.style.overflow = '';
@@ -85,10 +89,10 @@ document.querySelectorAll('.menu-item').forEach(item => {
 
 // Cerrar menú al hacer clic fuera
 document.addEventListener('click', (e) => {
-    if (window.innerWidth <= 768 && mainMenu.classList.contains('active')) {
+    if (window.innerWidth <= 768 && mainMenu.classList.contains('menu-open')) {
         if (!menuToggle.contains(e.target) && !mainMenu.contains(e.target)) {
             menuToggle.classList.remove('active');
-            mainMenu.classList.remove('active');
+            mainMenu.classList.remove('menu-open');
             menuToggle.setAttribute('aria-expanded', 'false');
             menuToggle.setAttribute('aria-label', 'Abrir menú');
             document.body.style.overflow = '';
@@ -98,9 +102,9 @@ document.addEventListener('click', (e) => {
 
 // Cerrar menú con ESC
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && window.innerWidth <= 768 && mainMenu.classList.contains('active')) {
+    if (e.key === 'Escape' && window.innerWidth <= 768 && mainMenu.classList.contains('menu-open')) {
         menuToggle.classList.remove('active');
-        mainMenu.classList.remove('active');
+        mainMenu.classList.remove('menu-open');
         menuToggle.setAttribute('aria-expanded', 'false');
         menuToggle.setAttribute('aria-label', 'Abrir menú');
         document.body.style.overflow = '';
@@ -1325,7 +1329,7 @@ menuItems.forEach(item => {
                 // Cerrar menú móvil si está abierto
                 if (window.innerWidth <= 768) {
                     menuToggle.classList.remove('active');
-                    mainMenu.classList.remove('active');
+                    mainMenu.classList.remove('menu-open');
                     menuToggle.setAttribute('aria-expanded', 'false');
                     menuToggle.setAttribute('aria-label', 'Abrir menú');
                     document.body.style.overflow = '';
@@ -1710,7 +1714,7 @@ window.addEventListener('resize', () => {
         // Cerrar menú móvil al cambiar a desktop
         if (window.innerWidth > 768) {
             menuToggle.classList.remove('active');
-            mainMenu.classList.remove('active');
+            mainMenu.classList.remove('menu-open');
             menuToggle.setAttribute('aria-expanded', 'false');
             menuToggle.setAttribute('aria-label', 'Abrir menú');
             document.body.style.overflow = '';

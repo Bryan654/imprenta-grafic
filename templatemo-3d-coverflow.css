@@ -336,9 +336,21 @@ p {
     transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* ===== MENÚ HAMBURGUESA MEJORADO - PANTALLA COMPLETA ===== */
-/* MODIFICACIONES PRINCIPALES PARA EL MENÚ MÓVIL */
+/* ===== MENÚ HAMBURGUESA MEJORADO - VERSIÓN CORREGIDA ===== */
 @media (max-width: 768px) {
+    .header {
+        padding: 0 20px;
+        height: 70px;
+    }
+
+    .header.scrolled {
+        height: 65px;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
     .main-menu {
         display: none;
         position: fixed;
@@ -346,30 +358,14 @@ p {
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.97);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
+        background: #000000; /* Negro 100% sólido */
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 80px 30px 40px;
-        gap: 10px;
+        padding: 20px;
+        gap: 15px;
         z-index: 999;
-        overflow: hidden;
-        animation: menuFadeIn 0.3s ease;
-    }
-
-    @keyframes menuFadeIn {
-        from {
-            opacity: 0;
-            backdrop-filter: blur(0px);
-            -webkit-backdrop-filter: blur(0px);
-        }
-        to {
-            opacity: 1;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-        }
+        overflow-y: auto;
     }
 
     .main-menu.active {
@@ -377,86 +373,46 @@ p {
     }
 
     .menu-item {
-        width: 100%;
-        max-width: 300px;
+        width: 90%;
+        max-width: 280px;
         padding: 18px 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         font-size: 18px;
-        font-weight: 700;
+        font-weight: 600;
         text-align: center;
-        letter-spacing: 1px;
-        color: rgba(255, 255, 255, 0.9);
+        color: white;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-decoration: none;
         transition: all 0.3s ease;
-        border-radius: 12px;
         margin: 0;
-        background: rgba(255, 255, 255, 0.05);
+        border-bottom: none;
     }
 
-    .menu-item:hover {
-        background: rgba(102, 126, 234, 0.2);
-        color: white;
-        transform: translateY(-2px) scale(1.02);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        border-bottom: 1px solid rgba(102, 126, 234, 0.3);
-    }
-
+    .menu-item:hover,
     .menu-item.active {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
-        color: white;
-        border-bottom: 1px solid transparent;
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        background: rgba(102, 126, 234, 0.3);
+        border-color: rgba(102, 126, 234, 0.5);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
     }
 
     .menu-item::after {
         display: none;
     }
 
-    .menu-item:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
+    .logo-text {
+        font-size: 20px;
     }
 
-    /* Ajuste especial para pantallas muy pequeñas */
-    @media (max-height: 600px) {
-        .menu-item {
-            padding: 14px 20px;
-            font-size: 16px;
-            margin: 5px 0;
-        }
-        
-        .main-menu {
-            padding: 70px 30px 30px;
-            justify-content: flex-start;
-            padding-top: 100px;
-            overflow-y: auto;
-        }
+    .logo {
+        width: 45px;
+        height: 45px;
     }
 
-    /* Para pantallas extremadamente pequeñas */
-    @media (max-height: 500px) {
-        .menu-item {
-            padding: 12px 20px;
-            font-size: 15px;
-            margin: 4px 0;
-        }
-        
-        .main-menu {
-            padding: 80px 25px 25px;
-        }
-    }
-
-    /* Para landscape en móviles */
-    @media (max-width: 768px) and (orientation: landscape) {
-        .main-menu {
-            padding: 70px 40px 40px;
-            justify-content: flex-start;
-        }
-        
-        .menu-item {
-            max-width: 320px;
-            padding: 15px 20px;
-            margin: 6px 0;
-        }
+    .logo-image {
+        width: 45px;
+        height: 45px;
     }
 }
 
@@ -719,6 +675,14 @@ p {
     .info {
         top: 100px;
         padding: 0 15px;
+    }
+    
+    .info .experience-text {
+        font-size: clamp(1.4rem, 4vw, 2rem);
+    }
+    
+    .info .tagline {
+        font-size: clamp(1.1rem, 3vw, 1.5rem);
     }
 }
 
@@ -998,7 +962,7 @@ p {
     position: relative;
     border-radius: var(--border-radius-lg);
     overflow: hidden;
-    height: 300px; /* Reemplaza aspect-ratio para compatibilidad */
+    height: 300px;
 }
 
 .portfolio-image {
@@ -2239,35 +2203,6 @@ p {
     transform: translateY(-3px);
 }
 
-/* Estilos de error para validación */
-.input-error {
-    color: var(--accent-color);
-    font-size: 0.8rem;
-    margin-top: 5px;
-    animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Smooth image loading */
-.image-loading {
-    background: linear-gradient(45deg, #333, #555);
-    position: relative;
-}
-
-.image-loading::after {
-    content: '📷';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 40px;
-    opacity: 0.5;
-}
-
 /* ===== FOOTER OPTIMIZADO ===== */
 .footer {
     background: rgba(0, 0, 0, 0.95);
@@ -2442,249 +2377,6 @@ p {
     }
 }
 
-/* Tablet y móvil */
-@media (max-width: 768px) {
-    .header {
-        padding: 0 20px;
-        height: 70px;
-    }
-
-    .header.scrolled {
-        height: 65px;
-    }
-
-    .main-menu {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.97);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 80px 30px 40px;
-        gap: 0;
-        z-index: 999;
-        overflow: hidden;
-        animation: menuFadeIn 0.3s ease;
-    }
-
-    @keyframes menuFadeIn {
-        from {
-            opacity: 0;
-            backdrop-filter: blur(0px);
-            -webkit-backdrop-filter: blur(0px);
-        }
-        to {
-            opacity: 1;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-        }
-    }
-
-    .main-menu.active {
-        display: flex;
-    }
-
-    .menu-toggle {
-        display: flex;
-    }
-
-    .menu-item {
-        width: 100%;
-        max-width: 280px;
-        padding: 18px 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        font-size: 18px;
-        font-weight: 700;
-        text-align: center;
-        letter-spacing: 1px;
-        color: rgba(255, 255, 255, 0.9);
-        transition: all 0.3s ease;
-        border-radius: 12px;
-        margin: 8px 0;
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .menu-item:hover {
-        background: rgba(102, 126, 234, 0.2);
-        color: white;
-        transform: translateY(-2px) scale(1.02);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        border-bottom: 1px solid rgba(102, 126, 234, 0.3);
-    }
-
-    .menu-item.active {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
-        color: white;
-        border-bottom: 1px solid transparent;
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
-    }
-
-    .menu-item::after {
-        display: none;
-    }
-
-    .menu-item:last-child {
-        border-bottom: none;
-        margin-bottom: 20px;
-    }
-
-    /* Texto fijo responsive */
-    .info {
-        top: 100px;
-        padding: 0 15px;
-    }
-    
-    .info .experience-text {
-        font-size: clamp(1.4rem, 4vw, 2rem);
-    }
-    
-    .info .tagline {
-        font-size: clamp(1.1rem, 3vw, 1.5rem);
-    }
-
-    .logo-text {
-        font-size: 20px;
-    }
-
-    .logo {
-        width: 45px;
-        height: 45px;
-    }
-
-    .logo-image {
-        width: 45px;
-        height: 45px;
-    }
-
-    .about-visual {
-        height: 320px;
-    }
-
-    .showcase-display {
-        max-width: 400px;
-        height: 320px;
-    }
-
-    .showcase-main {
-        padding: 25px;
-    }
-
-    .showcase-logo {
-        width: 100px;
-        height: 100px;
-    }
-
-    .showcase-logo-image {
-        width: 70px;
-        height: 70px;
-    }
-
-    .showcase-title {
-        font-size: clamp(1.3rem, 2.5vw, 1.6rem);
-    }
-
-    .showcase-subtitle {
-        font-size: 0.95rem;
-        margin-bottom: 25px;
-    }
-
-    .corner-decoration {
-        display: none;
-    }
-
-    .stat-number {
-        font-size: clamp(1.8rem, 4vw, 2.5rem);
-    }
-
-    .contact-header h2 {
-        font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-    }
-
-    .portfolio-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    }
-    
-    .catalogos-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .catalogo-card {
-        padding: 22px;
-    }
-    
-    .catalogo-icon {
-        width: 65px;
-        height: 65px;
-        font-size: 28px;
-    }
-    
-    .catalogo-card h3 {
-        font-size: 1.2rem;
-    }
-    
-    .catalogos-nota {
-        padding: 20px;
-        margin-top: 40px;
-    }
-    
-    .catalogos-nota p {
-        font-size: 0.9rem;
-    }
-    
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-    
-    .contact-form {
-        padding: 25px;
-    }
-    
-    .footer-columns {
-        grid-template-columns: 1fr;
-        gap: 25px;
-    }
-    
-    .map-container {
-        height: 300px;
-    }
-    
-    .map-placeholder {
-        padding: 25px;
-    }
-    
-    .map-placeholder i {
-        font-size: 2.8rem;
-    }
-    
-    .map-placeholder p {
-        font-size: 1.2rem;
-    }
-
-    .whatsapp-float {
-        bottom: 25px;
-        right: 25px;
-        width: 55px;
-        height: 55px;
-        font-size: 28px;
-    }
-    
-    .scroll-to-top {
-        bottom: 25px;
-        left: 25px;
-        width: 45px;
-        height: 45px;
-        font-size: 18px;
-    }
-}
-
 /* Móvil pequeño */
 @media (max-width: 480px) {
     .header {
@@ -2716,35 +2408,6 @@ p {
         height: 35px;
     }
 
-    /* Ajustes especiales para pantallas muy pequeñas */
-    @media (max-height: 600px) {
-        .menu-item {
-            padding: 14px 20px;
-            font-size: 16px;
-            margin: 5px 0;
-        }
-        
-        .main-menu {
-            padding: 70px 30px 30px;
-            justify-content: flex-start;
-            padding-top: 100px;
-        }
-    }
-
-    /* Para pantallas extremadamente pequeñas */
-    @media (max-height: 500px) {
-        .menu-item {
-            padding: 12px 20px;
-            font-size: 15px;
-            margin: 4px 0;
-        }
-        
-        .main-menu {
-            padding: 80px 25px 25px;
-        }
-    }
-
-    /* Texto fijo responsive móvil */
     .info {
         top: 90px;
         padding: 0 10px;
@@ -2844,7 +2507,6 @@ p {
         font-size: 0.9rem;
     }
 
-    /* Additional contact section mobile optimization for small screens */
     .contact-container {
         gap: 30px;
     }
@@ -3057,20 +2719,6 @@ p {
     .showcase-display {
         height: 350px;
     }
-
-    /* Ajustes para menú en landscape */
-    @media (max-width: 768px) and (orientation: landscape) {
-        .main-menu {
-            padding: 70px 40px 40px;
-            justify-content: flex-start;
-        }
-        
-        .menu-item {
-            max-width: 320px;
-            padding: 15px 20px;
-            margin: 6px 0;
-        }
-    }
 }
 
 /* Prevent zoom on input focus for mobile */
@@ -3274,8 +2922,3 @@ body.fully-loaded {
         display: block;
     }
 }
-
-
-
-
-

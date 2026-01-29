@@ -462,7 +462,7 @@
                     <div class="coverflow-item" data-index="5" role="group" aria-label="Imagen 6 de 7: Trofeos Exclusivos">
                         <div class="cover">
                             <div class="cover-badge">Trofeos</div>
-                            <img src="images/serene-water-mirroring.jpg" 
+                            <img src="images/snowy-mountain-peaks.jpg" 
                                  alt="Trofeos Exclusivos - Reconocimientos únicos para eventos deportivos"
                                  loading="lazy"
                                  width="280"
@@ -911,7 +911,7 @@
                 <!-- Catálogo 1: Invitaciones -->
                 <div class="catalogo-card" 
                      role="listitem"
-                     onclick="openPdfViewer('catálogo de invitaciones elegantes')"
+                     onclick="openPdfViewer('invitaciones')"
                      tabindex="0"
                      aria-label="Abrir catálogo de invitaciones elegantes">
                     <div class="catalogo-icon-wrapper">
@@ -934,7 +934,7 @@
                             <span><i class="fas fa-file-pdf" aria-hidden="true"></i> PDF Interactivo</span>
                             <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
                         </div>
-                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de invitaciones" onclick="openPdfViewer('catálogo de invitaciones elegantes')">
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de invitaciones" onclick="openPdfViewer('invitaciones')">
                             <span>Ver Catálogo</span>
                             <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                         </button>
@@ -945,7 +945,7 @@
                 <!-- Catálogo 2: Medallas -->
                 <div class="catalogo-card" 
                      role="listitem"
-                     onclick="openPdfViewer('catálogo de medallas y accesorios')"
+                     onclick="openPdfViewer('medallas')"
                      tabindex="0"
                      aria-label="Abrir catálogo de medallas y accesorios">
                     <div class="catalogo-icon-wrapper">
@@ -968,7 +968,7 @@
                             <span><i class="fas fa-gem" aria-hidden="true"></i> Alta Calidad</span>
                             <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
                         </div>
-                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de medallas y accesorios" onclick="openPdfViewer('catálogo de medallas y accesorios')">
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de medallas y accesorios" onclick="openPdfViewer('medallas')">
                             <span>Ver Catálogo</span>
                             <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                         </button>
@@ -979,7 +979,7 @@
                 <!-- Catálogo 3: Pines -->
                 <div class="catalogo-card" 
                      role="listitem"
-                     onclick="openPdfViewer('catálogo de pines personalizados')"
+                     onclick="openPdfViewer('pines')"
                      tabindex="0"
                      aria-label="Abrir catálogo de pines personalizados">
                     <div class="catalogo-icon-wrapper">
@@ -1002,7 +1002,7 @@
                             <span><i class="fas fa-palette" aria-hidden="true"></i> Personalizable</span>
                             <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
                         </div>
-                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de pines personalizados" onclick="openPdfViewer('catálogo de pines personalizados')">
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de pines personalizados" onclick="openPdfViewer('pines')">
                             <span>Ver Catálogo</span>
                             <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                         </button>
@@ -1013,7 +1013,7 @@
                 <!-- Catálogo 4: Porta Certificados -->
                 <div class="catalogo-card" 
                      role="listitem"
-                     onclick="openPdfViewer('catálogo de porta certificados')"
+                     onclick="openPdfViewer('porta-certificados')"
                      tabindex="0"
                      aria-label="Abrir catálogo de porta certificados">
                     <div class="catalogo-icon-wrapper">
@@ -1036,7 +1036,7 @@
                             <span><i class="fas fa-folder-open" aria-hidden="true"></i> Varios modelos</span>
                             <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
                         </div>
-                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de porta certificados" onclick="openPdfViewer('catálogo de porta certificados')">
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de porta certificados" onclick="openPdfViewer('porta-certificados')">
                             <span>Ver Catálogo</span>
                             <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                         </button>
@@ -1931,118 +1931,111 @@
     
     <!-- SCRIPT DE INICIALIZACIÓN INLINE -->
     <script>
-        // Función para abrir PDF Viewer con imágenes de tus catálogos
-        function openPdfViewer(title) {
+        // Función para abrir PDF Viewer con archivos PDF reales
+        function openPdfViewer(catalogoTipo) {
             const modal = document.getElementById('pdfModal');
             const modalTitle = document.getElementById('pdfModalTitle');
             const modalContent = document.getElementById('pdfModalContent');
             
-            modalTitle.textContent = title;
+            // Mapeo de catálogos a archivos PDF
+            const catalogoMap = {
+                'invitaciones': {
+                    title: 'Catálogo de Invitaciones Elegantes',
+                    pdfUrl: 'catalogos/catalogo-invitaciones.pdf',
+                    description: 'Diseños exclusivos para bodas, cumpleaños, eventos corporativos y ocasiones especiales'
+                },
+                'medallas': {
+                    title: 'Catálogo de Medallas y Accesorios en Acrílico',
+                    pdfUrl: 'catalogos/catalogo-medallas-accesorios-acrilico.pdf',
+                    description: 'Medallas de alta calidad para eventos deportivos y reconocimientos'
+                },
+                'pines': {
+                    title: 'Catálogo de Pines Personalizados',
+                    pdfUrl: 'catalogos/catalogo-pines.pdf',
+                    description: 'Pines de alta calidad para identificación corporativa, eventos y coleccionables'
+                },
+                'porta-certificados': {
+                    title: 'Catálogo de Porta Certificados',
+                    pdfUrl: 'catalogos/catalogo-porta-certificados.pdf',
+                    description: 'Elegantes portadores para diplomas, certificados y documentos importantes'
+                },
+                'reconocimientos': {
+                    title: 'Catálogo de Reconocimientos en Acrílico',
+                    pdfUrl: 'catalogos/catalogo-reconocimientos-acrilico.pdf',
+                    description: 'Reconocimientos y diplomas personalizados en acrílico de alta calidad'
+                }
+            };
             
-            // Contenido del catálogo basado en el título
+            const catalogo = catalogoMap[catalogoTipo] || {
+                title: 'Catálogo',
+                pdfUrl: '',
+                description: 'Catálogo no disponible temporalmente'
+            };
+            
+            modalTitle.textContent = catalogo.title;
+            
             let content = '';
-            let pdfImage = '';
             
-            if (title.includes('invitaciones')) {
+            // Si tenemos URL PDF, mostrarlo con visor
+            if (catalogo.pdfUrl) {
                 content = `
                     <div style="text-align: center;">
-                        <h4 style="color: #5E56E7; margin-bottom: 20px;">Catálogo de Invitaciones Elegantes</h4>
-                        <img src="catalogos/catalogo-invitaciones.jpg" alt="Catálogo de Invitaciones" style="width: 100%; max-width: 400px; border-radius: 8px; margin-bottom: 20px;">
-                        <p>Nuestro catálogo incluye más de 30 diseños exclusivos para:</p>
-                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
-                            <li>Bodas y matrimonios</li>
-                            <li>XV Años</li>
-                            <li>Cumpleaños adultos e infantiles</li>
-                            <li>Eventos corporativos</li>
-                            <li>Graduaciones</li>
-                            <li>Bautizos y primeras comuniones</li>
-                        </ul>
-                        <p><strong>Técnicas disponibles:</strong></p>
-                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
-                            <li>Letterpress</li>
-                            <li>Foil stamping (dorado, plateado, colores)</li>
-                            <li>Troquelados especiales</li>
-                            <li>Papeles importados de alta calidad</li>
-                            <li>Sobres personalizados</li>
-                        </ul>
-                    </div>
-                `;
-            } else if (title.includes('medallas')) {
-                content = `
-                    <div style="text-align: center;">
-                        <h4 style="color: #5E56E7; margin-bottom: 20px;">Catálogo de Medallas y Accesorios en Acrílico</h4>
-                        <img src="catalogos/catalogo-medallas-accesorios-acrilico.jpg" alt="Catálogo de Medallas" style="width: 100%; max-width: 400px; border-radius: 8px; margin-bottom: 20px;">
-                        <p>Medallas de alta calidad para eventos deportivos y reconocimientos:</p>
-                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
-                            <li>Medallas circulares, cuadradas y personalizadas</li>
-                            <li>Acrílico de 3mm y 5mm de grosor</li>
-                            <li>Cintas de raso en diversos colores</li>
-                            <li>Grabado láser de alta precisión</li>
-                            <li>Packaging especial para entrega</li>
-                        </ul>
-                        <p><strong>Para:</strong></p>
-                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
-                            <li>Carreras y maratones</li>
-                            <li>Torneos deportivos</li>
-                            <li>Reconocimientos empresariales</li>
-                            <li>Eventos escolares y universitarios</li>
-                            <li>Competiciones diversas</li>
-                        </ul>
-                    </div>
-                `;
-            } else if (title.includes('pines')) {
-                content = `
-                    <div style="text-align: center;">
-                        <h4 style="color: #5E56E7; margin-bottom: 20px;">Catálogo de Pines Personalizados</h4>
-                        <img src="catalogos/catalogo-pines.jpg" alt="Catálogo de Pines" style="width: 100%; max-width: 400px; border-radius: 8px; margin-bottom: 20px;">
-                        <p>Pines de alta calidad para identificación y colección:</p>
-                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
-                            <li>Pines metálicos esmaltados</li>
-                            <li>Pines de acrílico impresos</li>
-                            <li>Tamaños desde 1cm hasta 10cm</li>
-                            <li>Acabados: brillante, mate, imantado</li>
-                            <li>Clips de seguridad incluidos</li>
-                        </ul>
-                        <p><strong>Aplicaciones:</strong></p>
-                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
-                            <li>Identificación corporativa</li>
-                            <li>Eventos y conferencias</li>
-                            <li>Campañas de marketing</li>
-                            <li>Coleccionables y souvenirs</li>
-                            <li>Premios y reconocimientos</li>
-                        </ul>
-                    </div>
-                `;
-            } else if (title.includes('porta certificados')) {
-                content = `
-                    <div style="text-align: center;">
-                        <h4 style="color: #5E56E7; margin-bottom: 20px;">Catálogo de Porta Certificados</h4>
-                        <img src="catalogos/catalogo-porta-certificados.jpg" alt="Catálogo de Porta Certificados" style="width: 100%; max-width: 400px; border-radius: 8px; margin-bottom: 20px;">
-                        <p>Portadores elegantes para documentos importantes:</p>
-                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
-                            <li>Tamaños A4 y personalizados</li>
-                            <li>Materiales: cuero sintético, tela, cartón rígido</li>
-                            <li>Ventana de acetato para visualización</li>
-                            <li>Personalización con logo o nombre</li>
-                            <li>Colores disponibles: negro, azul, rojo, verde</li>
-                        </ul>
-                        <p><strong>Para:</strong></p>
-                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
-                            <li>Diplomas académicos</li>
-                            <li>Certificados profesionales</li>
-                            <li>Documentos institucionales</li>
-                            <li>Reconocimientos y premios</li>
-                            <li>Documentos legales importantes</li>
-                        </ul>
+                        <h4 style="color: #5E56E7; margin-bottom: 20px;">${catalogo.title}</h4>
+                        <p style="margin-bottom: 20px; color: rgba(255,255,255,0.8);">${catalogo.description}</p>
+                        
+                        <div class="pdf-viewer-wrapper" style="height: 400px; overflow: auto; border-radius: 8px; background: rgba(0,0,0,0.3); padding: 10px;">
+                            <object data="${catalogo.pdfUrl}" 
+                                    type="application/pdf" 
+                                    width="100%" 
+                                    height="100%"
+                                    style="border-radius: 6px;">
+                                <div style="padding: 40px; text-align: center;">
+                                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 20px;">No se puede mostrar el PDF. Por favor, descárgalo para verlo.</p>
+                                    <a href="${catalogo.pdfUrl}" 
+                                       download="${catalogo.title.replace(/\s+/g, '-').toLowerCase()}.pdf"
+                                       style="background: #5E56E7; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; display: inline-block; font-weight: 600;">
+                                        <i class="fas fa-download" aria-hidden="true"></i> Descargar PDF
+                                    </a>
+                                </div>
+                            </object>
+                        </div>
+                        
+                        <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                            <a href="${catalogo.pdfUrl}" 
+                               target="_blank" 
+                               style="background: rgba(255,255,255,0.1); color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.2);">
+                                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Abrir en nueva pestaña
+                            </a>
+                            
+                            <a href="${catalogo.pdfUrl}" 
+                               download="${catalogo.title.replace(/\s+/g, '-').toLowerCase()}.pdf"
+                               style="background: #4ECDC4; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-download" aria-hidden="true"></i> Descargar catálogo
+                            </a>
+                            
+                            <button onclick="scrollToContact('${catalogoTipo}')" 
+                                    style="background: #FF6B8B; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-quote-right" aria-hidden="true"></i> Solicitar cotización
+                            </button>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: rgba(78, 205, 196, 0.1); border-radius: 8px; border: 1px solid rgba(78, 205, 196, 0.2);">
+                            <p style="margin: 0; color: rgba(255,255,255,0.8); font-size: 0.9rem;">
+                                <i class="fas fa-info-circle" aria-hidden="true"></i> 
+                                <strong>Nota:</strong> Los precios pueden variar según personalización y cantidad. Para una cotización exacta, contáctanos directamente.
+                            </p>
+                        </div>
                     </div>
                 `;
             } else {
                 content = `
                     <div style="text-align: center; padding: 40px 0;">
-                        <h4 style="color: #5E56E7; margin-bottom: 20px;">Catálogo no disponible en línea</h4>
-                        <p>Para ver el catálogo completo y recibir precios actualizados, por favor contáctanos directamente.</p>
-                        <button onclick="scrollToContact()" style="background: #5E56E7; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; margin-top: 20px; cursor: pointer;">
-                            Contactar para ver catálogo
+                        <h4 style="color: #5E56E7; margin-bottom: 20px;">${catalogo.title}</h4>
+                        <p style="color: rgba(255,255,255,0.7); margin-bottom: 20px;">${catalogo.description}</p>
+                        <p style="color: rgba(255,255,255,0.7); margin-bottom: 30px;">Este catálogo no está disponible temporalmente en línea.</p>
+                        <button onclick="scrollToContact('${catalogoTipo}')" 
+                                style="background: linear-gradient(135deg, #5E56E7, #4a43d4); color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                            <i class="fas fa-envelope" aria-hidden="true"></i> Solicitar catálogo por correo
                         </button>
                     </div>
                 `;
@@ -2503,4 +2496,3 @@
     </script>
 </body>
 </html>
-

@@ -2,10 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- VIEWPORT OPTIMIZADO PARA TODOS LOS DISPOSITIVOS -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    
-    <!-- META TAGS PARA MEJORAR SEO Y COMPATIBILIDAD -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="theme-color" content="#5E56E7">
     <meta name="description" content="IMPRESIONES GRAFIC - 25 años de experiencia en diseño e impresión de calidad en Oruro. Tarjetas personales, reconocimientos, invitaciones y más.">
@@ -19,25 +16,18 @@
     
     <title>IMPRESIONES GRAFIC - Diseño e Impresión en Oruro</title>
     
-    <!-- PRELOAD DE RECURSOS CRÍTICOS -->
     <link rel="preload" href="templatemo-3d-coverflow.css" as="style">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" as="style" crossorigin>
     
-    <!-- ESTILOS PRINCIPALES -->
     <link href="templatemo-3d-coverflow.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
-    
-    <!-- FUENTES OPTIMIZADAS -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" crossorigin="anonymous">
     
-    <!-- FAVICON -->
     <link rel="icon" type="image/x-icon" href="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png">
     <link rel="apple-touch-icon" href="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png">
     
-    <!-- ESTILOS DE CARGA INICIAL -->
     <style>
-        /* Preloader mejorado */
         .preloader {
             position: fixed;
             top: 0;
@@ -116,13 +106,11 @@
             }
         }
         
-        /* Ocultar preloader cuando cargue */
         body.loaded .preloader {
             opacity: 0;
             pointer-events: none;
         }
         
-        /* Mejoras de accesibilidad */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -135,13 +123,11 @@
             border: 0;
         }
         
-        /* Smooth scroll */
         html {
             scroll-behavior: smooth;
             scroll-padding-top: 90px;
         }
         
-        /* Optimizaciones para dispositivos específicos */
         @media (max-width: 768px) {
             .preloader-logo {
                 width: 80px;
@@ -158,7 +144,6 @@
             }
         }
         
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -176,7 +161,6 @@
             background: linear-gradient(135deg, #4a43d4, #e85673);
         }
         
-        /* PDF Modal Styles */
         .pdf-modal-overlay {
             position: fixed;
             top: 0;
@@ -235,7 +219,6 @@
             font-weight: 600;
         }
         
-        /* Portfolio Modal */
         .portfolio-modal-overlay {
             position: fixed;
             top: 0;
@@ -260,7 +243,6 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
         
-        /* Estilos para imágenes del coverflow */
         .coverflow-item .cover img {
             width: 100%;
             height: 100%;
@@ -271,7 +253,6 @@
     </style>
 </head>
 <body>
-    <!-- Preloader mejorado -->
     <div class="preloader" id="preloader">
         <div class="preloader-content">
             <img src="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png" alt="Cargando IMPRESIONES GRAFIC" class="preloader-logo" width="100" height="100">
@@ -282,7 +263,6 @@
         </div>
     </div>
 
-    <!-- WhatsApp Float - MEJORADO -->
     <a href="https://wa.me/59160409066?text=Hola%20IMPRESIONES%20GRAFIC,%20quiero%20consultar%20sobre%20sus%20servicios" 
        class="whatsapp-float" 
        target="_blank" 
@@ -295,7 +275,6 @@
         <span class="sr-only">Abrir chat de WhatsApp</span>
     </a>
 
-    <!-- Header - MEJORADO -->
     <header class="header" id="header">
         <a href="#home" class="logo-container" aria-label="Ir al inicio">
             <div class="logo">
@@ -359,7 +338,6 @@
         </div>
     </header>
 
-    <!-- Home Section - MEJORADO -->
     <section id="home" class="section hero-section" aria-label="Sección de inicio">
         <div class="hero-background">
             <div class="hero-overlay"></div>
@@ -393,7 +371,6 @@
                  aria-live="polite">
                 
                 <div class="coverflow" id="coverflow">
-                    <!-- Item 1 - Tarjetas de Presentación -->
                     <div class="coverflow-item" data-index="0" role="group" aria-label="Imagen 1 de 7: Tarjetas de Presentación">
                         <div class="cover">
                             <div class="cover-badge">Tarjetas</div>
@@ -406,7 +383,6 @@
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 2 - Reconocimientos -->
                     <div class="coverflow-item" data-index="1" role="group" aria-label="Imagen 2 de 7: Reconocimientos">
                         <div class="cover">
                             <div class="cover-badge">Reconocimientos</div>
@@ -419,7 +395,6 @@
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 3 - Invitaciones -->
                     <div class="coverflow-item" data-index="2" role="group" aria-label="Imagen 3 de 7: Invitaciones">
                         <div class="cover">
                             <div class="cover-badge">Invitaciones</div>
@@ -432,7 +407,6 @@
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 4 (Centro) - Afiches Publicitarios -->
                     <div class="coverflow-item active" data-index="3" role="group" aria-label="Imagen 4 de 7: Afiches Publicitarios">
                         <div class="cover">
                             <div class="cover-badge">Afiches</div>
@@ -445,7 +419,6 @@
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 5 - Calendarios Personalizados -->
                     <div class="coverflow-item" data-index="4" role="group" aria-label="Imagen 5 de 7: Calendarios Personalizados">
                         <div class="cover">
                             <div class="cover-badge">Calendarios</div>
@@ -458,7 +431,6 @@
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 6 - Trofeos Exclusivos -->
                     <div class="coverflow-item" data-index="5" role="group" aria-label="Imagen 6 de 7: Trofeos Exclusivos">
                         <div class="cover">
                             <div class="cover-badge">Trofeos</div>
@@ -471,7 +443,6 @@
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 7 - Material Corporativo -->
                     <div class="coverflow-item" data-index="6" role="group" aria-label="Imagen 7 de 7: Material Corporativo">
                         <div class="cover">
                             <div class="cover-badge">Corporativo</div>
@@ -485,7 +456,6 @@
                     </div>
                 </div>
 
-                <!-- Botones de navegación -->
                 <button class="nav-button prev" 
                         onclick="navigate(-1)" 
                         aria-label="Imagen anterior"
@@ -502,19 +472,14 @@
                     <span class="sr-only">Siguiente</span>
                 </button>
 
-                <!-- Indicadores de puntos -->
-                <div class="dots-container" id="dots" role="tablist" aria-label="Indicadores de imágenes">
-                    <!-- Los dots se generan con JavaScript -->
-                </div>
+                <div class="dots-container" id="dots" role="tablist" aria-label="Indicadores de imágenes"></div>
                 
-                <!-- Contador -->
                 <div class="coverflow-counter">
                     <span id="currentSlide">1</span>
                     <span class="counter-separator">/</span>
                     <span id="totalSlides">7</span>
                 </div>
                 
-                <!-- Botón Play/Pause -->
                 <button class="play-pause-button" 
                         id="playPauseBtn" 
                         onclick="toggleAutoplay()"
@@ -527,7 +492,6 @@
             </div>
         </div>
         
-        <!-- Scroll indicator -->
         <div class="scroll-indicator">
             <span class="scroll-text">Desplázate</span>
             <div class="scroll-line">
@@ -536,7 +500,6 @@
         </div>
     </section>
 
-    <!-- Servicios Section - MEJORADO -->
     <section id="servicios" class="section servicios-section" aria-label="Nuestros servicios">
         <div class="section-decoration">
             <div class="decoration-circle circle-1"></div>
@@ -557,7 +520,6 @@
             </div>
             
             <div class="servicios-grid" role="list" aria-label="Lista de servicios">
-                <!-- Tarjetas Personales -->
                 <div class="servicio-card" data-service="tarjetas" role="listitem">
                     <div class="card-glow"></div>
                     <div class="servicio-icon" aria-hidden="true">
@@ -582,7 +544,6 @@
                     </button>
                 </div>
                 
-                <!-- Reconocimientos -->
                 <div class="servicio-card" data-service="reconocimientos" role="listitem">
                     <div class="card-glow"></div>
                     <div class="servicio-icon" aria-hidden="true">
@@ -607,7 +568,6 @@
                     </button>
                 </div>
                 
-                <!-- Invitaciones -->
                 <div class="servicio-card" data-service="invitaciones" role="listitem">
                     <div class="card-glow"></div>
                     <div class="servicio-icon" aria-hidden="true">
@@ -632,7 +592,6 @@
                     </button>
                 </div>
                 
-                <!-- Afiches -->
                 <div class="servicio-card" data-service="afiches" role="listitem">
                     <div class="card-glow"></div>
                     <div class="servicio-icon" aria-hidden="true">
@@ -668,7 +627,6 @@
         </div>
     </section>
 
-    <!-- Portafolio Section - MEJORADO -->
     <section id="portafolio" class="section portafolio-section" aria-label="Portafolio de trabajos">
         <div class="section-decoration">
             <div class="decoration-square square-1"></div>
@@ -731,7 +689,6 @@
             </div>
             
             <div class="portfolio-grid" id="portfolio-content" role="tabpanel" aria-label="Contenido del portafolio">
-                <!-- Tarjetas 1 -->
                 <div class="portfolio-item" data-category="tarjetas" role="article">
                     <div class="portfolio-image">
                         <img src="images/cascading-waterfall.jpg" 
@@ -755,7 +712,6 @@
                     </div>
                 </div>
                 
-                <!-- Reconocimientos 1 -->
                 <div class="portfolio-item" data-category="reconocimientos" role="article">
                     <div class="portfolio-image">
                         <img src="images/forest-path.jpg" 
@@ -779,7 +735,6 @@
                     </div>
                 </div>
                 
-                <!-- Trofeos -->
                 <div class="portfolio-item" data-category="trofeos" role="article">
                     <div class="portfolio-image">
                         <img src="images/snowy-mountain-peaks.jpg" 
@@ -803,7 +758,6 @@
                     </div>
                 </div>
                 
-                <!-- Invitaciones -->
                 <div class="portfolio-item" data-category="invitaciones" role="article">
                     <div class="portfolio-image">
                         <img src="images/mountain-landscape.jpg" 
@@ -827,7 +781,6 @@
                     </div>
                 </div>
                 
-                <!-- Afiches -->
                 <div class="portfolio-item" data-category="tarjetas" role="article">
                     <div class="portfolio-image">
                         <img src="images/ocean-sunset-golden-hour.jpg" 
@@ -851,7 +804,6 @@
                     </div>
                 </div>
                 
-                <!-- Certificados -->
                 <div class="portfolio-item" data-category="reconocimientos" role="article">
                     <div class="portfolio-image">
                         <img src="images/rolling-sand-dunes.jpg" 
@@ -889,7 +841,6 @@
         </div>
     </section>
 
-    <!-- Catálogos Section - MEJORADO -->
     <section id="catalogos" class="section catalogos-section" aria-label="Catálogos digitales">
         <div class="section-decoration">
             <div class="decoration-dots"></div>
@@ -908,7 +859,6 @@
             </div>
             
             <div class="catalogos-grid" role="list" aria-label="Lista de catálogos">
-                <!-- Catálogo 1: Invitaciones -->
                 <div class="catalogo-card" 
                      role="listitem"
                      onclick="openPdfViewer('invitaciones')"
@@ -942,7 +892,6 @@
                     <div class="catalogo-hover-effect"></div>
                 </div>
                 
-                <!-- Catálogo 2: Medallas -->
                 <div class="catalogo-card" 
                      role="listitem"
                      onclick="openPdfViewer('medallas')"
@@ -976,7 +925,6 @@
                     <div class="catalogo-hover-effect"></div>
                 </div>
                 
-                <!-- Catálogo 3: Pines -->
                 <div class="catalogo-card" 
                      role="listitem"
                      onclick="openPdfViewer('pines')"
@@ -1010,7 +958,6 @@
                     <div class="catalogo-hover-effect"></div>
                 </div>
                 
-                <!-- Catálogo 4: Porta Certificados -->
                 <div class="catalogo-card" 
                      role="listitem"
                      onclick="openPdfViewer('porta-certificados')"
@@ -1057,7 +1004,6 @@
         </div>
     </section>
 
-    <!-- About Section - MEJORADO -->
     <section id="about" class="section about-section" aria-label="Acerca de nosotros">
         <div class="section-decoration">
             <div class="decoration-waves"></div>
@@ -1172,7 +1118,6 @@
                 </div>
             </div>
             
-            <!-- Proceso de Trabajo -->
             <div class="proceso-trabajo">
                 <div class="proceso-header">
                     <h3>NUESTRO PROCESO DE ELABORACIÓN</h3>
@@ -1265,7 +1210,6 @@
         </div>
     </section>
 
-    <!-- Contact Section - MEJORADO -->
     <section id="contact" class="section contact-section" aria-label="Formulario de contacto">
         <div class="contact-background">
             <div class="contact-overlay"></div>
@@ -1700,7 +1644,6 @@
                 </div>
             </div>
             
-            <!-- Mapa -->
             <div class="map-section" role="region" aria-label="Ubicación en mapa">
                 <div class="map-header">
                     <h3><i class="fas fa-map-marked-alt" aria-hidden="true"></i> NUESTRA UBICACIÓN</h3>
@@ -1741,7 +1684,6 @@
         </div>
     </section>
 
-    <!-- Footer - MEJORADO -->
     <footer class="footer" role="contentinfo" aria-label="Pie de página">
         <div class="footer-background">
             <div class="footer-overlay"></div>
@@ -1886,7 +1828,6 @@
         </div>
     </footer>
 
-    <!-- Scroll to top button -->
     <div class="scroll-to-top" 
          id="scrollToTop" 
          role="button" 
@@ -1897,7 +1838,6 @@
         <span class="sr-only">Volver al inicio de la página</span>
     </div>
 
-    <!-- PDF Viewer Modal -->
     <div id="pdfModal" class="pdf-modal-overlay" style="display: none;">
         <div class="pdf-modal-content">
             <div class="pdf-modal-header">
@@ -1913,7 +1853,6 @@
         </div>
     </div>
 
-    <!-- Portfolio Modal -->
     <div id="portfolioModal" class="portfolio-modal-overlay" style="display: none;">
         <div class="portfolio-modal-content">
             <div class="portfolio-modal-header" style="padding: 20px; background: #252542; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
@@ -1926,18 +1865,15 @@
         </div>
     </div>
 
-    <!-- SCRIPTS - OPTIMIZADOS -->
     <script src="templatemo-3d-coverflow-scripts.js" defer></script>
     
-    <!-- SCRIPT DE INICIALIZACIÓN INLINE -->
     <script>
-        // Función para abrir PDF Viewer con archivos PDF reales
+        // CORRECCIÓN: ARCHIVOS PDF EN LUGAR DE JPG
         function openPdfViewer(catalogoTipo) {
             const modal = document.getElementById('pdfModal');
             const modalTitle = document.getElementById('pdfModalTitle');
             const modalContent = document.getElementById('pdfModalContent');
             
-            // Mapeo de catálogos a archivos PDF
             const catalogoMap = {
                 'invitaciones': {
                     title: 'Catálogo de Invitaciones Elegantes',
@@ -1963,6 +1899,16 @@
                     title: 'Catálogo de Reconocimientos en Acrílico',
                     pdfUrl: 'catalogos/catalogo-reconocimientos-acrilico.pdf',
                     description: 'Reconocimientos y diplomas personalizados en acrílico de alta calidad'
+                },
+                'indumentaria-1': {
+                    title: 'Catálogo de Indumentaria Minimalista - Parte 1',
+                    pdfUrl: 'catalogos/catalogo-indumentaria-minimalista-1.pdf',
+                    description: 'Diseños minimalistas de primera calidad para uniformes corporativos'
+                },
+                'indumentaria-2': {
+                    title: 'Catálogo de Indumentaria Minimalista - Parte 2',
+                    pdfUrl: 'catalogos/catalogo-indumentaria-minimalista-2.pdf',
+                    description: 'Más diseños minimalistas exclusivos para empresas e instituciones'
                 }
             };
             
@@ -1976,7 +1922,6 @@
             
             let content = '';
             
-            // Si tenemos URL PDF, mostrarlo con visor
             if (catalogo.pdfUrl) {
                 content = `
                     <div style="text-align: center;">
@@ -2046,20 +1991,17 @@
             document.body.style.overflow = 'hidden';
         }
 
-        // Función para cerrar PDF Viewer
         function closePdfViewer() {
             const modal = document.getElementById('pdfModal');
             modal.style.display = 'none';
             document.body.style.overflow = '';
         }
 
-        // Función para abrir modal de portafolio
         function openPortfolioModal(index) {
             const modal = document.getElementById('portfolioModal');
             const modalTitle = document.getElementById('portfolioModalTitle');
             const modalContent = document.getElementById('portfolioModalContent');
             
-            // Información detallada de cada proyecto
             const portfolioDetails = [
                 {
                     title: "Tarjetas Personales Corporativas",
@@ -2160,14 +2102,12 @@
             document.body.style.overflow = 'hidden';
         }
 
-        // Función para cerrar modal de portafolio
         function closePortfolioModal() {
             const modal = document.getElementById('portfolioModal');
             modal.style.display = 'none';
             document.body.style.overflow = '';
         }
 
-        // Función para manejar el envío del formulario
         function handleSubmit(event) {
             event.preventDefault();
             
@@ -2175,23 +2115,17 @@
             const submitBtn = form.querySelector('.submit-btn');
             const originalText = submitBtn.innerHTML;
             
-            // Mostrar estado de carga
             submitBtn.innerHTML = '<span>Enviando...</span><i class="fas fa-spinner fa-spin" aria-hidden="true"></i>';
             submitBtn.disabled = true;
             
-            // Simular envío (en producción, esto sería una llamada AJAX real)
             setTimeout(() => {
-                // Mostrar mensaje de éxito
                 alert('✅ Solicitud enviada correctamente. Te contactaremos en menos de 2 horas.');
                 
-                // Restaurar botón
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
                 
-                // Resetear formulario
                 form.reset();
                 
-                // Reset urgency buttons
                 const urgencyBtns = form.querySelectorAll('.urgency-btn');
                 urgencyBtns.forEach(btn => {
                     btn.classList.remove('active');
@@ -2205,13 +2139,11 @@
             return false;
         }
 
-        // Función para scroll a contacto
         function scrollToContact(service = '') {
             const contactSection = document.getElementById('contact');
             const header = document.getElementById('header');
             
             if (contactSection) {
-                // Cerrar menú móvil si está abierto
                 if (window.innerWidth <= 768) {
                     const menuToggle = document.getElementById('menuToggle');
                     const mainMenu = document.getElementById('mainMenu');
@@ -2221,17 +2153,14 @@
                     }
                 }
                 
-                // Calcular posición con offset del header
                 const headerHeight = header ? header.offsetHeight : 90;
                 const targetPosition = contactSection.offsetTop - headerHeight + 20;
                 
-                // Scroll suave
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
                 });
                 
-                // Si se especificó un servicio, llenar el campo después de un delay
                 if (service && service !== '') {
                     setTimeout(() => {
                         const serviceSelect = document.getElementById('service');
@@ -2245,7 +2174,6 @@
                             if (matchingOption) {
                                 serviceSelect.value = matchingOption.value;
                                 
-                                // Disparar evento change
                                 const event = new Event('change', { bubbles: true });
                                 serviceSelect.dispatchEvent(event);
                             }
@@ -2255,7 +2183,6 @@
             }
         }
 
-        // Función para cargar partículas en el hero
         function loadHeroParticles() {
             const particlesContainer = document.getElementById('heroParticles');
             if (!particlesContainer || window.innerWidth < 768) return;
@@ -2285,7 +2212,6 @@
             }
         }
 
-        // Contador animado para estadísticas
         function animateStats() {
             const statItems = document.querySelectorAll('.stat-number');
             statItems.forEach(item => {
@@ -2306,7 +2232,6 @@
             });
         }
 
-        // Observador de intersección para animaciones
         function setupIntersectionObserver() {
             const observerOptions = {
                 threshold: 0.1,
@@ -2325,21 +2250,17 @@
                 });
             }, observerOptions);
             
-            // Observar elementos que necesitan animación
             document.querySelectorAll('.servicio-card, .portfolio-item, .catalogo-card, .stat-item').forEach(el => {
                 observer.observe(el);
             });
             
-            // Observar stats section
             const statsSection = document.querySelector('.stats-section');
             if (statsSection) observer.observe(statsSection);
         }
 
-        // Ocultar preloader cuando todo cargue
         window.addEventListener('load', function() {
             const preloader = document.getElementById('preloader');
             if (preloader) {
-                // Asegurar que la barra de progreso llegue al 100%
                 const progressBar = preloader.querySelector('.preloader-progress-bar');
                 if (progressBar) {
                     progressBar.style.width = '100%';
@@ -2352,11 +2273,9 @@
                     setTimeout(function() {
                         preloader.style.display = 'none';
                         
-                        // Iniciar animaciones después de cargar
                         loadHeroParticles();
                         setupIntersectionObserver();
                         
-                        // Mostrar notificación de bienvenida
                         setTimeout(() => {
                             alert('🎨 ¡Bienvenido a IMPRESIONES GRAFIC! Descubre 25 años de experiencia en diseño e impresión.');
                         }, 1000);
@@ -2366,7 +2285,6 @@
             }
         });
 
-        // Mejorar accesibilidad de botones
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('button, a, [role="button"]').forEach(element => {
                 element.addEventListener('keydown', function(e) {
@@ -2377,39 +2295,29 @@
                 });
             });
             
-            // Configuración inicial del menú
             const menuToggle = document.getElementById('menuToggle');
             const mainMenu = document.getElementById('mainMenu');
             const width = window.innerWidth;
             
             if (width <= 768) {
-                // MÓVIL
                 if (menuToggle) menuToggle.style.display = 'flex';
                 if (mainMenu) mainMenu.style.display = 'none';
             } else {
-                // DESKTOP
                 if (menuToggle) menuToggle.style.display = 'none';
                 if (mainMenu) mainMenu.style.display = 'flex';
             }
             
-            // Inicializar botones de urgencia en el formulario
             const urgencyBtns = document.querySelectorAll('.urgency-btn');
             const urgencyInput = document.getElementById('urgency');
             
             if (urgencyBtns.length && urgencyInput) {
                 urgencyBtns.forEach(btn => {
                     btn.addEventListener('click', function() {
-                        // Remover active de todos
                         urgencyBtns.forEach(b => b.classList.remove('active'));
-                        
-                        // Agregar active al clickeado
                         this.classList.add('active');
-                        
-                        // Actualizar valor del input hidden
                         urgencyInput.value = this.getAttribute('data-value');
                     });
                     
-                    // Establecer normal como activo por defecto
                     if (btn.getAttribute('data-value') === 'normal') {
                         btn.classList.add('active');
                     }
@@ -2417,7 +2325,6 @@
             }
         });
         
-        // Smooth scroll para anclas internas
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const targetId = this.getAttribute('href');
@@ -2439,7 +2346,6 @@
             });
         });
         
-        // Manejo de scroll para el botón "subir"
         const scrollToTopBtn = document.getElementById('scrollToTop');
         if (scrollToTopBtn) {
             window.addEventListener('scroll', () => {
@@ -2457,7 +2363,6 @@
             });
         }
         
-        // Detectar dispositivo y aplicar clases específicas
         function detectDevice() {
             const userAgent = navigator.userAgent.toLowerCase();
             
@@ -2470,10 +2375,8 @@
             }
         }
         
-        // Llamar detección de dispositivo
         detectDevice();
         
-        // Cerrar modales con ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closePdfViewer();
@@ -2481,7 +2384,6 @@
             }
         });
         
-        // Cerrar modales haciendo clic fuera del contenido
         document.querySelectorAll('.pdf-modal-overlay, .portfolio-modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', function(e) {
                 if (e.target === this) {

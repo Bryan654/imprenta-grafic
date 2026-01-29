@@ -3,16 +3,13 @@ IMPRESIONES GRAFIC - Diseño Mejorado
 Versión 2.0 - Optimizada para UX/UI
 */
 
-/* ===== VARIABLES CSS MEJORADAS ===== */
 :root {
-    /* Colores principales - Paleta mejorada */
     --primary: #5E56E7;
     --primary-dark: #4a43d4;
     --primary-light: #7a74ea;
     --primary-gradient: linear-gradient(135deg, #5E56E7 0%, #4a43d4 100%);
     --primary-gradient-hover: linear-gradient(135deg, #4a43d4 0%, #3a34b4 100%);
     
-    /* Colores secundarios */
     --secondary: #FF6B8B;
     --secondary-dark: #e85673;
     --secondary-light: #ff8fa6;
@@ -22,20 +19,17 @@ Versión 2.0 - Optimizada para UX/UI
     --warning: #ffc107;
     --danger: #ff6b6b;
     
-    /* Fondos */
     --dark-bg: #0f0f1a;
     --dark-bg-light: #1a1a2e;
     --dark-bg-lighter: #252542;
     --card-bg: rgba(30, 30, 46, 0.85);
     --card-bg-solid: #1e1e2e;
     
-    /* Textos */
     --text-light: rgba(255, 255, 255, 0.98);
     --text-muted: rgba(255, 255, 255, 0.75);
     --text-muted-more: rgba(255, 255, 255, 0.55);
     --text-dark: #121826;
     
-    /* Sombras mejoradas */
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
     --shadow-md: 0 5px 20px rgba(0, 0, 0, 0.2);
     --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -43,7 +37,6 @@ Versión 2.0 - Optimizada para UX/UI
     --shadow-primary: 0 5px 20px rgba(94, 86, 231, 0.3);
     --shadow-secondary: 0 5px 20px rgba(255, 107, 139, 0.3);
     
-    /* Bordes */
     --border-radius-sm: 8px;
     --border-radius-md: 12px;
     --border-radius-lg: 16px;
@@ -51,19 +44,16 @@ Versión 2.0 - Optimizada para UX/UI
     --border-radius-2xl: 24px;
     --border-radius-round: 50%;
     
-    /* Bordes de color */
     --border-light: 1px solid rgba(255, 255, 255, 0.12);
     --border-medium: 1px solid rgba(255, 255, 255, 0.2);
     --border-primary: 1px solid var(--primary);
     --border-secondary: 1px solid var(--secondary);
     
-    /* Transiciones mejoradas */
     --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     
-    /* Espaciado */
     --space-xs: 0.25rem;
     --space-sm: 0.5rem;
     --space-md: 1rem;
@@ -72,7 +62,6 @@ Versión 2.0 - Optimizada para UX/UI
     --space-2xl: 3rem;
     --space-3xl: 4rem;
     
-    /* Tipografía */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     --font-heading: 'Montserrat', var(--font-primary);
     --font-size-xs: 0.75rem;
@@ -86,14 +75,12 @@ Versión 2.0 - Optimizada para UX/UI
     --font-size-5xl: 3rem;
     --font-size-6xl: 3.75rem;
     
-    /* Layout */
     --header-height: 90px;
     --header-height-scrolled: 70px;
     --container-max-width: 1400px;
     --container-padding: 2rem;
 }
 
-/* ===== RESET Y BASE OPTIMIZADO ===== */
 * {
     margin: 0;
     padding: 0;
@@ -125,7 +112,6 @@ body {
     flex-direction: column;
 }
 
-/* ===== MEJORAS DE RENDIMIENTO ===== */
 @media (max-width: 768px) {
     * {
         -webkit-backface-visibility: hidden;
@@ -141,7 +127,6 @@ body {
     }
 }
 
-/* ===== TIPOGRAFÍA MEJORADA ===== */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     font-weight: 700;
@@ -176,7 +161,6 @@ p {
     line-height: 1.7;
 }
 
-/* ===== SECCIONES MEJORADAS ===== */
 .section {
     min-height: 100vh;
     position: relative;
@@ -187,7 +171,6 @@ p {
     overflow: hidden;
 }
 
-/* Mejora para iOS y Android */
 @media (max-width: 768px) {
     .section {
         min-height: auto;
@@ -196,7 +179,6 @@ p {
     }
 }
 
-/* Sección Hero */
 .hero-section {
     background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-bg-light) 100%);
     padding-top: calc(var(--header-height) + 2rem);
@@ -319,7 +301,6 @@ p {
     margin-top: var(--space-2xl);
 }
 
-/* Secciones con decoraciones */
 .section-decoration {
     position: absolute;
     top: 0;
@@ -369,7 +350,6 @@ p {
     50% { transform: translateY(-20px) scale(1.05); }
 }
 
-/* Header de secciones */
 .section-header {
     text-align: center;
     margin-bottom: var(--space-3xl);
@@ -434,7 +414,6 @@ p {
     box-shadow: var(--shadow-primary);
 }
 
-/* ===== HEADER MEJORADO ===== */
 .header {
     position: fixed;
     top: 0;
@@ -461,7 +440,6 @@ p {
     -webkit-backdrop-filter: blur(20px);
 }
 
-/* Logo mejorado */
 .logo-container {
     display: flex;
     align-items: center;
@@ -527,7 +505,6 @@ p {
     text-transform: uppercase;
 }
 
-/* Menú principal - Desktop */
 .main-menu {
     display: flex;
     align-items: center;
@@ -594,7 +571,6 @@ p {
     color: var(--primary);
 }
 
-/* Header actions */
 .header-actions {
     display: flex;
     align-items: center;
@@ -633,7 +609,6 @@ p {
     }
 }
 
-/* Menú hamburguesa mejorado */
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -671,7 +646,6 @@ p {
     transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* WhatsApp Float mejorado */
 .whatsapp-float {
     position: fixed;
     bottom: 30px;
@@ -748,7 +722,6 @@ p {
     }
 }
 
-/* ===== MENÚ RESPONSIVE MEJORADO ===== */
 @media (max-width: 1024px) {
     .header {
         padding: 0 var(--space-lg);
@@ -782,12 +755,10 @@ p {
         font-size: 0.65rem;
     }
     
-    /* Mostrar hamburguesa en móvil */
     .menu-toggle {
         display: flex;
     }
     
-    /* Menú móvil mejorado */
     .main-menu {
         display: none;
         position: fixed;
@@ -853,7 +824,6 @@ p {
     }
 }
 
-/* ===== COVERFLOW MEJORADO ===== */
 .coverflow-wrapper {
     width: 100%;
     min-height: 50vh;
@@ -985,7 +955,6 @@ p {
     transform: scale(1.1);
 }
 
-/* Reflection mejorado */
 .coverflow-item .reflection {
     position: absolute;
     top: 100%;
@@ -1002,7 +971,6 @@ p {
     border-radius: 0 0 var(--border-radius-xl) var(--border-radius-xl);
 }
 
-/* Active item (center) */
 .coverflow-item.active {
     z-index: 100;
     transform: translateX(0) translateZ(0) rotateY(0deg) !important;
@@ -1013,7 +981,6 @@ p {
     border-color: rgba(94, 86, 231, 0.5);
 }
 
-/* Navigation mejorado */
 .nav-button {
     position: absolute;
     top: 50%;
@@ -1067,7 +1034,6 @@ p {
     }
 }
 
-/* Dots indicator mejorado */
 .dots-container {
     position: absolute;
     bottom: 20px;
@@ -1106,7 +1072,6 @@ p {
     box-shadow: 0 0 15px rgba(94, 86, 231, 0.8);
 }
 
-/* Contador de slides */
 .coverflow-counter {
     position: absolute;
     bottom: 20px;
@@ -1130,7 +1095,6 @@ p {
     margin: 0 2px;
 }
 
-/* Play/Pause Button mejorado */
 .play-pause-button {
     position: absolute;
     bottom: 70px;
@@ -1161,7 +1125,6 @@ p {
     box-shadow: var(--shadow-primary);
 }
 
-/* Scroll indicator */
 .scroll-indicator {
     position: absolute;
     bottom: 40px;
@@ -1224,7 +1187,6 @@ p {
     }
 }
 
-/* ===== BOTONES MEJORADOS ===== */
 .btn-primary, .btn-secondary {
     display: inline-flex;
     align-items: center;
@@ -1303,7 +1265,6 @@ p {
     color: white;
 }
 
-/* ===== SERVICIOS MEJORADOS ===== */
 .servicios-section {
     background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-bg-light) 100%);
     position: relative;
@@ -1502,7 +1463,6 @@ p {
     color: var(--text-light);
 }
 
-/* ===== PORTAFOLIO MEJORADOS ===== */
 .portafolio-section {
     background: var(--dark-bg);
     position: relative;
@@ -1689,7 +1649,6 @@ p {
     margin-right: auto;
 }
 
-/* ===== CATÁLOGOS MEJORADOS ===== */
 .catalogos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -1917,7 +1876,6 @@ p {
     margin: 0;
 }
 
-/* ===== ABOUT MEJORADO ===== */
 .about-section {
     background: linear-gradient(135deg, var(--dark-bg-light) 0%, var(--dark-bg) 100%);
     position: relative;
@@ -2126,7 +2084,6 @@ p {
     box-shadow: var(--shadow-primary);
 }
 
-/* Info section */
 .about-info {
     padding-left: var(--space-2xl);
 }
@@ -2238,7 +2195,6 @@ p {
     box-shadow: var(--shadow-md);
 }
 
-/* Proceso de trabajo */
 .proceso-trabajo {
     margin: var(--space-3xl) 0;
     padding: var(--space-2xl);
@@ -2368,7 +2324,6 @@ p {
     flex-grow: 1;
 }
 
-/* Stats section */
 .stats-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -2424,7 +2379,6 @@ p {
     font-weight: 600;
 }
 
-/* ===== CONTACT MEJORADO ===== */
 .contact-section {
     position: relative;
     background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-bg-light) 100%);
@@ -2471,7 +2425,6 @@ p {
     }
 }
 
-/* Info cards */
 .info-card {
     background: var(--card-bg);
     border-radius: var(--border-radius-xl);
@@ -2617,7 +2570,6 @@ p {
     font-size: 0.85rem;
 }
 
-/* Social links */
 .social-buttons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -2664,7 +2616,6 @@ p {
     border-color: #25D366;
 }
 
-/* Formulario mejorado */
 .form-card {
     background: var(--card-bg);
     border-radius: var(--border-radius-xl);
@@ -2797,7 +2748,6 @@ p {
     line-height: 1.5;
 }
 
-/* Select mejorado */
 .form-select-wrapper {
     position: relative;
 }
@@ -2838,7 +2788,6 @@ p {
     transform: translateY(-50%) rotate(180deg);
 }
 
-/* Urgency buttons */
 .urgency-buttons {
     display: flex;
     gap: var(--space-sm);
@@ -2870,7 +2819,6 @@ p {
     box-shadow: var(--shadow-primary);
 }
 
-/* Checkbox mejorado */
 .form-checkbox-group {
     margin: var(--space-xl) 0;
 }
@@ -2924,7 +2872,6 @@ p {
     transform: rotate(45deg);
 }
 
-/* Submit button mejorado */
 .form-submit {
     margin-top: var(--space-xl);
 }
@@ -3006,7 +2953,6 @@ p {
     color: var(--accent);
 }
 
-/* Contact alternative */
 .contact-alternative {
     background: rgba(255, 255, 255, 0.03);
     border-radius: var(--border-radius-xl);
@@ -3126,7 +3072,6 @@ p {
     font-size: 0.9rem;
 }
 
-/* Map section */
 .map-section {
     margin-top: var(--space-3xl);
 }
@@ -3235,7 +3180,6 @@ p {
     box-shadow: var(--shadow-primary);
 }
 
-/* ===== FOOTER MEJORADO ===== */
 .footer {
     background: var(--dark-bg-light);
     position: relative;
@@ -3537,7 +3481,6 @@ p {
     box-shadow: var(--shadow-primary);
 }
 
-/* ===== SCROLL TO TOP MEJORADO ===== */
 .scroll-to-top {
     position: fixed;
     bottom: 30px;
@@ -3570,7 +3513,6 @@ p {
     box-shadow: 0 15px 35px rgba(94, 86, 231, 0.4);
 }
 
-/* ===== PDF MODAL STYLES ===== */
 .pdf-modal-overlay {
     position: fixed;
     top: 0;
@@ -3635,7 +3577,6 @@ p {
     transform: scale(1.05);
 }
 
-/* Portfolio Modal */
 .portfolio-modal-overlay {
     position: fixed;
     top: 0;
@@ -3673,7 +3614,6 @@ p {
     padding: 20px;
 }
 
-/* ===== RESPONSIVE MEJORADO ===== */
 @media (max-width: 1200px) {
     :root {
         --container-padding: 1.5rem;
@@ -3721,7 +3661,6 @@ p {
         font-size: 1rem;
     }
     
-    /* Modals responsive */
     .pdf-modal-overlay,
     .portfolio-modal-overlay {
         padding: 10px;
@@ -3821,7 +3760,6 @@ p {
     }
 }
 
-/* Mejoras para tablets */
 @media (min-width: 769px) and (max-width: 1024px) {
     .servicios-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -3836,12 +3774,9 @@ p {
     }
 }
 
-/* Soporte para modo oscuro automático */
 @media (prefers-color-scheme: dark) {
-    /* Ya estamos en modo oscuro por defecto */
 }
 
-/* Modo de alto contraste */
 @media (prefers-contrast: high) {
     :root {
         --text-light: white;
@@ -3860,7 +3795,6 @@ p {
     }
 }
 
-/* Estilos para impresión */
 @media print {
     .header,
     .whatsapp-float,
@@ -3906,34 +3840,29 @@ p {
     }
 }
 
-/* Animaciones para elementos cuando entran en vista */
 .animate-in {
     animation: fadeInUp 0.6s ease forwards;
 }
 
-/* Estados de carga */
 .loading-state {
     opacity: 0.5;
     pointer-events: none;
 }
 
-/* Mejoras para navegadores WebKit */
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
     select,
     textarea,
     input {
-        font-size: 16px; /* Previene zoom en iOS */
+        font-size: 16px;
     }
 }
 
-/* Optimizaciones para Firefox */
 @-moz-document url-prefix() {
     .form-select {
         padding-right: 30px;
     }
 }
 
-/* Clases helper */
 .text-center {
     text-align: center;
 }
@@ -3957,7 +3886,6 @@ p {
     display: block !important;
 }
 
-/* Clase para ocultar elementos en móvil */
 .mobile-hidden {
     display: none;
 }
@@ -3968,7 +3896,6 @@ p {
     }
 }
 
-/* Clase para mostrar elementos solo en móvil */
 .desktop-hidden {
     display: none;
 }
@@ -3979,7 +3906,6 @@ p {
     }
 }
 
-/* Clase para elementos que deben mantener su aspecto en impresión */
 .print-only {
     display: none;
 }
@@ -3994,12 +3920,10 @@ p {
     }
 }
 
-/* Estilos para elementos con transiciones pendientes */
 .transitioning {
     pointer-events: none;
 }
 
-/* Estilos para validación de formularios */
 .error-message {
     color: var(--danger);
     font-size: 0.85rem;
@@ -4025,7 +3949,6 @@ p {
     margin-top: 4px;
 }
 
-/* Estilos para elementos deshabilitados */
 :disabled,
 .disabled {
     opacity: 0.5;
@@ -4033,13 +3956,11 @@ p {
     pointer-events: none;
 }
 
-/* Focus styles mejorados para accesibilidad */
 :focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
 }
 
-/* Mejoras para lectores de pantalla */
 .sr-only:not(:focus):not(:active) {
     clip: rect(0 0 0 0);
     clip-path: inset(50%);

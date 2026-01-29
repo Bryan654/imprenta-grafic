@@ -1,2065 +1,1292 @@
-/*
-TemplateMo 595 3d coverflow
-https://templatemo.com/tm-595-3d-coverflow
-*/
+/* IMPRESIONES GRAFIC - JavaScript Optimizado */
+/* Versión 2.0 - Totalmente funcional sin backend */
 
-// ===== VARIABLES GLOBALES OPTIMIZADAS =====
-const items = document.querySelectorAll('.coverflow-item');
-const dotsContainer = document.getElementById('dots');
-const container = document.querySelector('.coverflow-container');
-const menuToggle = document.getElementById('menuToggle');
-const mainMenu = document.getElementById('mainMenu');
-let currentIndex = 3;
-let isAnimating = false;
-let isMobile = window.innerWidth <= 768;
-let isAndroid = /Android/i.test(navigator.userAgent);
-let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+// ===== VARIABLES GLOBALES =====
+const config = {
+    coverflow: {
+        itemWidth: 300,
+        itemHeight: 300,
+        spacing: 220,
+        maxRotation: 60,
+        perspective: 1200,
+        autoplayInterval: 4000
+    },
+    whatsapp: {
+        phone: '+59164793488',
+        defaultMessage: 'Hola IMPRESIONES GRAFIC, quiero consultar sobre sus servicios'
+    },
+    social: {
+        facebook: 'https://www.facebook.com/share/1GbzLQbdWL/?mibextid=wwXIfr',
+        instagram: 'https://www.instagram.com/impresiones_grafic?igsh=MWNlcDBpbWVobG4yZQ%3D%3D&utm_source=qr',
+        tiktok: 'https://www.tiktok.com/@impresiones_grafic?_r=1&_t=ZS-93OXcbIn8Sr'
+    }
+};
 
-// ===== DETECCIÓN DE DISPOSITIVO Y NAVEGADOR =====
-function detectDeviceAndBrowser() {
-    const userAgent = navigator.userAgent.toLowerCase();
+// ===== INICIALIZACIÓN =====
+document.addEventListener('DOMContentLoaded', function() {
+    initLoading();
+    initCoverflow();
+    initPortfolio();
+    initNavigation();
+    initContact();
+    initModals();
+    initResponsive();
+    initAnimations();
     
-    // Detectar Android
-    if (/android/.test(userAgent)) {
-        document.body.classList.add('android-device');
-        isAndroid = true;
-        console.log('Dispositivo Android detectado');
-    }
-    
-    // Detectar iOS
-    if (/iphone|ipad|ipod/.test(userAgent)) {
-        document.body.classList.add('ios-device');
-        isIOS = true;
-        console.log('Dispositivo iOS detectado');
-    }
-    
-    // Detectar Chrome en Android (problemas específicos)
-    if (/chrome/.test(userAgent) && /android/.test(userAgent)) {
-        document.body.classList.add('android-chrome');
-        console.log('Chrome en Android detectado - aplicando correcciones');
-    }
-    
-    // Detectar Safari en iOS
-    if (/safari/.test(userAgent) && !/chrome/.test(userAgent) && /iphone|ipad/.test(userAgent)) {
-        document.body.classList.add('ios-safari');
-        console.log('Safari en iOS detectado');
-    }
-    
-    // Detectar conexión lenta
-    if ('connection' in navigator) {
-        const connection = navigator.connection;
-        if (connection.saveData === true || connection.effectiveType.includes('2g') || connection.effectiveType.includes('3g')) {
-            document.body.classList.add('slow-connection');
-            console.log('Conexión lenta detectada - optimizando');
-        }
+    // Mostrar página cuando todo esté cargado
+    setTimeout(() => {
+        document.getElementById('loading').classList.add('hidden');
+        showNotification('👋 ¡Bienvenido a IMPRESIONES GRAFIC!', 'info');
+    }, 1000);
+});
+
+// ===== LOADING =====
+function initLoading() {
+    const loading = document.getElementById('loading');
+    if (loading) {
+        // Ocultar loading después de 1 segundo mínimo
+        setTimeout(() => {
+            loading.classList.add('hidden');
+            setTimeout(() => loading.remove(), 300);
+        }, 1000);
     }
 }
 
-// ===== COVERFLOW FUNCTIONS OPTIMIZADAS =====
+// ===== COVERFLOW =====
+let coverflowItems = [];
+let currentCoverflowIndex = 0;
+let isCoverflowAnimating = false;
+let coverflowAutoplayInterval = null;
+let isCoverflowPlaying = true;
 
-// Mobile menu toggle - OPTIMIZADO PARA TACTO
-if (menuToggle) {
-    menuToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menuToggle.classList.toggle('active');
-        if (mainMenu) {
-            mainMenu.classList.toggle('active');
+function initCoverflow() {
+    const coverflowContainer = document.querySelector('.coverflow');
+    const dotsContainer = document.getElementById('dots');
+    
+    if (!coverflowContainer) return;
+    
+    // Datos de las imágenes del coverflow
+    const coverflowData = [
+        {
+            image: 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=600&h=600&fit=crop',
+            alt: 'Tarjetas de Presentación IMPRESIONES GRAFIC',
+            title: 'Tarjetas Personales'
+        },
+        {
+            image: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600&h=600&fit=crop',
+            alt: 'Reconocimientos y Diplomas',
+            title: 'Reconocimientos'
+        },
+        {
+            image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=600&fit=crop',
+            alt: 'Invitaciones Elegantes',
+            title: 'Invitaciones'
+        },
+        {
+            image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&h=600&fit=crop',
+            alt: 'Afiches Publicitarios',
+            title: 'Afiches'
+        },
+        {
+            image: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=600&h=600&fit=crop',
+            alt: 'Calendarios Personalizados',
+            title: 'Calendarios'
+        },
+        {
+            image: 'https://images.unsplash.com/photo-1558522195-e1201b090344?w=600&h=600&fit=crop',
+            alt: 'Trofeos Exclusivos',
+            title: 'Trofeos'
+        },
+        {
+            image: 'https://images.unsplash.com/photo-1462826303086-329426d1aef5?w=600&h=600&fit=crop',
+            alt: 'Material Corporativo',
+            title: 'Material Corporativo'
         }
-        const isExpanded = menuToggle.classList.contains('active');
-        menuToggle.setAttribute('aria-expanded', isExpanded);
-        menuToggle.setAttribute('aria-label', isExpanded ? 'Cerrar menú' : 'Abrir menú');
+    ];
+    
+    // Crear elementos del coverflow
+    coverflowData.forEach((item, index) => {
+        const coverflowItem = document.createElement('div');
+        coverflowItem.className = 'coverflow-item';
+        coverflowItem.setAttribute('data-index', index);
+        coverflowItem.setAttribute('aria-label', item.title);
         
-        // Bloquear scroll cuando el menú está abierto
-        document.body.style.overflow = isExpanded ? 'hidden' : '';
-    });
-}
-
-// Cerrar menú al hacer clic en items
-document.querySelectorAll('.menu-item').forEach(item => {
-    item.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-            if (menuToggle) {
-                menuToggle.classList.remove('active');
-                menuToggle.setAttribute('aria-expanded', 'false');
-                menuToggle.setAttribute('aria-label', 'Abrir menú');
-            }
-            if (mainMenu) {
-                mainMenu.classList.remove('active');
-            }
-            document.body.style.overflow = '';
-        }
-    });
-});
-
-// Cerrar menú al hacer clic fuera
-document.addEventListener('click', (e) => {
-    if (window.innerWidth <= 768 && mainMenu && mainMenu.classList.contains('active')) {
-        if (menuToggle && !menuToggle.contains(e.target) && !mainMenu.contains(e.target)) {
-            menuToggle.classList.remove('active');
-            mainMenu.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            menuToggle.setAttribute('aria-label', 'Abrir menú');
-            document.body.style.overflow = '';
-        }
-    }
-});
-
-// Cerrar menú con ESC
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && window.innerWidth <= 768 && mainMenu && mainMenu.classList.contains('active')) {
-        if (menuToggle) {
-            menuToggle.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            menuToggle.setAttribute('aria-label', 'Abrir menú');
-        }
-        if (mainMenu) {
-            mainMenu.classList.remove('active');
-        }
-        document.body.style.overflow = '';
-    }
-});
-
-// Crear dots
-function createDots() {
-    if (!dotsContainer) return;
-    
-    items.forEach((_, index) => {
+        coverflowItem.innerHTML = `
+            <div class="cover">
+                <img src="${item.image}" 
+                     alt="${item.alt}"
+                     loading="lazy"
+                     width="300"
+                     height="300">
+            </div>
+        `;
+        
+        coverflowContainer.appendChild(coverflowItem);
+        coverflowItems.push(coverflowItem);
+        
+        // Crear dots
         const dot = document.createElement('div');
         dot.className = 'dot';
-        dot.setAttribute('role', 'button');
-        dot.setAttribute('tabindex', '0');
-        dot.setAttribute('aria-label', `Ir a la imagen ${index + 1}`);
-        dot.onclick = () => goToIndex(index);
-        dot.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                goToIndex(index);
-            }
-        });
+        dot.setAttribute('data-index', index);
+        dot.setAttribute('aria-label', `Ir a ${item.title}`);
+        dot.addEventListener('click', () => goToCoverflowIndex(index));
         dotsContainer.appendChild(dot);
+        
+        // Click en el item
+        coverflowItem.addEventListener('click', () => {
+            goToCoverflowIndex(index);
+            showNotification(`Ver detalles de ${item.title}`, 'info');
+        });
     });
+    
+    // Inicializar navegación
+    updateCoverflow();
+    startCoverflowAutoplay();
+    
+    // Event listeners para navegación
+    document.querySelector('.nav-button.prev')?.addEventListener('click', () => navigateCoverflow(-1));
+    document.querySelector('.nav-button.next')?.addEventListener('click', () => navigateCoverflow(1));
+    
+    // Touch events para móviles
+    initCoverflowTouch();
 }
 
-const dots = document.querySelectorAll('.dot');
-let autoplayInterval = null;
-let isPlaying = true;
-const playIcon = document.querySelector('.play-icon');
-const pauseIcon = document.querySelector('.pause-icon');
-
-// Función optimizada para dispositivos móviles
 function updateCoverflow() {
-    if (isAnimating) return;
-    isAnimating = true;
-
-    const isMobileView = window.innerWidth <= 768;
-    const centerOffset = isMobileView ? 160 : 200;
-    const zOffset = isMobileView ? 120 : 180;
-    const rotation = isMobileView ? 40 : 60;
-
-    items.forEach((item, index) => {
-        let offset = index - currentIndex;
+    if (isCoverflowAnimating) return;
+    isCoverflowAnimating = true;
+    
+    const totalItems = coverflowItems.length;
+    
+    coverflowItems.forEach((item, index) => {
+        let offset = index - currentCoverflowIndex;
         
-        // Ajustar para vista circular
-        if (offset > items.length / 2) {
-            offset = offset - items.length;
-        } else if (offset < -items.length / 2) {
-            offset = offset + items.length;
-        }
+        // Ajustar offset circular
+        if (offset > totalItems / 2) offset = offset - totalItems;
+        else if (offset < -totalItems / 2) offset = offset + totalItems;
         
         const absOffset = Math.abs(offset);
         const sign = Math.sign(offset);
         
         // Calcular transformaciones
-        let translateX = offset * centerOffset;
-        let translateZ = -absOffset * zOffset;
-        let rotateY = -sign * Math.min(absOffset * rotation, rotation);
+        let translateX = offset * config.coverflow.spacing;
+        let translateZ = -absOffset * 200;
+        let rotateY = -sign * Math.min(absOffset * config.coverflow.maxRotation, config.coverflow.maxRotation);
         let opacity = 1 - (absOffset * 0.2);
-        let scale = 1 - (absOffset * 0.08);
-
-        // Ocultar elementos muy lejos
+        let scale = 1 - (absOffset * 0.1);
+        
+        // Ocultar items muy lejanos
         if (absOffset > 3) {
             opacity = 0;
-            translateX = sign * 700;
+            translateX = sign * 800;
         }
-
-        // Aplicar transformaciones optimizadas
-        const transform = `
+        
+        // Aplicar transformaciones
+        item.style.transform = `
             translateX(${translateX}px) 
             translateZ(${translateZ}px) 
             rotateY(${rotateY}deg)
             scale(${scale})
         `;
-        
-        item.style.transform = transform;
         item.style.opacity = opacity;
         item.style.zIndex = 100 - absOffset;
-        item.style.willChange = 'transform, opacity';
-
-        item.classList.toggle('active', index === currentIndex);
-        item.setAttribute('aria-hidden', index !== currentIndex);
+        
+        // Marcar item activo
+        item.classList.toggle('active', index === currentCoverflowIndex);
     });
-
+    
     // Actualizar dots
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentIndex);
-        dot.setAttribute('aria-current', index === currentIndex ? 'true' : 'false');
+    document.querySelectorAll('.dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentCoverflowIndex);
     });
-
-    // Permitir siguiente animación
+    
+    // Reset animation flag
     setTimeout(() => {
-        isAnimating = false;
-    }, isMobileView ? 400 : 600);
+        isCoverflowAnimating = false;
+    }, 600);
 }
 
-function navigate(direction) {
-    if (isAnimating) return;
+function navigateCoverflow(direction) {
+    if (isCoverflowAnimating) return;
     
-    currentIndex = currentIndex + direction;
+    currentCoverflowIndex = currentCoverflowIndex + direction;
     
-    if (currentIndex < 0) {
-        currentIndex = items.length - 1;
-    } else if (currentIndex >= items.length) {
-        currentIndex = 0;
+    if (currentCoverflowIndex < 0) {
+        currentCoverflowIndex = coverflowItems.length - 1;
+    } else if (currentCoverflowIndex >= coverflowItems.length) {
+        currentCoverflowIndex = 0;
     }
     
     updateCoverflow();
-    handleUserInteraction();
+    pauseCoverflowAutoplay();
+    setTimeout(() => resumeCoverflowAutoplay(), 3000);
 }
 
-function goToIndex(index) {
-    if (isAnimating || index === currentIndex) return;
-    currentIndex = index;
+function goToCoverflowIndex(index) {
+    if (isCoverflowAnimating || index === currentCoverflowIndex) return;
+    currentCoverflowIndex = index;
     updateCoverflow();
-    handleUserInteraction();
+    pauseCoverflowAutoplay();
+    setTimeout(() => resumeCoverflowAutoplay(), 3000);
 }
 
-// Navegación con teclado optimizada
-if (container) {
-    container.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            navigate(-1);
-        }
-        if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            navigate(1);
-        }
-        if (e.key === 'Home') {
-            e.preventDefault();
-            goToIndex(0);
-        }
-        if (e.key === 'End') {
-            e.preventDefault();
-            goToIndex(items.length - 1);
-        }
-    });
-}
-
-// Click en items
-items.forEach((item, index) => {
-    item.addEventListener('click', () => goToIndex(index));
-});
-
-// ===== TOUCH/SWIPE SUPPORT OPTIMIZADO =====
-let touchStartX = 0;
-let touchEndX = 0;
-let touchStartTime = 0;
-let isSwiping = false;
-const swipeThreshold = 50;
-const swipeTimeThreshold = 300;
-
-// Eventos táctiles optimizados
-if (container) {
+// Touch support para coverflow
+function initCoverflowTouch() {
+    const container = document.querySelector('.coverflow-container');
+    if (!container) return;
+    
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeThreshold = 50;
+    
     container.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-        touchStartTime = Date.now();
-        isSwiping = true;
+        touchStartX = e.changedTouches[0].screenX;
     }, { passive: true });
-
-    container.addEventListener('touchmove', (e) => {
-        if (!isSwiping) return;
-        e.preventDefault();
-    }, { passive: false });
-
+    
     container.addEventListener('touchend', (e) => {
-        if (!isSwiping) return;
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
         
-        touchEndX = e.changedTouches[0].clientX;
-        const touchEndTime = Date.now();
-        
-        const diffX = touchStartX - touchEndX;
-        const diffTime = touchEndTime - touchStartTime;
-        
-        // Solo procesar swipe si fue rápido
-        if (Math.abs(diffX) > swipeThreshold && diffTime < swipeTimeThreshold) {
-            handleUserInteraction();
-            
-            if (diffX > 0) {
-                navigate(1);
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                navigateCoverflow(1); // Swipe izquierda
             } else {
-                navigate(-1);
+                navigateCoverflow(-1); // Swipe derecha
             }
         }
-        
-        isSwiping = false;
     }, { passive: true });
 }
 
-// ===== INICIALIZACIÓN DE IMÁGENES OPTIMIZADA =====
-function initializeImages() {
-    items.forEach((item, index) => {
-        const img = item.querySelector('img');
-        const reflection = item.querySelector('.reflection');
-        
-        if (img && img.complete) {
-            handleImageLoad(img, reflection);
-        } else if (img) {
-            img.onload = () => handleImageLoad(img, reflection);
-            img.onerror = () => {
-                if (img.parentElement) {
-                    img.parentElement.classList.add('image-loading');
-                }
-                console.warn(`Error cargando imagen ${index + 1}`);
-            };
-        }
-    });
-}
-
-function handleImageLoad(img, reflection) {
-    if (img && img.parentElement) {
-        img.parentElement.classList.remove('image-loading');
-    }
-    if (reflection && img) {
-        reflection.style.backgroundImage = `url(${img.src})`;
-        reflection.style.backgroundSize = 'cover';
-        reflection.style.backgroundPosition = 'center';
-    }
-}
-
-// ===== AUTOPLAY FUNCTIONS OPTIMIZADAS =====
-function startAutoplay() {
-    if (autoplayInterval) {
-        clearInterval(autoplayInterval);
-    }
+// Autoplay del coverflow
+function startCoverflowAutoplay() {
+    if (coverflowAutoplayInterval) clearInterval(coverflowAutoplayInterval);
     
-    // Intervalo más lento en móvil
-    const interval = isMobile ? 5000 : 4000;
-    
-    autoplayInterval = setInterval(() => {
-        currentIndex = (currentIndex + 1) % items.length;
+    coverflowAutoplayInterval = setInterval(() => {
+        currentCoverflowIndex = (currentCoverflowIndex + 1) % coverflowItems.length;
         updateCoverflow();
-    }, interval);
+    }, config.coverflow.autoplayInterval);
     
-    isPlaying = true;
-    if (playIcon) playIcon.style.display = 'none';
-    if (pauseIcon) pauseIcon.style.display = 'block';
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    if (playPauseBtn) playPauseBtn.setAttribute('aria-label', 'Pausar presentación automática');
+    isCoverflowPlaying = true;
+    updatePlayPauseButton();
 }
 
-function stopAutoplay() {
-    if (autoplayInterval) {
-        clearInterval(autoplayInterval);
-        autoplayInterval = null;
+function pauseCoverflowAutoplay() {
+    if (coverflowAutoplayInterval) {
+        clearInterval(coverflowAutoplayInterval);
+        coverflowAutoplayInterval = null;
     }
-    isPlaying = false;
-    if (playIcon) playIcon.style.display = 'block';
-    if (pauseIcon) pauseIcon.style.display = 'none';
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    if (playPauseBtn) playPauseBtn.setAttribute('aria-label', 'Reproducir presentación automática');
+    isCoverflowPlaying = false;
+    updatePlayPauseButton();
 }
 
-function toggleAutoplay() {
-    if (isPlaying) {
-        stopAutoplay();
+function resumeCoverflowAutoplay() {
+    if (!isCoverflowPlaying) {
+        startCoverflowAutoplay();
+    }
+}
+
+function toggleCoverflowAutoplay() {
+    if (isCoverflowPlaying) {
+        pauseCoverflowAutoplay();
     } else {
-        startAutoplay();
+        startCoverflowAutoplay();
     }
 }
 
-function handleUserInteraction() {
-    stopAutoplay();
-}
-
-// Event listeners para detener autoplay
-items.forEach((item) => {
-    item.addEventListener('click', handleUserInteraction);
-    item.addEventListener('touchstart', handleUserInteraction);
-});
-
-const prevBtn = document.querySelector('.nav-button.prev');
-const nextBtn = document.querySelector('.nav-button.next');
-
-if (prevBtn) prevBtn.addEventListener('click', handleUserInteraction);
-if (nextBtn) nextBtn.addEventListener('click', handleUserInteraction);
-
-dots.forEach((dot) => {
-    dot.addEventListener('click', handleUserInteraction);
-    dot.addEventListener('touchstart', handleUserInteraction);
-});
-
-if (container) {
-    container.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-            handleUserInteraction();
-        }
-    });
-}
-
-// ===== FILTRO DE PORTAFOLIO OPTIMIZADO =====
-function initPortfolioFilter() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
+function updatePlayPauseButton() {
+    const playIcon = document.querySelector('.play-icon');
+    const pauseIcon = document.querySelector('.pause-icon');
     
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+    if (playIcon && pauseIcon) {
+        if (isCoverflowPlaying) {
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+        } else {
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+        }
+    }
+}
+
+// ===== PORTAFOLIO =====
+function initPortfolio() {
+    initPortfolioFilter();
+    initPortfolioGrid();
+    initViewExamples();
+}
+
+function initPortfolioFilter() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const portfolioGrid = document.getElementById('portfolioGrid');
+    
+    if (!filterButtons.length || !portfolioGrid) return;
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
             // Remover active de todos los botones
-            filterBtns.forEach(b => {
-                b.classList.remove('active');
-                b.setAttribute('aria-pressed', 'false');
-            });
-            
+            filterButtons.forEach(btn => btn.classList.remove('active'));
             // Agregar active al botón clickeado
             this.classList.add('active');
-            this.setAttribute('aria-pressed', 'true');
             
             const filterValue = this.getAttribute('data-filter');
-            
-            // Filtrar items con animación suave
-            portfolioItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                
-                if (filterValue === 'all' || category === filterValue) {
-                    item.style.display = 'block';
-                    // Forzar reflow para animación
-                    void item.offsetWidth;
-                    item.style.opacity = '1';
-                    item.style.transform = 'scale(1)';
-                } else {
-                    item.style.opacity = '0';
-                    item.style.transform = 'scale(0.8)';
-                    setTimeout(() => {
-                        if (category !== filterValue && filterValue !== 'all') {
-                            item.style.display = 'none';
-                        }
-                    }, 300);
-                }
-            });
-        });
-        
-        // Soporte para teclado
-        btn.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                btn.click();
-            }
+            filterPortfolioItems(filterValue);
         });
     });
 }
 
-// ===== SCROLL TO CONTACT OPTIMIZADO =====
-function scrollToContact(service = '') {
-    const contactSection = document.getElementById('contact');
-    const header = document.getElementById('header');
-    const headerHeight = header ? header.offsetHeight : 80;
+function initPortfolioGrid() {
+    const portfolioGrid = document.getElementById('portfolioGrid');
+    if (!portfolioGrid) return;
     
-    if (!contactSection) return;
+    const portfolioData = [
+        {
+            image: 'https://i.ibb.co/m5hNpSyn/Tarjetas-Personales-Corporativas.png',
+            category: 'tarjetas',
+            title: 'Tarjetas Personales',
+            description: 'Diseño corporativo premium'
+        },
+        {
+            image: 'https://i.ibb.co/F40gmXP5/Reconocimientos-Personalizados.png',
+            category: 'reconocimientos',
+            title: 'Reconocimientos',
+            description: 'Diplomas y certificados'
+        },
+        {
+            image: 'https://i.ibb.co/cS2cFRZV/Trofeos-Exclusivos.jpg',
+            category: 'trofeos',
+            title: 'Trofeos Exclusivos',
+            description: 'Diseños únicos para eventos'
+        },
+        {
+            image: 'https://i.ibb.co/67pqHvw7/Invitaciones-Elegantes.jpg',
+            category: 'invitaciones',
+            title: 'Invitaciones',
+            description: 'Bodas y eventos especiales'
+        },
+        {
+            image: 'https://i.ibb.co/1YX1QJpH/Afiches-Publicitarios.jpg',
+            category: 'afiches',
+            title: 'Afiches Publicitarios',
+            description: 'Gran formato impactante'
+        },
+        {
+            image: 'https://i.ibb.co/Y7KJ5BBz/Certificados-Institucionales-D.jpg',
+            category: 'reconocimientos',
+            title: 'Certificados',
+            description: 'Documentos institucionales'
+        }
+    ];
     
-    // Scroll suave a la sección de contacto
-    window.scrollTo({
-        top: contactSection.offsetTop - headerHeight,
-        behavior: 'smooth'
+    portfolioData.forEach(item => {
+        const portfolioItem = document.createElement('div');
+        portfolioItem.className = 'portfolio-item';
+        portfolioItem.setAttribute('data-category', item.category);
+        
+        portfolioItem.innerHTML = `
+            <img src="${item.image}" 
+                 alt="${item.title} - IMPRESIONES GRAFIC"
+                 loading="lazy"
+                 width="400"
+                 height="300">
+            <div class="portfolio-overlay">
+                <h4>${item.title}</h4>
+                <p>${item.description}</p>
+                <button class="btn btn-outline view-portfolio-detail" 
+                        data-title="${item.title}"
+                        data-image="${item.image}">
+                    <i class="fas fa-eye"></i> Ver detalles
+                </button>
+            </div>
+        `;
+        
+        portfolioGrid.appendChild(portfolioItem);
     });
     
-    // Si se especificó un servicio, llenar el campo
-    if (service && service !== '') {
-        setTimeout(() => {
-            const serviceSelect = document.getElementById('service');
-            if (serviceSelect) {
-                const options = Array.from(serviceSelect.options);
-                const matchingOption = options.find(option => 
-                    option.text.toLowerCase().includes(service.toLowerCase()) ||
-                    option.value.toLowerCase().includes(service.toLowerCase())
-                );
-                
-                if (matchingOption) {
-                    serviceSelect.value = matchingOption.value;
-                    
-                    // Desplegar el select en móvil
-                    if (isMobile) {
-                        serviceSelect.focus();
-                    }
-                }
-            }
-        }, 500);
-    }
-    
-    // Mostrar notificación
-    showNotification(`Perfecto! Te llevamos al formulario de contacto para ${service || 'tu consulta'}`, 'info');
+    // Event listeners para ver detalles
+    document.querySelectorAll('.view-portfolio-detail').forEach(button => {
+        button.addEventListener('click', function() {
+            const title = this.getAttribute('data-title');
+            const image = this.getAttribute('data-image');
+            showPortfolioDetail(title, image);
+        });
+    });
 }
 
-// ===== FORM SUBMISSION HANDLER OPTIMIZADO =====
-function handleSubmit(event, formType = 'consulta') {
-    event.preventDefault();
+function filterPortfolioItems(category) {
+    const items = document.querySelectorAll('.portfolio-item');
     
-    const form = event.target;
-    const submitBtn = form.querySelector('.submit-btn');
-    if (!submitBtn) return false;
+    items.forEach(item => {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+            item.style.display = 'block';
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'scale(1)';
+            }, 10);
+        } else {
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                item.style.display = 'none';
+            }, 300);
+        }
+    });
+}
+
+function initViewExamples() {
+    document.querySelectorAll('.view-examples').forEach(button => {
+        button.addEventListener('click', function() {
+            const service = this.getAttribute('data-service');
+            showServiceExamples(service);
+        });
+    });
+}
+
+function showServiceExamples(service) {
+    const examples = {
+        tarjetas: [
+            'https://i.ibb.co/m5hNpSyn/Tarjetas-Personales-Corporativas.png',
+            'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=600&h=400&fit=crop'
+        ],
+        reconocimientos: [
+            'https://i.ibb.co/F40gmXP5/Reconocimientos-Personalizados.png',
+            'https://i.ibb.co/Y7KJ5BBz/Certificados-Institucionales-D.jpg'
+        ],
+        invitaciones: [
+            'https://i.ibb.co/67pqHvw7/Invitaciones-Elegantes.jpg',
+            'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=400&fit=crop'
+        ],
+        afiches: [
+            'https://i.ibb.co/1YX1QJpH/Afiches-Publicitarios.jpg',
+            'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&h=400&fit=crop'
+        ]
+    };
     
-    const originalText = submitBtn.innerHTML;
-    const formData = new FormData(form);
+    const serviceNames = {
+        tarjetas: 'Tarjetas Personales',
+        reconocimientos: 'Reconocimientos',
+        invitaciones: 'Invitaciones',
+        afiches: 'Afiches Publicitarios'
+    };
     
-    // Validar formulario
-    if (!validateForm(form)) {
-        showNotification('Por favor, completa todos los campos requeridos correctamente.', 'error');
-        return false;
-    }
+    const serviceData = examples[service] || [];
+    if (serviceData.length === 0) return;
     
-    // Mostrar estado de carga
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-    submitBtn.disabled = true;
+    // Crear modal de ejemplos
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.id = 'examplesModal';
     
-    // Simular envío
-    setTimeout(() => {
-        // Éxito
-        showNotification('✅ Mensaje enviado correctamente. Te contactaremos pronto.', 'success');
-        
-        // Reset form
-        form.reset();
-        
-        // Restaurar botón
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-        
-        // Enviar evento a analytics si está disponible
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'form_submit', {
-                'event_category': 'contact',
-                'event_label': formType
-            });
+    let imagesHTML = '';
+    serviceData.forEach((img, index) => {
+        imagesHTML += `
+            <div class="example-image">
+                <img src="${img}" 
+                     alt="Ejemplo ${index + 1} de ${serviceNames[service]}"
+                     loading="lazy">
+            </div>
+        `;
+    });
+    
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h3>Ejemplos de ${serviceNames[service]}</h3>
+            <div class="examples-grid">
+                ${imagesHTML}
+            </div>
+            <p>¿Te gustaría personalizar tu diseño?</p>
+            <a href="https://wa.me/${config.whatsapp.phone}?text=Hola,%20quiero%20un%20diseño%20personalizado%20para%20${encodeURIComponent(serviceNames[service])}" 
+               class="btn btn-whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i> COTIZAR DISEÑO PERSONALIZADO
+            </a>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    
+    // Estilos para el modal de ejemplos
+    const style = document.createElement('style');
+    style.textContent = `
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
         }
         
-        // Scroll al inicio del formulario
-        form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        .example-image {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
         
-    }, 1500);
+        .example-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .example-image:hover img {
+            transform: scale(1.05);
+        }
+    `;
     
-    return false;
+    document.head.appendChild(style);
 }
 
-// ===== NOTIFICATION SYSTEM OPTIMIZADO =====
+function showPortfolioDetail(title, image) {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.id = 'portfolioDetailModal';
+    
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <img src="${image}" 
+                 alt="${title} - IMPRESIONES GRAFIC"
+                 class="detail-image">
+            <h3>${title}</h3>
+            <p>Este es un ejemplo de nuestro trabajo en ${title}. Podemos personalizar completamente el diseño según tus necesidades.</p>
+            
+            <div class="detail-features">
+                <div class="feature">
+                    <i class="fas fa-palette"></i>
+                    <span>Diseño personalizado</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-star"></i>
+                    <span>Calidad garantizada</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>Entrega rápida</span>
+                </div>
+            </div>
+            
+            <div class="detail-actions">
+                <a href="https://wa.me/${config.whatsapp.phone}?text=Hola,%20me%20interesa%20el%20servicio%20de%20${encodeURIComponent(title)}" 
+                   class="btn btn-whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> COTIZAR ESTE PROYECTO
+                </a>
+                <button class="btn btn-outline" onclick="closeModal()">
+                    VER MÁS EJEMPLOS
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    
+    // Estilos para el detalle
+    const style = document.createElement('style');
+    style.textContent = `
+        .detail-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+        
+        .feature i {
+            font-size: 24px;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+        
+        .feature span {
+            display: block;
+            font-size: 0.9rem;
+        }
+        
+        .detail-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .detail-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-actions {
+                flex-direction: column;
+            }
+        }
+    `;
+    
+    document.head.appendChild(style);
+}
+
+// ===== NAVEGACIÓN =====
+function initNavigation() {
+    initMenuToggle();
+    initSmoothScroll();
+    initActiveMenu();
+    initScrollToTop();
+}
+
+function initMenuToggle() {
+    const menuToggle = document.getElementById('menuToggle');
+    const mainMenu = document.getElementById('mainMenu');
+    
+    if (!menuToggle || !mainMenu) return;
+    
+    menuToggle.addEventListener('click', function() {
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', !isExpanded);
+        this.classList.toggle('active');
+        mainMenu.classList.toggle('active');
+        
+        // Prevenir scroll cuando el menú está abierto
+        document.body.style.overflow = mainMenu.classList.contains('active') ? 'hidden' : '';
+    });
+    
+    // Cerrar menú al hacer clic en un enlace
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            mainMenu.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        });
+    });
+    
+    // Cerrar menú al hacer clic fuera
+    document.addEventListener('click', (e) => {
+        if (!menuToggle.contains(e.target) && !mainMenu.contains(e.target)) {
+            menuToggle.classList.remove('active');
+            mainMenu.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+    });
+}
+
+function initSmoothScroll() {
+    // Smooth scroll para enlaces internos
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            if (href === '#') return;
+            
+            e.preventDefault();
+            const targetElement = document.querySelector(href);
+            
+            if (targetElement) {
+                const headerHeight = document.querySelector('.header').offsetHeight;
+                const targetPosition = targetElement.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Logo click para ir al inicio
+    document.querySelector('.logo-container')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+function initActiveMenu() {
+    const sections = document.querySelectorAll('.section');
+    const menuItems = document.querySelectorAll('.menu-item');
+    const header = document.getElementById('header');
+    
+    function updateActiveSection() {
+        const scrollPosition = window.scrollY + 100;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            const sectionId = section.getAttribute('id');
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                // Actualizar item activo del menú
+                menuItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href') === `#${sectionId}`) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+        });
+        
+        // Header con scroll
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        
+        // Scroll to top button
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        if (scrollToTopBtn) {
+            if (window.scrollY > 500) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        }
+    }
+    
+    window.addEventListener('scroll', updateActiveSection);
+    updateActiveSection(); // Ejecutar inicialmente
+}
+
+function initScrollToTop() {
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+}
+
+// ===== CONTACTO =====
+function initContact() {
+    initQuickRequest();
+    initSocialLinks();
+    initContactCards();
+}
+
+function initQuickRequest() {
+    const quickRequestBtn = document.querySelector('.contact-request .btn-primary');
+    
+    if (quickRequestBtn) {
+        quickRequestBtn.addEventListener('click', sendQuickRequest);
+    }
+}
+
+function sendQuickRequest() {
+    const name = document.getElementById('quickName').value.trim();
+    const phone = document.getElementById('quickPhone').value.trim();
+    const message = document.getElementById('quickMessage').value.trim();
+    const service = document.getElementById('quickService').value;
+    
+    // Validación básica
+    if (!name || !phone) {
+        showNotification('Por favor completa tu nombre y teléfono', 'warning');
+        return;
+    }
+    
+    // Construir mensaje para WhatsApp
+    let whatsappMessage = `*Nueva solicitud de contacto:*%0A%0A`;
+    whatsappMessage += `*Nombre:* ${name}%0A`;
+    whatsappMessage += `*Teléfono:* ${phone}%0A`;
+    
+    if (service) {
+        const serviceText = {
+            tarjetas: 'Tarjetas personales',
+            reconocimientos: 'Reconocimientos',
+            invitaciones: 'Invitaciones',
+            afiches: 'Afiches',
+            otros: 'Otros servicios'
+        }[service] || 'Servicio no especificado';
+        whatsappMessage += `*Servicio:* ${serviceText}%0A`;
+    }
+    
+    if (message) {
+        whatsappMessage += `*Mensaje:* ${message}%0A`;
+    }
+    
+    whatsappMessage += `%0A_Enviado desde el sitio web_`;
+    
+    // Abrir WhatsApp
+    window.open(`https://wa.me/${config.whatsapp.phone}?text=${whatsappMessage}`, '_blank');
+    
+    // Mostrar modal de confirmación
+    showRequestConfirmation(name);
+    
+    // Limpiar formulario
+    document.getElementById('quickName').value = '';
+    document.getElementById('quickPhone').value = '';
+    document.getElementById('quickMessage').value = '';
+    document.getElementById('quickService').value = '';
+}
+
+function showRequestConfirmation(name) {
+    const modal = document.getElementById('quickContactModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function initSocialLinks() {
+    // Asegurar que todos los enlaces sociales se abran en nueva pestaña
+    document.querySelectorAll('a[href*="facebook"], a[href*="instagram"], a[href*="tiktok"]').forEach(link => {
+        if (!link.hasAttribute('target')) {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
+        }
+    });
+}
+
+function initContactCards() {
+    // Añadir funcionalidad a las tarjetas de contacto
+    document.querySelectorAll('.contact-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Si el click fue en un botón o enlace, no hacer nada
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || 
+                e.target.closest('button') || e.target.closest('a')) {
+                return;
+            }
+            
+            // Enfocar el elemento principal de la tarjeta
+            const mainAction = this.querySelector('a, button');
+            if (mainAction) {
+                mainAction.click();
+            }
+        });
+    });
+}
+
+// ===== MODALES =====
+function initModals() {
+    initPdfViewer();
+}
+
+function initPdfViewer() {
+    // Esta función se ejecutará cuando se haga clic en los botones de catálogo
+    // Los catálogos reales deberían estar en /catalogos/
+}
+
+function openPdfViewer(pdfType) {
+    const pdfTitles = {
+        invitaciones: 'Catálogo de Invitaciones',
+        reconocimientos: 'Catálogo de Reconocimientos',
+        medallas: 'Catálogo de Medallas y Accesorios',
+        indumentaria: 'Catálogo de Indumentaria'
+    };
+    
+    const title = pdfTitles[pdfType] || 'Catálogo';
+    
+    // Crear modal de PDF (simulado)
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.id = 'pdfModal';
+    
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="pdf-viewer-placeholder">
+                <i class="fas fa-file-pdf"></i>
+                <h3>${title}</h3>
+                <p>Para ver nuestros catálogos completos, contáctanos directamente por WhatsApp.</p>
+                <p>Te enviaremos los catálogos actualizados con todos nuestros diseños.</p>
+                <a href="https://wa.me/${config.whatsapp.phone}?text=Hola,%20quiero%20ver%20el%20catálogo%20completo%20de%20${encodeURIComponent(title)}" 
+                   class="btn btn-whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> SOLICITAR CATÁLOGO COMPLETO
+                </a>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    
+    // Estilos para el placeholder del PDF
+    const style = document.createElement('style');
+    style.textContent = `
+        .pdf-viewer-placeholder {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .pdf-viewer-placeholder i {
+            font-size: 80px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .pdf-viewer-placeholder h3 {
+            margin-bottom: 15px;
+        }
+        
+        .pdf-viewer-placeholder p {
+            margin-bottom: 10px;
+        }
+    `;
+    
+    document.head.appendChild(style);
+}
+
+function closeModal() {
+    const modals = document.querySelectorAll('.modal-overlay');
+    modals.forEach(modal => {
+        modal.style.display = 'none';
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.remove();
+            }
+        }, 300);
+    });
+    
+    document.body.style.overflow = '';
+}
+
+// ===== RESPONSIVE =====
+function initResponsive() {
+    initResponsiveCoverflow();
+    initTouchOptimizations();
+    initOrientationChange();
+}
+
+function initResponsiveCoverflow() {
+    function adjustCoverflowSize() {
+        const width = window.innerWidth;
+        let itemSize = 300;
+        
+        if (width < 768) {
+            itemSize = 200;
+            config.coverflow.spacing = 180;
+        } else if (width < 1024) {
+            itemSize = 250;
+            config.coverflow.spacing = 200;
+        } else {
+            itemSize = 300;
+            config.coverflow.spacing = 220;
+        }
+        
+        config.coverflow.itemWidth = itemSize;
+        config.coverflow.itemHeight = itemSize;
+        
+        // Actualizar tamaño de los items
+        document.querySelectorAll('.coverflow-item').forEach(item => {
+            item.style.width = `${itemSize}px`;
+            item.style.height = `${itemSize}px`;
+        });
+        
+        if (coverflowItems.length > 0) {
+            updateCoverflow();
+        }
+    }
+    
+    window.addEventListener('resize', adjustCoverflowSize);
+    adjustCoverflowSize(); // Ejecutar inicialmente
+}
+
+function initTouchOptimizations() {
+    // Mejorar experiencia táctil
+    if ('ontouchstart' in window || navigator.maxTouchPoints) {
+        document.body.classList.add('touch-device');
+        
+        // Aumentar área de toque para botones importantes
+        const importantButtons = document.querySelectorAll('.btn-primary, .btn-whatsapp, .nav-button');
+        importantButtons.forEach(btn => {
+            btn.style.minHeight = '44px';
+            btn.style.minWidth = '44px';
+        });
+    }
+}
+
+function initOrientationChange() {
+    let previousOrientation = window.orientation;
+    
+    window.addEventListener('orientationchange', function() {
+        // Pequeño delay para que se complete el cambio de orientación
+        setTimeout(() => {
+            if (window.orientation !== previousOrientation) {
+                previousOrientation = window.orientation;
+                
+                // Forzar reflow en elementos críticos
+                if (coverflowItems.length > 0) {
+                    setTimeout(() => updateCoverflow(), 100);
+                }
+                
+                // Scroll suave al cambio de orientación
+                setTimeout(() => {
+                    window.scrollTo({ top: window.scrollY, behavior: 'smooth' });
+                }, 200);
+            }
+        }, 100);
+    });
+}
+
+// ===== ANIMACIONES Y EFECTOS =====
+function initAnimations() {
+    initIntersectionObserver();
+    initParallaxEffect();
+    initHoverEffects();
+}
+
+function initIntersectionObserver() {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+            }
+        });
+    }, observerOptions);
+    
+    // Observar elementos para animar
+    document.querySelectorAll('.servicio-card, .portfolio-item, .catalogo-card, .value, .benefit').forEach(el => {
+        observer.observe(el);
+    });
+}
+
+function initParallaxEffect() {
+    const heroBackground = document.querySelector('.hero-background');
+    
+    if (!heroBackground) return;
+    
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+        
+        if (heroBackground) {
+            heroBackground.style.transform = `translate3d(0, ${rate}px, 0)`;
+        }
+    });
+}
+
+function initHoverEffects() {
+    // Efectos de hover mejorados para dispositivos con mouse
+    if (window.matchMedia('(hover: hover)').matches) {
+        document.querySelectorAll('.servicio-card, .catalogo-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+    }
+}
+
+// ===== NOTIFICACIONES =====
 function showNotification(message, type = 'info') {
-    // Remover notificaciones existentes
+    // Eliminar notificaciones existentes
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => {
         notification.remove();
     });
     
-    // Crear elemento de notificación
+    // Crear notificación
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.setAttribute('role', 'alert');
     notification.setAttribute('aria-live', 'polite');
+    
+    const icons = {
+        success: '✅',
+        error: '❌',
+        warning: '⚠️',
+        info: 'ℹ️'
+    };
+    
     notification.innerHTML = `
         <div class="notification-content">
-            <span class="notification-icon" aria-hidden="true">${getNotificationIcon(type)}</span>
+            <span class="notification-icon">${icons[type] || icons.info}</span>
             <span class="notification-message">${message}</span>
         </div>
         <button class="notification-close" aria-label="Cerrar notificación">&times;</button>
     `;
     
-    // Estilos inline para rendimiento
-    notification.style.cssText = `
-        position: fixed;
-        top: ${isMobile ? '80px' : '90px'};
-        right: 20px;
-        background: ${getNotificationColor(type)};
-        color: white;
-        padding: 15px 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        z-index: 10000;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-width: 280px;
-        max-width: 90%;
-        animation: notificationSlideIn 0.3s ease;
-        border: 1px solid rgba(255,255,255,0.1);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    `;
+    document.body.appendChild(notification);
     
-    // Agregar estilos CSS si no existen
+    // Estilos para la notificación
+    const style = document.createElement('style');
     if (!document.querySelector('#notification-styles')) {
-        const style = document.createElement('style');
         style.id = 'notification-styles';
         style.textContent = `
-            @keyframes notificationSlideIn {
+            .notification {
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: var(--bg-card);
+                border-left: 4px solid;
+                border-radius: var(--border-radius-md);
+                padding: 15px 20px;
+                color: var(--text-primary);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                min-width: 300px;
+                max-width: 400px;
+                z-index: var(--z-toast);
+                box-shadow: var(--shadow-lg);
+                animation: slideIn 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
+            
+            .notification-success { border-color: var(--success); }
+            .notification-error { border-color: var(--danger); }
+            .notification-warning { border-color: var(--warning); }
+            .notification-info { border-color: var(--secondary); }
+            
+            @keyframes slideIn {
                 from { transform: translateX(100%); opacity: 0; }
                 to { transform: translateX(0); opacity: 1; }
             }
-            @keyframes notificationSlideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
+            
             .notification-content {
                 display: flex;
                 align-items: center;
                 gap: 10px;
                 flex: 1;
             }
+            
             .notification-close {
                 background: none;
                 border: none;
-                color: white;
+                color: var(--text-muted);
                 font-size: 24px;
                 cursor: pointer;
                 padding: 0;
                 margin-left: 15px;
                 line-height: 1;
-                min-width: 30px;
-                min-height: 30px;
-                opacity: 0.8;
+                transition: color 0.3s ease;
             }
+            
             .notification-close:hover {
-                opacity: 1;
+                color: var(--text-primary);
             }
-            @media (max-width: 480px) {
+            
+            @media (max-width: 768px) {
                 .notification {
                     left: 20px;
                     right: 20px;
-                    max-width: calc(100% - 40px);
+                    max-width: none;
                 }
             }
         `;
         document.head.appendChild(style);
     }
     
-    // Agregar al DOM
-    document.body.appendChild(notification);
-    
-    // Funcionalidad del botón cerrar
-    const closeBtn = notification.querySelector('.notification-close');
-    closeBtn.addEventListener('click', () => {
-        closeNotification(notification);
+    // Botón para cerrar
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
     });
     
-    // Cerrar con ESC
-    const closeOnEsc = (e) => {
-        if (e.key === 'Escape') {
-            closeNotification(notification);
-            document.removeEventListener('keydown', closeOnEsc);
-        }
-    };
-    document.addEventListener('keydown', closeOnEsc);
-    
     // Auto-remover después de 5 segundos
-    const autoRemove = setTimeout(() => {
+    setTimeout(() => {
         if (notification.parentNode) {
-            closeNotification(notification);
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
         }
     }, 5000);
     
-    // Pausar auto-remove al hover
-    notification.addEventListener('mouseenter', () => {
-        clearTimeout(autoRemove);
-    });
-    
-    notification.addEventListener('mouseleave', () => {
-        setTimeout(() => {
-            if (notification.parentNode) {
-                closeNotification(notification);
+    // Animación de salida
+    if (!document.querySelector('#notification-slide-out')) {
+        const slideOutStyle = document.createElement('style');
+        slideOutStyle.id = 'notification-slide-out';
+        slideOutStyle.textContent = `
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
             }
-        }, 3000);
-    });
-    
-    return notification;
-}
-
-function closeNotification(notification) {
-    notification.style.animation = 'notificationSlideOut 0.3s ease';
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.remove();
-        }
-    }, 300);
-}
-
-function getNotificationIcon(type) {
-    const icons = {
-        'success': '✅',
-        'error': '❌',
-        'warning': '⚠️',
-        'info': 'ℹ️'
-    };
-    return icons[type] || icons.info;
-}
-
-function getNotificationColor(type) {
-    const colors = {
-        'success': 'rgba(81, 207, 102, 0.95)',
-        'error': 'rgba(255, 107, 107, 0.95)',
-        'warning': 'rgba(255, 193, 7, 0.95)',
-        'info': 'rgba(78, 205, 196, 0.95)'
-    };
-    return colors[type] || colors.info;
-}
-
-// ===== PORTFOLIO MODALS OPTIMIZADOS =====
-function initPortfolioModals() {
-    const viewDetailsBtns = document.querySelectorAll('.view-details');
-    
-    viewDetailsBtns.forEach((btn, index) => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            
-            const portfolioItem = this.closest('.portfolio-item');
-            if (!portfolioItem) return;
-            
-            const image = portfolioItem.querySelector('img');
-            const titleElement = portfolioItem.querySelector('h4');
-            const descriptionElement = portfolioItem.querySelector('p');
-            
-            if (!image || !titleElement) return;
-            
-            const imageSrc = image.src;
-            const title = titleElement.textContent;
-            const shortDescription = descriptionElement ? descriptionElement.textContent : '';
-            
-            // Descripciones detalladas
-            const detailedDescriptions = [
-                {
-                    title: "Tarjetas Personales Corporativas",
-                    description: "En IMPRESIONES GRAFIC diseñamos tarjetas de presentación que no solo transmiten información, sino que cuentan la historia de tu marca. Utilizamos materiales premium como cartulina couché de 300g, acabados en relieve, troquelados especiales y barniz UV selectivo para crear piezas que dejan una impresión duradera.",
-                    features: ["Diseño personalizado con 3 revisiones", "Materiales premium (cartulina 300g)", "Acabados especiales (relieve, troquelado)", "Impresión full color de alta resolución", "Entrega en 48 horas hábiles", "Mínimo 100 unidades"],
-                    price: "Desde Bs. 150",
-                    delivery: "48 horas"
-                },
-                {
-                    title: "Reconocimientos Personalizados",
-                    description: "Nuestros reconocimientos y diplomas son diseñados para premiar la excelencia. Trabajamos con papeles especiales como pergamino, texturizados y con marcas de agua, incorporando elementos gráficos que reflejan la importancia del logro. Cada pieza es única y diseñada según la institución o evento.",
-                    features: ["Diseño elegante y formal", "Papeles especiales (pergamino, texturizados)", "Marcos de madera o acrílico opcional", "Personalización completa de textos", "Numeración y validación oficial", "Embalaje protector premium"],
-                    price: "Desde Bs. 80",
-                    delivery: "72 horas"
-                },
-                {
-                    title: "Trofeos Exclusivos",
-                    description: "Creamos trofeos que se convierten en símbolos de logro y reconocimiento. Combinamos diferentes materiales como cristal tallado, acrílico láser, metal cromado y bases de mármol sintético para piezas realmente memorables. Cada trofeo cuenta una historia de triunfo.",
-                    features: ["Combinación de materiales premium", "Grabado láser personalizado", "Bases estables y elegantes", "Diseño exclusivo para cada evento", "Embalaje de lujo con espuma", "Instalación en evento (opcional)"],
-                    price: "Desde Bs. 200",
-                    delivery: "5-7 días"
-                },
-                {
-                    title: "Invitaciones Elegantes",
-                    description: "Transformamos tus momentos especiales en recuerdos tangibles. Diseñamos invitaciones que anticipan la magia de tu evento, utilizando técnicas como letterpress, foil stamping, cortes láser y papeles especiales importados. Cada detalle es cuidadosamente considerado.",
-                    features: ["Diseño único para cada evento", "Papeles importados de alta calidad", "Técnicas especiales (foil, relieve)", "Sobres personalizados y lacrados", "Coordinación completa del diseño", "Muestras físicas antes de producción"],
-                    price: "Desde Bs. 3 por unidad",
-                    delivery: "5 días"
-                },
-                {
-                    title: "Afiches Publicitarios",
-                    description: "Diseñamos afiches que no solo informan, sino que impactan y persuaden. Trabajamos con impresión de gran formato hasta 150x100cm, materiales resistentes a la intemperie y técnicas de visualización estratégica para maximizar el alcance de tu mensaje.",
-                    features: ["Gran formato hasta 150x100cm", "Materiales resistentes a la intemperie", "Impresión en alta resolución", "Diseño optimizado para visualización", "Instalación profesional incluida", "Resistencia UV para exteriores"],
-                    price: "Desde Bs. 50",
-                    delivery: "24-48 horas"
-                },
-                {
-                    title: "Certificados Institucionales",
-                    description: "Documentos oficiales que otorgan validez y prestigio. Diseñamos certificados con elementos de seguridad, numeración serial, marcas de agua y firmas digitales, garantizando autenticidad y profesionalismo para instituciones educativas, empresas y organizaciones.",
-                    features: ["Elementos de seguridad integrados", "Numeración serial consecutiva", "Marcas de agua y fondos seguridad", "Papeles de calidad archivística", "Validación oficial y firmas", "Diseño acorde a normativa institucional"],
-                    price: "Desde Bs. 25 por unidad",
-                    delivery: "3 días"
-                }
-            ];
-            
-            // Obtener descripción detallada
-            const detailedInfo = detailedDescriptions[index] || {
-                title: title,
-                description: shortDescription,
-                features: ["Calidad garantizada", "Diseño personalizado", "Entrega puntual", "Atención personalizada"],
-                price: "Consultar",
-                delivery: "Variable"
-            };
-            
-            // Crear modal
-            const modal = createPortfolioModal(detailedInfo, imageSrc);
-            document.body.appendChild(modal);
-            document.body.style.overflow = 'hidden';
-            
-            // Configurar funcionalidades del modal
-            setupModalFunctionality(modal);
-        });
-        
-        // Soporte para teclado
-        btn.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                btn.click();
-            }
-        });
-    });
-}
-
-function createPortfolioModal(detailedInfo, imageSrc) {
-    const modal = document.createElement('div');
-    modal.className = 'portfolio-modal';
-    modal.setAttribute('role', 'dialog');
-    modal.setAttribute('aria-labelledby', 'modal-title');
-    modal.setAttribute('aria-modal', 'true');
-    
-    modal.innerHTML = `
-        <div class="modal-overlay" tabindex="-1"></div>
-        <div class="modal-content">
-            <button class="modal-close" aria-label="Cerrar modal">&times;</button>
-            <img src="${imageSrc}" alt="${detailedInfo.title}" loading="lazy">
-            <div class="modal-info">
-                <h3 id="modal-title">${detailedInfo.title}</h3>
-                <p class="modal-description">${detailedInfo.description}</p>
-                
-                <div class="modal-features">
-                    <h4><i class="fas fa-check-circle" aria-hidden="true"></i> Características del servicio:</h4>
-                    <ul>
-                        ${detailedInfo.features.map(feature => `<li><i class="fas fa-check" aria-hidden="true"></i> ${feature}</li>`).join('')}
-                    </ul>
-                </div>
-                
-                <div class="modal-details-grid">
-                    <div class="detail-item">
-                        <i class="fas fa-tag" aria-hidden="true"></i>
-                        <div>
-                            <h5>Precio aproximado</h5>
-                            <p class="price">${detailedInfo.price}</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-shipping-fast" aria-hidden="true"></i>
-                        <div>
-                            <h5>Tiempo de entrega</h5>
-                            <p>${detailedInfo.delivery}</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-palette" aria-hidden="true"></i>
-                        <div>
-                            <h5>Diseño incluido</h5>
-                            <p>3 revisiones</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-award" aria-hidden="true"></i>
-                        <div>
-                            <h5>Garantía</h5>
-                            <p>100% satisfacción</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="modal-actions">
-                    <button class="btn-primary" onclick="scrollToContact('${detailedInfo.title.split(' ')[0].toLowerCase()}')">
-                        <i class="fas fa-comments" aria-hidden="true"></i> Solicitar presupuesto personalizado
-                    </button>
-                    <button class="btn-secondary modal-close-btn">
-                        <i class="fas fa-times" aria-hidden="true"></i> Cerrar
-                    </button>
-                </div>
-                
-                <p class="modal-note"><i class="fas fa-info-circle" aria-hidden="true"></i> Los precios pueden variar según cantidad, materiales y especificaciones del proyecto.</p>
-            </div>
-        </div>
-    `;
-    
-    // Agregar estilos si no existen
-    if (!document.querySelector('#modal-styles')) {
-        addModalStyles();
-    }
-    
-    return modal;
-}
-
-function addModalStyles() {
-    const style = document.createElement('style');
-    style.id = 'modal-styles';
-    style.textContent = `
-        .portfolio-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        .modal-content {
-            position: relative;
-            background: #1a1a2e;
-            border-radius: 20px;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalFadeIn 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes modalFadeOut {
-            from { opacity: 1; transform: scale(1); }
-            to { opacity: 0; transform: scale(0.9); }
-        }
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            z-index: 1;
-            transition: all 0.3s ease;
-        }
-        .modal-close:hover {
-            background: rgba(255,255,255,0.2);
-            transform: rotate(90deg);
-        }
-        .modal-content img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 20px 20px 0 0;
-        }
-        .modal-info {
-            padding: 25px;
-        }
-        .modal-info h3 {
-            color: white;
-            margin-bottom: 15px;
-            font-size: 1.6rem;
-        }
-        .modal-description {
-            color: rgba(255,255,255,0.8);
-            line-height: 1.6;
-            margin-bottom: 25px;
-            font-size: 1rem;
-        }
-        .modal-features {
-            margin-bottom: 25px;
-        }
-        .modal-features h4 {
-            color: white;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .modal-features h4 i {
-            color: var(--accent-color);
-        }
-        .modal-features ul {
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-        @media (max-width: 768px) {
-            .modal-features ul {
-                grid-template-columns: 1fr;
-            }
-        }
-        .modal-features li {
-            color: rgba(255,255,255,0.7);
-            padding: 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9rem;
-        }
-        .modal-features li i {
-            color: var(--secondary-color);
-            font-size: 0.8rem;
-        }
-        .modal-details-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 25px;
-            background: rgba(255,255,255,0.05);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        @media (max-width: 480px) {
-            .modal-details-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .detail-item i {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            color: white;
-        }
-        .detail-item h5 {
-            color: rgba(255,255,255,0.9);
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        .detail-item p {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.85rem;
-            margin: 0;
-        }
-        .detail-item .price {
-            color: var(--accent-color);
-            font-weight: 700;
-            font-size: 1rem;
-        }
-        .modal-actions {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        @media (max-width: 480px) {
-            .modal-actions {
-                flex-direction: column;
-            }
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 0.95rem;
-            min-height: 48px;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-        .btn-secondary {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 14px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 0.95rem;
-            min-height: 48px;
-        }
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        .modal-note {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.8rem;
-            text-align: center;
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .modal-note i {
-            color: var(--secondary-color);
-        }
-        @media (max-width: 768px) {
-            .portfolio-modal {
-                padding: 10px;
-            }
-            .modal-content img {
-                height: 200px;
-            }
-            .modal-info {
-                padding: 20px;
-            }
-            .modal-info h3 {
-                font-size: 1.3rem;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-function setupModalFunctionality(modal) {
-    const closeModal = () => {
-        modal.style.animation = 'modalFadeOut 0.3s ease';
-        setTimeout(() => {
-            if (modal.parentNode) {
-                document.body.removeChild(modal);
-                document.body.style.overflow = '';
-            }
-        }, 300);
-    };
-    
-    const closeBtn = modal.querySelector('.modal-close');
-    const closeBtn2 = modal.querySelector('.modal-close-btn');
-    const overlay = modal.querySelector('.modal-overlay');
-    
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (closeBtn2) closeBtn2.addEventListener('click', closeModal);
-    if (overlay) overlay.addEventListener('click', closeModal);
-    
-    // Focus trap
-    const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    if (focusableElements.length > 0) {
-        const firstFocusableElement = focusableElements[0];
-        const lastFocusableElement = focusableElements[focusableElements.length - 1];
-        
-        if (firstFocusableElement) {
-            setTimeout(() => firstFocusableElement.focus(), 100);
-        }
-        
-        // Teclado
-        modal.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-            
-            if (e.key === 'Tab' && focusableElements.length > 1) {
-                if (e.shiftKey) {
-                    if (document.activeElement === firstFocusableElement) {
-                        e.preventDefault();
-                        lastFocusableElement.focus();
-                    }
-                } else {
-                    if (document.activeElement === lastFocusableElement) {
-                        e.preventDefault();
-                        firstFocusableElement.focus();
-                    }
-                }
-            }
-        });
+        `;
+        document.head.appendChild(slideOutStyle);
     }
 }
 
-// ===== FORM VALIDATION OPTIMIZADA =====
-function initFormValidation() {
-    const forms = document.querySelectorAll('form');
-    
-    forms.forEach(form => {
-        form.addEventListener('submit', handleFormSubmit);
-        setupFormValidation(form);
-    });
-}
-
-function setupFormValidation(form) {
-    const inputs = form.querySelectorAll('input, textarea, select');
-    
-    inputs.forEach(input => {
-        // Validación en tiempo real
-        input.addEventListener('blur', () => {
-            validateInput(input);
-        });
-        
-        // Limpiar errores al escribir
-        input.addEventListener('input', () => {
-            clearError(input);
-        });
-        
-        // Submit con Enter en textarea
-        if (input.tagName === 'TEXTAREA') {
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    const submitBtn = form.querySelector('button[type="submit"]');
-                    if (submitBtn) {
-                        submitBtn.click();
-                    }
-                }
-            });
-        }
-    });
-}
-
-function validateForm(form) {
-    const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
-    let isValid = true;
-    
-    inputs.forEach(input => {
-        if (!validateInput(input)) {
-            isValid = false;
-        }
-    });
-    
-    return isValid;
-}
-
-function validateInput(input) {
-    const value = input.value.trim();
-    let isValid = true;
-    let errorMessage = '';
-    
-    // Validaciones básicas
-    if (input.hasAttribute('required') && !value) {
-        isValid = false;
-        errorMessage = 'Este campo es requerido';
-    }
-    
-    if (input.type === 'email' && value) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) {
-            isValid = false;
-            errorMessage = 'Ingresa un email válido';
-        }
-    }
-    
-    if (input.type === 'tel' && value) {
-        const phoneRegex = /^[\d\s\-\+\(\)]{8,20}$/;
-        if (!phoneRegex.test(value.replace(/\s/g, ''))) {
-            isValid = false;
-            errorMessage = 'Ingresa un teléfono válido (8-20 dígitos)';
-        }
-    }
-    
-    if (!isValid) {
-        showInputError(input, errorMessage);
-    } else {
-        clearError(input);
-    }
-    
-    return isValid;
-}
-
-function showInputError(input, message) {
-    clearError(input);
-    
-    const error = document.createElement('div');
-    error.className = 'input-error';
-    error.textContent = message;
-    error.setAttribute('role', 'alert');
-    error.style.cssText = `
-        color: var(--accent-color);
-        font-size: 0.85rem;
-        margin-top: 5px;
-        animation: fadeIn 0.3s ease;
-    `;
-    
-    input.parentNode.appendChild(error);
-    input.style.borderColor = 'var(--accent-color)';
-    input.style.boxShadow = '0 0 0 2px rgba(255, 107, 107, 0.1)';
-    
-    // Enfocar el input si es el primer error
-    if (!document.querySelector('.input-error:first-of-type')) {
-        setTimeout(() => input.focus(), 100);
-    }
-}
-
-function clearError(input) {
-    const error = input.parentNode.querySelector('.input-error');
-    if (error) {
-        error.remove();
-    }
-    input.style.borderColor = '';
-    input.style.boxShadow = '';
-}
-
-// ===== SMOOTH SCROLLING AND ACTIVE MENU ITEM OPTIMIZADO =====
-const sections = document.querySelectorAll('.section');
-const menuItems = document.querySelectorAll('.menu-item');
-const header = document.getElementById('header');
-const scrollToTopBtn = document.getElementById('scrollToTop');
-
-// Update active menu item on scroll
-function updateActiveMenuItem() {
-    const scrollPosition = window.scrollY + 100;
-    let currentSection = '';
-
-    sections.forEach((section) => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            currentSection = section.getAttribute('id');
-        }
-    });
-
-    menuItems.forEach(item => {
-        item.classList.remove('active');
-        item.setAttribute('aria-current', 'false');
-        
-        const href = item.getAttribute('href');
-        if (href === `#${currentSection}`) {
-            item.classList.add('active');
-            item.setAttribute('aria-current', 'page');
-        }
-    });
-
-    // Header background on scroll
-    if (header) {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    }
-
-    // Show/hide scroll to top button
-    if (scrollToTopBtn) {
-        if (window.scrollY > 500) {
-            scrollToTopBtn.classList.add('visible');
-            scrollToTopBtn.setAttribute('aria-hidden', 'false');
-        } else {
-            scrollToTopBtn.classList.remove('visible');
-            scrollToTopBtn.setAttribute('aria-hidden', 'true');
-        }
-    }
-}
-
-// Throttle scroll event
-let scrollTimeout;
-window.addEventListener('scroll', () => {
-    if (!scrollTimeout) {
-        scrollTimeout = setTimeout(() => {
-            scrollTimeout = null;
-            updateActiveMenuItem();
-        }, 100);
-    }
-});
-
-// Smooth scroll to section
-menuItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-        const targetId = item.getAttribute('href');
-        
-        if (targetId && targetId.startsWith('#') && targetId !== '#') {
-            e.preventDefault();
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                // Cerrar menú móvil si está abierto
-                if (window.innerWidth <= 768) {
-                    if (menuToggle) {
-                        menuToggle.classList.remove('active');
-                        menuToggle.setAttribute('aria-expanded', 'false');
-                        menuToggle.setAttribute('aria-label', 'Abrir menú');
-                    }
-                    if (mainMenu) {
-                        mainMenu.classList.remove('active');
-                    }
-                    document.body.style.overflow = '';
-                }
-                
-                const headerHeight = header ? header.offsetHeight : 80;
-                const targetPosition = targetSection.offsetTop - headerHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-                
-                // Actualizar URL sin recargar
-                history.pushState(null, null, targetId);
-            }
-        }
-    });
-});
-
-// Logo click to scroll to top
-const logoContainer = document.querySelector('.logo-container');
-if (logoContainer) {
-    logoContainer.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        history.pushState(null, null, window.location.pathname);
-    });
-}
-
-// Scroll to top button
-if (scrollToTopBtn) {
-    scrollToTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Keyboard support for scroll to top
-    scrollToTopBtn.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            scrollToTopBtn.click();
-        }
-    });
-}
-
-// ===== PDF VIEWER OPTIMIZADO =====
-function openPdfViewer(pdfUrl, title = 'Catálogo') {
-    // Crear modal
-    const modal = document.createElement('div');
-    modal.className = 'pdf-viewer-modal';
-    modal.setAttribute('role', 'dialog');
-    modal.setAttribute('aria-labelledby', 'pdf-modal-title');
-    modal.setAttribute('aria-modal', 'true');
-    modal.innerHTML = `
-        <div class="pdf-modal-overlay" tabindex="-1"></div>
-        <div class="pdf-modal-content">
-            <div class="pdf-modal-header">
-                <h3 id="pdf-modal-title">${title}</h3>
-                <div class="pdf-modal-actions">
-                    <button class="btn-fullscreen" title="Pantalla completa" aria-label="Pantalla completa">
-                        <i class="fas fa-expand" aria-hidden="true"></i>
-                    </button>
-                    <button class="btn-close-pdf" title="Cerrar" aria-label="Cerrar visor de PDF">
-                        <i class="fas fa-times" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="pdf-viewer-container">
-                <iframe 
-                    src="${pdfUrl}" 
-                    frameborder="0"
-                    title="Visor de PDF - ${title}"
-                    allowfullscreen
-                    loading="lazy"
-                    aria-label="Visor de documento PDF"
-                ></iframe>
-            </div>
-            <div class="pdf-modal-footer">
-                <p><i class="fas fa-mouse-pointer" aria-hidden="true"></i> Usa las flechas para navegar • <i class="fas fa-search-plus" aria-hidden="true"></i> Rueda del mouse para zoom</p>
-                <p class="pdf-note"><i class="fas fa-info-circle" aria-hidden="true"></i> Catálogo de solo visualización</p>
-            </div>
-        </div>
-    `;
-    
-    // Agregar estilos si no existen
-    if (!document.querySelector('#pdf-viewer-styles')) {
-        addPdfViewerStyles();
-    }
-    
-    // Agregar al DOM
-    document.body.appendChild(modal);
-    document.body.style.overflow = 'hidden';
-    
-    // Configurar funcionalidades
-    setupPdfViewerFunctionality(modal, title);
-}
-
-function addPdfViewerStyles() {
-    const style = document.createElement('style');
-    style.id = 'pdf-viewer-styles';
-    style.textContent = `
-        .pdf-viewer-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .pdf-modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        .pdf-modal-content {
-            position: relative;
-            background: #1a1a2e;
-            border-radius: 20px;
-            width: 95%;
-            max-width: 1200px;
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            animation: modalSlideIn 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(50px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        @keyframes modalSlideOut {
-            from {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(50px) scale(0.95);
-            }
-        }
-        .pdf-modal-header {
-            padding: 20px 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0,0,0,0.3);
-            border-radius: 20px 20px 0 0;
-        }
-        .pdf-modal-header h3 {
-            color: white;
-            margin: 0;
-            font-size: 1.4rem;
-        }
-        .pdf-modal-actions {
-            display: flex;
-            gap: 10px;
-        }
-        .btn-fullscreen, .btn-close-pdf {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .btn-fullscreen:hover {
-            background: rgba(255,255,255,0.2);
-            transform: scale(1.1);
-        }
-        .btn-close-pdf:hover {
-            background: var(--accent-color);
-            transform: scale(1.1);
-        }
-        .pdf-viewer-container {
-            flex: 1;
-            padding: 20px;
-            min-height: 400px;
-        }
-        .pdf-viewer-container iframe {
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .pdf-modal-footer {
-            padding: 15px 25px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-            background: rgba(0,0,0,0.3);
-            border-radius: 0 0 20px 20px;
-        }
-        .pdf-modal-footer p {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-        }
-        .pdf-modal-footer i {
-            color: var(--secondary-color);
-            margin-right: 8px;
-        }
-        .pdf-note {
-            color: var(--accent-color) !important;
-            font-weight: 600;
-            font-size: 0.85rem !important;
-        }
-        
-        /* Modo pantalla completa */
-        .pdf-viewer-modal.fullscreen .pdf-modal-content {
-            width: 100%;
-            height: 100vh;
-            max-width: none;
-            border-radius: 0;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .pdf-viewer-modal {
-                padding: 10px;
-            }
-            .pdf-modal-content {
-                width: 100%;
-                height: 100vh;
-                border-radius: 0;
-            }
-            .pdf-viewer-container {
-                padding: 10px;
-            }
-            .pdf-modal-header {
-                padding: 15px 20px;
-            }
-            .pdf-modal-header h3 {
-                font-size: 1.2rem;
-            }
-            .pdf-modal-footer p {
-                font-size: 0.8rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .pdf-modal-header {
-                padding: 12px 15px;
-            }
-            .pdf-modal-header h3 {
-                font-size: 1.1rem;
-            }
-            .btn-fullscreen, .btn-close-pdf {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-            }
-            .pdf-viewer-container {
-                padding: 8px;
-            }
-            .pdf-modal-footer {
-                padding: 12px 15px;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-function setupPdfViewerFunctionality(modal, title) {
-    const closeBtn = modal.querySelector('.btn-close-pdf');
-    const fullscreenBtn = modal.querySelector('.btn-fullscreen');
-    const overlay = modal.querySelector('.pdf-modal-overlay');
-    const iframe = modal.querySelector('iframe');
-    
-    if (!closeBtn) return;
-    
-    // Enfocar botón cerrar
-    setTimeout(() => closeBtn.focus(), 100);
-    
-    // Cerrar modal
-    const closeModal = () => {
-        modal.style.animation = 'modalSlideOut 0.3s ease';
-        setTimeout(() => {
-            if (modal.parentNode) {
-                document.body.removeChild(modal);
-                document.body.style.overflow = '';
-            }
-        }, 300);
-    };
-    
-    closeBtn.addEventListener('click', closeModal);
-    if (overlay) overlay.addEventListener('click', closeModal);
-    
-    // Pantalla completa
-    if (fullscreenBtn) {
-        fullscreenBtn.addEventListener('click', () => {
-            modal.classList.toggle('fullscreen');
-            const icon = fullscreenBtn.querySelector('i');
-            if (modal.classList.contains('fullscreen')) {
-                icon.className = 'fas fa-compress';
-                fullscreenBtn.title = 'Salir de pantalla completa';
-                fullscreenBtn.setAttribute('aria-label', 'Salir de pantalla completa');
-            } else {
-                icon.className = 'fas fa-expand';
-                fullscreenBtn.title = 'Pantalla completa';
-                fullscreenBtn.setAttribute('aria-label', 'Pantalla completa');
-            }
-        });
-    }
-    
-    // Focus trap y teclado
-    modal.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            if (modal.classList.contains('fullscreen')) {
-                modal.classList.remove('fullscreen');
-                if (fullscreenBtn) {
-                    fullscreenBtn.querySelector('i').className = 'fas fa-expand';
-                    fullscreenBtn.title = 'Pantalla completa';
-                    fullscreenBtn.setAttribute('aria-label', 'Pantalla completa');
-                }
-            } else {
-                closeModal();
-            }
-        }
-    });
-    
-    // Enfocar iframe después de un momento
-    if (iframe) {
-        setTimeout(() => iframe.focus(), 300);
-    }
-}
-
-// ===== AJUSTES RESPONSIVE =====
-function adjustCoverflowForScreen() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    isMobile = width <= 768;
-    
-    // CONFIGURACIÓN DEL MENÚ SEGÚN TAMAÑO
-    if (menuToggle && mainMenu) {
-        if (width <= 768) {
-            // MÓVIL: Mostrar hamburguesa
-            menuToggle.style.display = 'flex';
-            if (!mainMenu.classList.contains('active')) {
-                mainMenu.style.display = 'none';
-            }
-        } else {
-            // DESKTOP: Ocultar hamburguesa, mostrar menú
-            menuToggle.style.display = 'none';
-            mainMenu.style.display = 'flex';
-            mainMenu.classList.remove('active');
-            menuToggle.classList.remove('active');
-            if (menuToggle) {
-                menuToggle.setAttribute('aria-expanded', 'false');
-            }
-            document.body.style.overflow = '';
-        }
-    }
-    
-    // Ajustar tamaño de items según dispositivo
-    if (width < 480) {
-        items.forEach(item => {
-            item.style.width = '160px';
-            item.style.height = '160px';
-        });
-    } else if (width < 768) {
-        items.forEach(item => {
-            item.style.width = '180px';
-            item.style.height = '180px';
-        });
-    } else if (width < 1024) {
-        items.forEach(item => {
-            item.style.width = '220px';
-            item.style.height = '220px';
-        });
-    } else {
-        items.forEach(item => {
-            item.style.width = '260px';
-            item.style.height = '260px';
-        });
-    }
-    
-    // Ajustar altura del contenedor
-    if (isMobile && width > height) {
-        if (container) container.style.height = '250px';
-    } else {
-        if (container) container.style.height = isMobile ? '250px' : '350px';
-    }
-    
-    updateCoverflow();
-}
-
-// Throttle resize event
-let resizeTimeout;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        adjustCoverflowForScreen();
-        
-        // Cerrar menú móvil al cambiar a desktop
-        if (window.innerWidth > 768) {
-            if (menuToggle) {
-                menuToggle.classList.remove('active');
-                menuToggle.setAttribute('aria-expanded', 'false');
-                menuToggle.setAttribute('aria-label', 'Abrir menú');
-            }
-            if (mainMenu) {
-                mainMenu.classList.remove('active');
-                mainMenu.style.display = 'flex';
-            }
-            document.body.style.overflow = '';
-        }
-        
-        // Actualizar detección de dispositivo
-        isMobile = window.innerWidth <= 768;
-    }, 250);
-});
-
-// ===== INICIALIZACIÓN COMPLETA =====
-function initAll() {
-    console.log('Inicializando IMPRESIONES GRAFIC...');
-    
-    // Detectar dispositivo
-    detectDeviceAndBrowser();
-    
-    // CONFIGURACIÓN INICIAL DEL MENÚ
-    const width = window.innerWidth;
-    console.log('Ancho inicial:', width, 'px');
-    
-    if (menuToggle && mainMenu) {
-        if (width <= 768) {
-            // MÓVIL
-            menuToggle.style.display = 'flex';
-            mainMenu.style.display = 'none';
-            menuToggle.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            console.log('Configurado para móvil');
-        } else {
-            // DESKTOP
-            menuToggle.style.display = 'none';
-            mainMenu.style.display = 'flex';
-            mainMenu.classList.remove('active');
-            menuToggle.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
-            console.log('Configurado para desktop');
-        }
-    }
-    
-    // Inicializar componentes en orden
-    createDots();
-    initializeImages();
-    updateCoverflow();
-    
-    // Configurar coverflow
-    if (container) {
-        container.setAttribute('tabindex', '0');
-        container.setAttribute('aria-label', 'Galería de trabajos - Use flechas para navegar');
-    }
-    
-    // Inicializar autoplay (más lento en móvil)
-    setTimeout(() => {
-        startAutoplay();
-    }, 1000);
-    
-    // Inicializar otras funcionalidades
-    initPortfolioFilter();
-    initPortfolioModals();
-    initFormValidation();
-    
-    // Actualizar menú activo
-    updateActiveMenuItem();
-    
-    // Configurar ARIA attributes
-    setAriaAttributes();
-    
-    // Ajustar coverflow para pantalla actual
-    adjustCoverflowForScreen();
-    
-    // Marcar como cargado
-    document.body.classList.add('loaded');
-    
-    console.log('Sitio inicializado correctamente');
-}
-
-// Configurar ARIA attributes
-function setAriaAttributes() {
-    // Menu toggle
-    if (menuToggle) {
-        menuToggle.setAttribute('aria-label', 'Abrir menú');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.setAttribute('aria-controls', 'mainMenu');
-    }
-    
-    // Main menu
-    if (mainMenu) {
-        mainMenu.setAttribute('aria-label', 'Menú principal');
-    }
-    
-    // Coverflow container
-    if (container) {
-        container.setAttribute('aria-label', 'Galería de trabajos');
-        container.setAttribute('aria-roledescription', 'carousel');
-        container.setAttribute('aria-live', 'polite');
-    }
-    
-    // Navigation buttons
-    const prevBtn = document.querySelector('.nav-button.prev');
-    const nextBtn = document.querySelector('.nav-button.next');
-    
-    if (prevBtn) prevBtn.setAttribute('aria-label', 'Imagen anterior');
-    if (nextBtn) nextBtn.setAttribute('aria-label', 'Siguiente imagen');
-    
-    // Play/Pause button
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    if (playPauseBtn) playPauseBtn.setAttribute('aria-label', 'Reproducir presentación automática');
-    
-    // Service cards
-    document.querySelectorAll('.servicio-card').forEach((card, index) => {
-        card.setAttribute('role', 'article');
-        const title = card.querySelector('h3');
-        if (title) {
-            card.setAttribute('aria-label', `Servicio: ${title.textContent}`);
-        }
-    });
-    
-    // Portfolio items
-    document.querySelectorAll('.portfolio-item').forEach((item, index) => {
-        item.setAttribute('role', 'article');
-        const title = item.querySelector('h4');
-        if (title) {
-            item.setAttribute('aria-label', `Proyecto: ${title.textContent}`);
-        }
-    });
-    
-    // Catalog cards
-    document.querySelectorAll('.catalogo-card').forEach((card, index) => {
-        card.setAttribute('role', 'button');
-        card.setAttribute('tabindex', '0');
-        const title = card.querySelector('h3');
-        if (title) {
-            card.setAttribute('aria-label', `Abrir catálogo: ${title.textContent}`);
-        }
-        card.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                card.click();
-            }
-        });
-    });
-    
-    // Form elements
-    const form = document.getElementById('consultaForm');
-    if (form) {
-        form.setAttribute('aria-label', 'Formulario de contacto');
-        form.querySelectorAll('input, textarea, select').forEach(input => {
-            if (!input.id) {
-                const name = input.getAttribute('name');
-                if (name) {
-                    input.id = `input-${name}`;
-                    const label = input.parentNode.querySelector('label');
-                    if (label) {
-                        label.setAttribute('for', input.id);
-                    }
-                }
-            }
-        });
-    }
-}
-
-// ===== LOADING Y WELCOME =====
-window.addEventListener('load', function() {
-    // Remover estado de carga si existe
-    const loadingElement = document.querySelector('.loading');
-    if (loadingElement) {
-        loadingElement.style.opacity = '0';
-        setTimeout(() => {
-            loadingElement.remove();
-        }, 300);
-    }
-    
-    // Inicializar todo
-    initAll();
-    
-    // Mostrar notificación de bienvenida
-    setTimeout(() => {
-        showNotification('👋 ¡Bienvenido a IMPRESIONES GRAFIC! Explora nuestros servicios de diseño e impresión.', 'info');
-    }, 2000);
-    
-    // Marcar como completamente cargado
-    document.body.classList.add('fully-loaded');
-});
-
-// Inicializar en DOM ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAll);
-} else {
-    initAll();
-}
-
-// ===== EXPORT FUNCIONES GLOBALES =====
-window.scrollToContact = scrollToContact;
-window.handleSubmit = handleSubmit;
-window.navigate = navigate;
-window.goToIndex = goToIndex;
-window.toggleAutoplay = toggleAutoplay;
+// ===== FUNCIONES GLOBALES =====
+// Exportar funciones que necesitan ser accesibles desde HTML
+window.navigate = navigateCoverflow;
+window.toggleAutoplay = toggleCoverflowAutoplay;
 window.openPdfViewer = openPdfViewer;
+window.closeModal = closeModal;
+window.sendQuickRequest = sendQuickRequest;
 
-// ===== ERROR HANDLING Y PERFORMANCE =====
-window.addEventListener('error', (e) => {
-    console.error('Error en la aplicación:', e.error);
-});
-
-window.addEventListener('unhandledrejection', (e) => {
-    console.error('Promesa rechazada no manejada:', e.reason);
-});
-
-// Performance monitoring
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    window.addEventListener('load', () => {
-        if ('performance' in window) {
-            const perfData = window.performance.getEntriesByType('navigation')[0];
-            if (perfData) {
-                console.log('Performance:', {
-                    'DOM Loaded': perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
-                    'Load Complete': perfData.loadEventEnd - perfData.loadEventStart,
-                    'Total Time': perfData.loadEventEnd - perfData.fetchStart
-                });
-            }
-        }
-    });
+// ===== PERFORMANCE OPTIMIZATIONS =====
+// Debounce para eventos de scroll y resize
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
-// Optimizaciones para Android específicas
-if (isAndroid) {
-    console.log('Aplicando optimizaciones específicas para Android');
-    
-    // Reducir animaciones en Android
-    document.documentElement.style.setProperty('--transition-normal', '0.25s ease');
-    document.documentElement.style.setProperty('--transition-slow', '0.4s ease');
-    
-    // Detener autoplay en conexiones lentas
-    if (document.body.classList.contains('slow-connection')) {
-        stopAutoplay();
-    }
-}
+// Aplicar debounce a eventos pesados
+window.addEventListener('scroll', debounce(updateActiveSection, 10));
+window.addEventListener('resize', debounce(adjustCoverflowSize, 100));
 
-// Optimizaciones para iOS específicas
-if (isIOS) {
-    console.log('Aplicando optimizaciones específicas para iOS');
-    
-    // Mejorar scroll en iOS
-    document.querySelectorAll('.section').forEach(section => {
-        section.style.webkitOverflowScrolling = 'touch';
-    });
-}
-
-// Service Worker (opcional)
-if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+// ===== PWA READINESS (OPCIONAL) =====
+if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js').catch(error => {
-            console.log('Service Worker no registrado:', error);
+            console.log('Service Worker registration failed:', error);
         });
     });
 }
 
+// ===== ANALYTICS (OPCIONAL) =====
+function trackEvent(category, action, label) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', action, {
+            'event_category': category,
+            'event_label': label
+        });
+    }
+    
+    // Track interno
+    console.log(`Track: ${category} - ${action} - ${label}`);
+}
+
+// ===== ERROR HANDLING =====
+window.addEventListener('error', function(e) {
+    console.error('Error capturado:', e.error);
+    
+    // Mostrar error amigable al usuario si es crítico
+    if (e.error.message.includes('Critical')) {
+        showNotification('Ha ocurrido un error. Por favor recarga la página.', 'error');
+    }
+});
+
+// ===== OFFLINE DETECTION =====
+window.addEventListener('online', () => {
+    showNotification('¡Conexión restablecida!', 'success');
+});
+
+window.addEventListener('offline', () => {
+    showNotification('Sin conexión a internet. Algunas funciones pueden no estar disponibles.', 'warning');
+});
+
+// ===== INITIAL CHECK =====
+// Verificar estado inicial
+if (!navigator.onLine) {
+    showNotification('Estás navegando sin conexión. Algunas funciones pueden no estar disponibles.', 'warning');
+}
+
+// Verificar compatibilidad
+if (!('IntersectionObserver' in window)) {
+    console.warn('IntersectionObserver no soportado, algunas animaciones pueden no funcionar');
+}
+
+// ===== EXPORT CONFIGURATION =====
+// Para uso en otras partes del código
+window.IMPRESIONES_GRAFIC_CONFIG = config;

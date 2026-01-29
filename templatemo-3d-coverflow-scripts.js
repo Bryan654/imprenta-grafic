@@ -1,210 +1,213 @@
-/* IMPRESIONES GRAFIC - JavaScript Optimizado */
-/* Versión 2.0 - Totalmente funcional sin backend */
+/*
+IMPRESIONES GRAFIC - JavaScript Mejorado
+Versión 2.0 - Optimizado para rendimiento y UX
+*/
 
-// ===== VARIABLES GLOBALES =====
-const config = {
-    coverflow: {
-        itemWidth: 300,
-        itemHeight: 300,
-        spacing: 220,
-        maxRotation: 60,
-        perspective: 1200,
-        autoplayInterval: 4000
-    },
-    whatsapp: {
-        phone: '+59164793488',
-        defaultMessage: 'Hola IMPRESIONES GRAFIC, quiero consultar sobre sus servicios'
-    },
-    social: {
-        facebook: 'https://www.facebook.com/share/1GbzLQbdWL/?mibextid=wwXIfr',
-        instagram: 'https://www.instagram.com/impresiones_grafic?igsh=MWNlcDBpbWVobG4yZQ%3D%3D&utm_source=qr',
-        tiktok: 'https://www.tiktok.com/@impresiones_grafic?_r=1&_t=ZS-93OXcbIn8Sr'
-    }
-};
+// ===== VARIABLES GLOBALES OPTIMIZADAS =====
+const coverflowItems = document.querySelectorAll('.coverflow-item');
+const dotsContainer = document.getElementById('dots');
+const coverflowContainer = document.querySelector('.coverflow-container');
+const menuToggle = document.getElementById('menuToggle');
+const mainMenu = document.getElementById('mainMenu');
+const currentSlideElement = document.getElementById('currentSlide');
+const totalSlidesElement = document.getElementById('totalSlides');
+const heroParticlesContainer = document.getElementById('heroParticles');
 
-// ===== INICIALIZACIÓN =====
-document.addEventListener('DOMContentLoaded', function() {
-    initLoading();
-    initCoverflow();
-    initPortfolio();
-    initNavigation();
-    initContact();
-    initModals();
-    initResponsive();
-    initAnimations();
+let currentCoverflowIndex = 3;
+let isCoverflowAnimating = false;
+let isMobile = window.innerWidth <= 768;
+let autoplayInterval = null;
+let isPlaying = true;
+let lastScrollTop = 0;
+let scrollDirection = 'down';
+
+// ===== DETECCIÓN DE DISPOSITIVO Y NAVEGADOR =====
+function detectDeviceAndBrowser() {
+    const userAgent = navigator.userAgent.toLowerCase();
     
-    // Mostrar página cuando todo esté cargado
-    setTimeout(() => {
-        document.getElementById('loading').classList.add('hidden');
-        showNotification('👋 ¡Bienvenido a IMPRESIONES GRAFIC!', 'info');
-    }, 1000);
-});
-
-// ===== LOADING =====
-function initLoading() {
-    const loading = document.getElementById('loading');
-    if (loading) {
-        // Ocultar loading después de 1 segundo mínimo
-        setTimeout(() => {
-            loading.classList.add('hidden');
-            setTimeout(() => loading.remove(), 300);
-        }, 1000);
+    // Detectar Android
+    if (/android/.test(userAgent)) {
+        document.body.classList.add('android-device');
+        console.log('Android detectado - aplicando optimizaciones');
+    }
+    
+    // Detectar iOS
+    if (/iphone|ipad|ipod/.test(userAgent)) {
+        document.body.classList.add('ios-device');
+        console.log('iOS detectado - aplicando optimizaciones');
+    }
+    
+    // Detectar conexión lenta
+    if ('connection' in navigator) {
+        const connection = navigator.connection;
+        if (connection.saveData === true || connection.effectiveType.includes('2g') || connection.effectiveType.includes('3g')) {
+            document.body.classList.add('slow-connection');
+            console.log('Conexión lenta detectada - optimizando recursos');
+            // Reducir animaciones en conexiones lentas
+            reduceAnimationsForSlowConnection();
+        }
+    }
+    
+    // Detectar preferencia de movimiento reducido
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.body.classList.add('reduced-motion');
+        console.log('Movimiento reducido preferido - desactivando animaciones pesadas');
+        reduceMotionAnimations();
     }
 }
 
-// ===== COVERFLOW =====
-let coverflowItems = [];
-let currentCoverflowIndex = 0;
-let isCoverflowAnimating = false;
-let coverflowAutoplayInterval = null;
-let isCoverflowPlaying = true;
-
-function initCoverflow() {
-    const coverflowContainer = document.querySelector('.coverflow');
-    const dotsContainer = document.getElementById('dots');
-    
-    if (!coverflowContainer) return;
-    
-    // Datos de las imágenes del coverflow
-    const coverflowData = [
-        {
-            image: 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=600&h=600&fit=crop',
-            alt: 'Tarjetas de Presentación IMPRESIONES GRAFIC',
-            title: 'Tarjetas Personales'
-        },
-        {
-            image: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600&h=600&fit=crop',
-            alt: 'Reconocimientos y Diplomas',
-            title: 'Reconocimientos'
-        },
-        {
-            image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=600&fit=crop',
-            alt: 'Invitaciones Elegantes',
-            title: 'Invitaciones'
-        },
-        {
-            image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&h=600&fit=crop',
-            alt: 'Afiches Publicitarios',
-            title: 'Afiches'
-        },
-        {
-            image: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=600&h=600&fit=crop',
-            alt: 'Calendarios Personalizados',
-            title: 'Calendarios'
-        },
-        {
-            image: 'https://images.unsplash.com/photo-1558522195-e1201b090344?w=600&h=600&fit=crop',
-            alt: 'Trofeos Exclusivos',
-            title: 'Trofeos'
-        },
-        {
-            image: 'https://images.unsplash.com/photo-1462826303086-329426d1aef5?w=600&h=600&fit=crop',
-            alt: 'Material Corporativo',
-            title: 'Material Corporativo'
+function reduceAnimationsForSlowConnection() {
+    // Reducir o eliminar animaciones no esenciales
+    const style = document.createElement('style');
+    style.textContent = `
+        .hero-particle,
+        .decoration-circle,
+        .scroll-dot,
+        .preloader-progress-bar,
+        .showcase-logo {
+            animation: none !important;
         }
-    ];
+        
+        .coverflow-item {
+            transition-duration: 0.3s !important;
+        }
+        
+        .servicio-card:hover,
+        .catalogo-card:hover,
+        .portfolio-item:hover {
+            transform: none !important;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function reduceMotionAnimations() {
+    const style = document.createElement('style');
+    style.textContent = `
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ===== COVERFLOW FUNCTIONS OPTIMIZADAS =====
+
+// Crear dots del coverflow
+function createCoverflowDots() {
+    if (!dotsContainer) return;
     
-    // Crear elementos del coverflow
-    coverflowData.forEach((item, index) => {
-        const coverflowItem = document.createElement('div');
-        coverflowItem.className = 'coverflow-item';
-        coverflowItem.setAttribute('data-index', index);
-        coverflowItem.setAttribute('aria-label', item.title);
-        
-        coverflowItem.innerHTML = `
-            <div class="cover">
-                <img src="${item.image}" 
-                     alt="${item.alt}"
-                     loading="lazy"
-                     width="300"
-                     height="300">
-            </div>
-        `;
-        
-        coverflowContainer.appendChild(coverflowItem);
-        coverflowItems.push(coverflowItem);
-        
-        // Crear dots
+    dotsContainer.innerHTML = '';
+    
+    coverflowItems.forEach((_, index) => {
         const dot = document.createElement('div');
         dot.className = 'dot';
-        dot.setAttribute('data-index', index);
-        dot.setAttribute('aria-label', `Ir a ${item.title}`);
-        dot.addEventListener('click', () => goToCoverflowIndex(index));
-        dotsContainer.appendChild(dot);
+        dot.setAttribute('role', 'button');
+        dot.setAttribute('tabindex', '0');
+        dot.setAttribute('aria-label', `Ir a la imagen ${index + 1}`);
+        dot.onclick = () => goToCoverflowIndex(index);
         
-        // Click en el item
-        coverflowItem.addEventListener('click', () => {
-            goToCoverflowIndex(index);
-            showNotification(`Ver detalles de ${item.title}`, 'info');
+        // Soporte para teclado
+        dot.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                goToCoverflowIndex(index);
+            }
         });
+        
+        dotsContainer.appendChild(dot);
     });
     
-    // Inicializar navegación
-    updateCoverflow();
-    startCoverflowAutoplay();
-    
-    // Event listeners para navegación
-    document.querySelector('.nav-button.prev')?.addEventListener('click', () => navigateCoverflow(-1));
-    document.querySelector('.nav-button.next')?.addEventListener('click', () => navigateCoverflow(1));
-    
-    // Touch events para móviles
-    initCoverflowTouch();
+    // Actualizar contador de slides
+    if (totalSlidesElement) {
+        totalSlidesElement.textContent = coverflowItems.length;
+    }
+    updateCoverflowCounter();
 }
 
+// Actualizar contador
+function updateCoverflowCounter() {
+    if (currentSlideElement) {
+        currentSlideElement.textContent = currentCoverflowIndex + 1;
+    }
+}
+
+// Función optimizada para actualizar el coverflow
 function updateCoverflow() {
     if (isCoverflowAnimating) return;
     isCoverflowAnimating = true;
-    
-    const totalItems = coverflowItems.length;
-    
+
+    const isMobileView = window.innerWidth <= 768;
+    const centerOffset = isMobileView ? 160 : 200;
+    const zOffset = isMobileView ? 120 : 180;
+    const rotation = isMobileView ? 40 : 60;
+
     coverflowItems.forEach((item, index) => {
         let offset = index - currentCoverflowIndex;
         
-        // Ajustar offset circular
-        if (offset > totalItems / 2) offset = offset - totalItems;
-        else if (offset < -totalItems / 2) offset = offset + totalItems;
+        // Ajustar para vista circular
+        if (offset > coverflowItems.length / 2) {
+            offset = offset - coverflowItems.length;
+        } else if (offset < -coverflowItems.length / 2) {
+            offset = offset + coverflowItems.length;
+        }
         
         const absOffset = Math.abs(offset);
         const sign = Math.sign(offset);
         
         // Calcular transformaciones
-        let translateX = offset * config.coverflow.spacing;
-        let translateZ = -absOffset * 200;
-        let rotateY = -sign * Math.min(absOffset * config.coverflow.maxRotation, config.coverflow.maxRotation);
+        let translateX = offset * centerOffset;
+        let translateZ = -absOffset * zOffset;
+        let rotateY = -sign * Math.min(absOffset * rotation, rotation);
         let opacity = 1 - (absOffset * 0.2);
-        let scale = 1 - (absOffset * 0.1);
-        
-        // Ocultar items muy lejanos
+        let scale = 1 - (absOffset * 0.08);
+
+        // Ocultar elementos muy lejos
         if (absOffset > 3) {
             opacity = 0;
-            translateX = sign * 800;
+            translateX = sign * 700;
         }
-        
+
         // Aplicar transformaciones
-        item.style.transform = `
+        const transform = `
             translateX(${translateX}px) 
             translateZ(${translateZ}px) 
             rotateY(${rotateY}deg)
             scale(${scale})
         `;
+        
+        item.style.transform = transform;
         item.style.opacity = opacity;
         item.style.zIndex = 100 - absOffset;
-        
-        // Marcar item activo
+        item.style.pointerEvents = absOffset > 2 ? 'none' : 'auto';
+
+        // Actualizar clases
         item.classList.toggle('active', index === currentCoverflowIndex);
+        item.setAttribute('aria-hidden', index !== currentCoverflowIndex);
+        item.setAttribute('tabindex', index === currentCoverflowIndex ? '0' : '-1');
     });
-    
+
     // Actualizar dots
-    document.querySelectorAll('.dot').forEach((dot, index) => {
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentCoverflowIndex);
+        dot.setAttribute('aria-current', index === currentCoverflowIndex ? 'true' : 'false');
     });
-    
-    // Reset animation flag
+
+    // Actualizar contador
+    updateCoverflowCounter();
+
+    // Permitir siguiente animación
     setTimeout(() => {
         isCoverflowAnimating = false;
-    }, 600);
+    }, isMobileView ? 400 : 600);
 }
 
+// Navegación del coverflow
 function navigateCoverflow(direction) {
     if (isCoverflowAnimating) return;
     
@@ -217,78 +220,135 @@ function navigateCoverflow(direction) {
     }
     
     updateCoverflow();
-    pauseCoverflowAutoplay();
-    setTimeout(() => resumeCoverflowAutoplay(), 3000);
+    handleUserInteraction();
 }
 
 function goToCoverflowIndex(index) {
     if (isCoverflowAnimating || index === currentCoverflowIndex) return;
     currentCoverflowIndex = index;
     updateCoverflow();
-    pauseCoverflowAutoplay();
-    setTimeout(() => resumeCoverflowAutoplay(), 3000);
+    handleUserInteraction();
 }
 
-// Touch support para coverflow
-function initCoverflowTouch() {
-    const container = document.querySelector('.coverflow-container');
-    if (!container) return;
-    
-    let touchStartX = 0;
-    let touchEndX = 0;
-    const swipeThreshold = 50;
-    
-    container.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
+// Navegación con teclado para el coverflow
+if (coverflowContainer) {
+    coverflowContainer.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            navigateCoverflow(-1);
+        }
+        if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            navigateCoverflow(1);
+        }
+        if (e.key === 'Home') {
+            e.preventDefault();
+            goToCoverflowIndex(0);
+        }
+        if (e.key === 'End') {
+            e.preventDefault();
+            goToCoverflowIndex(coverflowItems.length - 1);
+        }
+        if (e.key === ' ') {
+            e.preventDefault();
+            toggleAutoplay();
+        }
+    });
+}
+
+// Click en items del coverflow
+coverflowItems.forEach((item, index) => {
+    item.addEventListener('click', () => goToCoverflowIndex(index));
+});
+
+// ===== TOUCH/SWIPE SUPPORT OPTIMIZADO =====
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
+let isSwiping = false;
+const SWIPE_THRESHOLD = 50;
+const SWIPE_VERTICAL_THRESHOLD = 100;
+
+// Eventos táctiles optimizados
+if (coverflowContainer) {
+    coverflowContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        isSwiping = true;
     }, { passive: true });
-    
-    container.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        const diff = touchStartX - touchEndX;
+
+    coverflowContainer.addEventListener('touchmove', (e) => {
+        if (!isSwiping) return;
+        e.preventDefault();
+    }, { passive: false });
+
+    coverflowContainer.addEventListener('touchend', (e) => {
+        if (!isSwiping) return;
         
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                navigateCoverflow(1); // Swipe izquierda
+        touchEndX = e.changedTouches[0].clientX;
+        touchEndY = e.changedTouches[0].clientY;
+        
+        const diffX = touchStartX - touchEndX;
+        const diffY = touchStartY - touchEndY;
+        
+        // Solo procesar si el swipe fue más horizontal que vertical
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > SWIPE_THRESHOLD) {
+            handleUserInteraction();
+            
+            if (diffX > 0) {
+                navigateCoverflow(1);
             } else {
-                navigateCoverflow(-1); // Swipe derecha
+                navigateCoverflow(-1);
             }
         }
+        
+        isSwiping = false;
     }, { passive: true });
 }
 
-// Autoplay del coverflow
-function startCoverflowAutoplay() {
-    if (coverflowAutoplayInterval) clearInterval(coverflowAutoplayInterval);
+// ===== AUTOPLAY FUNCTIONS OPTIMIZADAS =====
+function startAutoplay() {
+    if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+    }
     
-    coverflowAutoplayInterval = setInterval(() => {
+    // Intervalo más lento en móvil o conexiones lentas
+    const interval = isMobile || document.body.classList.contains('slow-connection') ? 5000 : 4000;
+    
+    autoplayInterval = setInterval(() => {
         currentCoverflowIndex = (currentCoverflowIndex + 1) % coverflowItems.length;
         updateCoverflow();
-    }, config.coverflow.autoplayInterval);
+    }, interval);
     
-    isCoverflowPlaying = true;
+    isPlaying = true;
     updatePlayPauseButton();
-}
-
-function pauseCoverflowAutoplay() {
-    if (coverflowAutoplayInterval) {
-        clearInterval(coverflowAutoplayInterval);
-        coverflowAutoplayInterval = null;
-    }
-    isCoverflowPlaying = false;
-    updatePlayPauseButton();
-}
-
-function resumeCoverflowAutoplay() {
-    if (!isCoverflowPlaying) {
-        startCoverflowAutoplay();
+    
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    if (playPauseBtn) {
+        playPauseBtn.setAttribute('aria-label', 'Pausar presentación automática');
     }
 }
 
-function toggleCoverflowAutoplay() {
-    if (isCoverflowPlaying) {
-        pauseCoverflowAutoplay();
+function stopAutoplay() {
+    if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+    }
+    isPlaying = false;
+    updatePlayPauseButton();
+    
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    if (playPauseBtn) {
+        playPauseBtn.setAttribute('aria-label', 'Reproducir presentación automática');
+    }
+}
+
+function toggleAutoplay() {
+    if (isPlaying) {
+        stopAutoplay();
     } else {
-        startCoverflowAutoplay();
+        startAutoplay();
     }
 }
 
@@ -297,7 +357,7 @@ function updatePlayPauseButton() {
     const pauseIcon = document.querySelector('.pause-icon');
     
     if (playIcon && pauseIcon) {
-        if (isCoverflowPlaying) {
+        if (isPlaying) {
             playIcon.style.display = 'none';
             pauseIcon.style.display = 'block';
         } else {
@@ -307,918 +367,1360 @@ function updatePlayPauseButton() {
     }
 }
 
-// ===== PORTAFOLIO =====
-function initPortfolio() {
-    initPortfolioFilter();
-    initPortfolioGrid();
-    initViewExamples();
+function handleUserInteraction() {
+    stopAutoplay();
+    // Reiniciar autoplay después de 10 segundos de inactividad
+    setTimeout(startAutoplay, 10000);
 }
 
-function initPortfolioFilter() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const portfolioGrid = document.getElementById('portfolioGrid');
-    
-    if (!filterButtons.length || !portfolioGrid) return;
-    
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Remover active de todos los botones
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Agregar active al botón clickeado
-            this.classList.add('active');
-            
-            const filterValue = this.getAttribute('data-filter');
-            filterPortfolioItems(filterValue);
-        });
-    });
+// Event listeners para detener autoplay al interactuar
+coverflowItems.forEach((item) => {
+    item.addEventListener('click', handleUserInteraction);
+    item.addEventListener('touchstart', handleUserInteraction);
+});
+
+const prevBtn = document.querySelector('.nav-button.prev');
+const nextBtn = document.querySelector('.nav-button.next');
+
+if (prevBtn) {
+    prevBtn.addEventListener('click', handleUserInteraction);
+    prevBtn.addEventListener('touchstart', handleUserInteraction);
 }
 
-function initPortfolioGrid() {
-    const portfolioGrid = document.getElementById('portfolioGrid');
-    if (!portfolioGrid) return;
-    
-    const portfolioData = [
-        {
-            image: 'https://i.ibb.co/m5hNpSyn/Tarjetas-Personales-Corporativas.png',
-            category: 'tarjetas',
-            title: 'Tarjetas Personales',
-            description: 'Diseño corporativo premium'
-        },
-        {
-            image: 'https://i.ibb.co/F40gmXP5/Reconocimientos-Personalizados.png',
-            category: 'reconocimientos',
-            title: 'Reconocimientos',
-            description: 'Diplomas y certificados'
-        },
-        {
-            image: 'https://i.ibb.co/cS2cFRZV/Trofeos-Exclusivos.jpg',
-            category: 'trofeos',
-            title: 'Trofeos Exclusivos',
-            description: 'Diseños únicos para eventos'
-        },
-        {
-            image: 'https://i.ibb.co/67pqHvw7/Invitaciones-Elegantes.jpg',
-            category: 'invitaciones',
-            title: 'Invitaciones',
-            description: 'Bodas y eventos especiales'
-        },
-        {
-            image: 'https://i.ibb.co/1YX1QJpH/Afiches-Publicitarios.jpg',
-            category: 'afiches',
-            title: 'Afiches Publicitarios',
-            description: 'Gran formato impactante'
-        },
-        {
-            image: 'https://i.ibb.co/Y7KJ5BBz/Certificados-Institucionales-D.jpg',
-            category: 'reconocimientos',
-            title: 'Certificados',
-            description: 'Documentos institucionales'
-        }
-    ];
-    
-    portfolioData.forEach(item => {
-        const portfolioItem = document.createElement('div');
-        portfolioItem.className = 'portfolio-item';
-        portfolioItem.setAttribute('data-category', item.category);
-        
-        portfolioItem.innerHTML = `
-            <img src="${item.image}" 
-                 alt="${item.title} - IMPRESIONES GRAFIC"
-                 loading="lazy"
-                 width="400"
-                 height="300">
-            <div class="portfolio-overlay">
-                <h4>${item.title}</h4>
-                <p>${item.description}</p>
-                <button class="btn btn-outline view-portfolio-detail" 
-                        data-title="${item.title}"
-                        data-image="${item.image}">
-                    <i class="fas fa-eye"></i> Ver detalles
-                </button>
-            </div>
-        `;
-        
-        portfolioGrid.appendChild(portfolioItem);
-    });
-    
-    // Event listeners para ver detalles
-    document.querySelectorAll('.view-portfolio-detail').forEach(button => {
-        button.addEventListener('click', function() {
-            const title = this.getAttribute('data-title');
-            const image = this.getAttribute('data-image');
-            showPortfolioDetail(title, image);
-        });
-    });
+if (nextBtn) {
+    nextBtn.addEventListener('click', handleUserInteraction);
+    nextBtn.addEventListener('touchstart', handleUserInteraction);
 }
 
-function filterPortfolioItems(category) {
-    const items = document.querySelectorAll('.portfolio-item');
-    
-    items.forEach(item => {
-        if (category === 'all' || item.getAttribute('data-category') === category) {
-            item.style.display = 'block';
-            setTimeout(() => {
-                item.style.opacity = '1';
-                item.style.transform = 'scale(1)';
-            }, 10);
-        } else {
-            item.style.opacity = '0';
-            item.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                item.style.display = 'none';
-            }, 300);
+const dots = document.querySelectorAll('.dot');
+dots.forEach((dot) => {
+    dot.addEventListener('click', handleUserInteraction);
+    dot.addEventListener('touchstart', handleUserInteraction);
+});
+
+if (coverflowContainer) {
+    coverflowContainer.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            handleUserInteraction();
         }
     });
 }
 
-function initViewExamples() {
-    document.querySelectorAll('.view-examples').forEach(button => {
-        button.addEventListener('click', function() {
-            const service = this.getAttribute('data-service');
-            showServiceExamples(service);
-        });
-    });
-}
-
-function showServiceExamples(service) {
-    const examples = {
-        tarjetas: [
-            'https://i.ibb.co/m5hNpSyn/Tarjetas-Personales-Corporativas.png',
-            'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=600&h=400&fit=crop'
-        ],
-        reconocimientos: [
-            'https://i.ibb.co/F40gmXP5/Reconocimientos-Personalizados.png',
-            'https://i.ibb.co/Y7KJ5BBz/Certificados-Institucionales-D.jpg'
-        ],
-        invitaciones: [
-            'https://i.ibb.co/67pqHvw7/Invitaciones-Elegantes.jpg',
-            'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=400&fit=crop'
-        ],
-        afiches: [
-            'https://i.ibb.co/1YX1QJpH/Afiches-Publicitarios.jpg',
-            'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&h=400&fit=crop'
-        ]
-    };
-    
-    const serviceNames = {
-        tarjetas: 'Tarjetas Personales',
-        reconocimientos: 'Reconocimientos',
-        invitaciones: 'Invitaciones',
-        afiches: 'Afiches Publicitarios'
-    };
-    
-    const serviceData = examples[service] || [];
-    if (serviceData.length === 0) return;
-    
-    // Crear modal de ejemplos
-    const modal = document.createElement('div');
-    modal.className = 'modal-overlay';
-    modal.id = 'examplesModal';
-    
-    let imagesHTML = '';
-    serviceData.forEach((img, index) => {
-        imagesHTML += `
-            <div class="example-image">
-                <img src="${img}" 
-                     alt="Ejemplo ${index + 1} de ${serviceNames[service]}"
-                     loading="lazy">
-            </div>
-        `;
-    });
-    
-    modal.innerHTML = `
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <h3>Ejemplos de ${serviceNames[service]}</h3>
-            <div class="examples-grid">
-                ${imagesHTML}
-            </div>
-            <p>¿Te gustaría personalizar tu diseño?</p>
-            <a href="https://wa.me/${config.whatsapp.phone}?text=Hola,%20quiero%20un%20diseño%20personalizado%20para%20${encodeURIComponent(serviceNames[service])}" 
-               class="btn btn-whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i> COTIZAR DISEÑO PERSONALIZADO
-            </a>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    document.body.style.overflow = 'hidden';
-    
-    // Estilos para el modal de ejemplos
-    const style = document.createElement('style');
-    style.textContent = `
-        .examples-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .example-image {
-            border-radius: 12px;
-            overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.1);
-        }
-        
-        .example-image img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        
-        .example-image:hover img {
-            transform: scale(1.05);
-        }
-    `;
-    
-    document.head.appendChild(style);
-}
-
-function showPortfolioDetail(title, image) {
-    const modal = document.createElement('div');
-    modal.className = 'modal-overlay';
-    modal.id = 'portfolioDetailModal';
-    
-    modal.innerHTML = `
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <img src="${image}" 
-                 alt="${title} - IMPRESIONES GRAFIC"
-                 class="detail-image">
-            <h3>${title}</h3>
-            <p>Este es un ejemplo de nuestro trabajo en ${title}. Podemos personalizar completamente el diseño según tus necesidades.</p>
-            
-            <div class="detail-features">
-                <div class="feature">
-                    <i class="fas fa-palette"></i>
-                    <span>Diseño personalizado</span>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-star"></i>
-                    <span>Calidad garantizada</span>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-shipping-fast"></i>
-                    <span>Entrega rápida</span>
-                </div>
-            </div>
-            
-            <div class="detail-actions">
-                <a href="https://wa.me/${config.whatsapp.phone}?text=Hola,%20me%20interesa%20el%20servicio%20de%20${encodeURIComponent(title)}" 
-                   class="btn btn-whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> COTIZAR ESTE PROYECTO
-                </a>
-                <button class="btn btn-outline" onclick="closeModal()">
-                    VER MÁS EJEMPLOS
-                </button>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    document.body.style.overflow = 'hidden';
-    
-    // Estilos para el detalle
-    const style = document.createElement('style');
-    style.textContent = `
-        .detail-image {
-            width: 100%;
-            max-height: 300px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .detail-features {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .feature {
-            text-align: center;
-            padding: 15px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
-        }
-        
-        .feature i {
-            font-size: 24px;
-            color: var(--secondary);
-            margin-bottom: 8px;
-        }
-        
-        .feature span {
-            display: block;
-            font-size: 0.9rem;
-        }
-        
-        .detail-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .detail-features {
-                grid-template-columns: 1fr;
-            }
-            
-            .detail-actions {
-                flex-direction: column;
-            }
-        }
-    `;
-    
-    document.head.appendChild(style);
-}
-
-// ===== NAVEGACIÓN =====
-function initNavigation() {
-    initMenuToggle();
-    initSmoothScroll();
-    initActiveMenu();
-    initScrollToTop();
-}
-
-function initMenuToggle() {
-    const menuToggle = document.getElementById('menuToggle');
-    const mainMenu = document.getElementById('mainMenu');
-    
+// ===== MENÚ MOBILE MEJORADO =====
+function initMobileMenu() {
     if (!menuToggle || !mainMenu) return;
     
-    menuToggle.addEventListener('click', function() {
-        const isExpanded = this.getAttribute('aria-expanded') === 'true';
-        this.setAttribute('aria-expanded', !isExpanded);
-        this.classList.toggle('active');
-        mainMenu.classList.toggle('active');
-        
-        // Prevenir scroll cuando el menú está abierto
-        document.body.style.overflow = mainMenu.classList.contains('active') ? 'hidden' : '';
+    // Toggle del menú
+    menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMobileMenu();
     });
     
-    // Cerrar menú al hacer clic en un enlace
+    // Cerrar menú al hacer clic en enlaces
     document.querySelectorAll('.menu-item').forEach(item => {
         item.addEventListener('click', () => {
-            menuToggle.classList.remove('active');
-            mainMenu.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
+            if (window.innerWidth <= 768) {
+                closeMobileMenu();
+            }
         });
     });
     
     // Cerrar menú al hacer clic fuera
     document.addEventListener('click', (e) => {
-        if (!menuToggle.contains(e.target) && !mainMenu.contains(e.target)) {
-            menuToggle.classList.remove('active');
-            mainMenu.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
+        if (window.innerWidth <= 768 && mainMenu.classList.contains('active')) {
+            if (!menuToggle.contains(e.target) && !mainMenu.contains(e.target)) {
+                closeMobileMenu();
+            }
+        }
+    });
+    
+    // Cerrar menú con ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && window.innerWidth <= 768 && mainMenu.classList.contains('active')) {
+            closeMobileMenu();
+        }
+    });
+    
+    // Prevenir scroll cuando el menú está abierto
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+                if (mainMenu.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    });
+    
+    observer.observe(mainMenu, { attributes: true });
+}
+
+function toggleMobileMenu() {
+    menuToggle.classList.toggle('active');
+    mainMenu.classList.toggle('active');
+    
+    const isExpanded = menuToggle.classList.contains('active');
+    menuToggle.setAttribute('aria-expanded', isExpanded);
+    menuToggle.setAttribute('aria-label', isExpanded ? 'Cerrar menú' : 'Abrir menú');
+}
+
+function closeMobileMenu() {
+    menuToggle.classList.remove('active');
+    mainMenu.classList.remove('active');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Abrir menú');
+    document.body.style.overflow = '';
+}
+
+// ===== SCROLL ANIMATIONS =====
+function initScrollAnimations() {
+    // Animación de números (estadísticas)
+    const statNumbers = document.querySelectorAll('.stat-number[data-count]');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const statNumber = entry.target;
+                const target = parseInt(statNumber.getAttribute('data-count'));
+                const suffix = statNumber.textContent.includes('%') ? '%' : '';
+                animateNumber(statNumber, 0, target, 1500, suffix);
+                observer.unobserve(statNumber);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    statNumbers.forEach(stat => observer.observe(stat));
+    
+    // Animación de elementos al hacer scroll
+    const animateOnScroll = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    // Observar elementos que deben animarse
+    document.querySelectorAll('.servicio-card, .portfolio-item, .catalogo-card, .benefit-item, .proceso-step').forEach(el => {
+        animateOnScroll.observe(el);
+    });
+}
+
+function animateNumber(element, start, end, duration, suffix = '') {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const value = Math.floor(progress * (end - start) + start);
+        element.textContent = value + suffix;
+        
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
+}
+
+// ===== FILTRO DE PORTAFOLIO MEJORADO =====
+function initPortfolioFilter() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    
+    if (filterBtns.length === 0 || portfolioItems.length === 0) return;
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remover active de todos los botones
+            filterBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            
+            // Agregar active al botón clickeado
+            this.classList.add('active');
+            this.setAttribute('aria-pressed', 'true');
+            
+            const filterValue = this.getAttribute('data-filter');
+            
+            // Filtrar items con animación
+            portfolioItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                
+                if (filterValue === 'all' || category === filterValue) {
+                    item.style.display = 'block';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'scale(1)';
+                    }, 10);
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        if (category !== filterValue && filterValue !== 'all') {
+                            item.style.display = 'none';
+                        }
+                    }, 300);
+                }
+            });
+            
+            // Anunciar cambio para lectores de pantalla
+            announceFilterChange(filterValue);
+        });
+        
+        // Soporte para teclado
+        btn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                btn.click();
+            }
+        });
+    });
+}
+
+function announceFilterChange(filterValue) {
+    const announcement = document.createElement('div');
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.setAttribute('aria-atomic', 'true');
+    announcement.className = 'sr-only';
+    
+    let message = 'Mostrando todos los proyectos';
+    if (filterValue !== 'all') {
+        message = `Mostrando proyectos de ${filterValue}`;
+    }
+    
+    announcement.textContent = message;
+    document.body.appendChild(announcement);
+    
+    setTimeout(() => {
+        document.body.removeChild(announcement);
+    }, 1000);
+}
+
+// ===== SCROLL TO CONTACT MEJORADO =====
+function scrollToContact(service = '') {
+    const contactSection = document.getElementById('contact');
+    const header = document.getElementById('header');
+    
+    if (!contactSection) return;
+    
+    // Cerrar menú móvil si está abierto
+    if (window.innerWidth <= 768) {
+        closeMobileMenu();
+    }
+    
+    // Calcular posición con offset del header
+    const headerHeight = header ? header.offsetHeight : 90;
+    const targetPosition = contactSection.offsetTop - headerHeight + 20;
+    
+    // Scroll suave
+    window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+    });
+    
+    // Si se especificó un servicio, llenar el campo después de un delay
+    if (service && service !== '') {
+        setTimeout(() => {
+            const serviceSelect = document.getElementById('service');
+            if (serviceSelect) {
+                const options = Array.from(serviceSelect.options);
+                const matchingOption = options.find(option => 
+                    option.value.toLowerCase() === service.toLowerCase() ||
+                    option.text.toLowerCase().includes(service.toLowerCase())
+                );
+                
+                if (matchingOption) {
+                    serviceSelect.value = matchingOption.value;
+                    
+                    // Disparar evento change para actualizar UI
+                    const event = new Event('change', { bubbles: true });
+                    serviceSelect.dispatchEvent(event);
+                    
+                    // Enfocar el select en móvil
+                    if (isMobile) {
+                        setTimeout(() => serviceSelect.focus(), 300);
+                    }
+                }
+            }
+            
+            // Mostrar notificación
+            showNotification(`Perfecto! Te llevamos al formulario para ${getServiceName(service)}.`, 'success');
+        }, 500);
+    }
+}
+
+function getServiceName(serviceKey) {
+    const services = {
+        'tarjetas': 'Tarjetas Personales',
+        'reconocimientos': 'Reconocimientos y Trofeos',
+        'invitaciones': 'Invitaciones Especiales',
+        'afiches': 'Afiches y Calendarios',
+        'volantes': 'Volantes y Folletos',
+        'diseno': 'Diseño Gráfico',
+        'otros': 'otros servicios'
+    };
+    
+    return services[serviceKey] || serviceKey;
+}
+
+// ===== NOTIFICATION SYSTEM MEJORADO =====
+function showNotification(message, type = 'info', duration = 5000) {
+    // Remover notificaciones existentes
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => {
+        closeNotification(notification);
+    });
+    
+    // Crear elemento de notificación
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.setAttribute('role', 'alert');
+    notification.setAttribute('aria-live', 'polite');
+    notification.setAttribute('aria-atomic', 'true');
+    
+    // Íconos para cada tipo
+    const icons = {
+        'success': '✓',
+        'error': '✗',
+        'warning': '⚠',
+        'info': 'ℹ'
+    };
+    
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-icon" aria-hidden="true">${icons[type] || icons.info}</span>
+            <span class="notification-message">${message}</span>
+        </div>
+        <button class="notification-close" aria-label="Cerrar notificación">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    `;
+    
+    // Estilos
+    notification.style.cssText = `
+        position: fixed;
+        top: ${isMobile ? '80px' : '100px'};
+        right: 20px;
+        background: ${getNotificationColor(type)};
+        color: white;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-width: 300px;
+        max-width: 90vw;
+        transform: translateX(120%);
+        transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    `;
+    
+    // Agregar al DOM
+    document.body.appendChild(notification);
+    
+    // Animar entrada
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 10);
+    
+    // Configurar funcionalidades
+    setupNotificationFunctionality(notification, duration);
+    
+    return notification;
+}
+
+function getNotificationColor(type) {
+    const colors = {
+        'success': 'rgba(81, 207, 102, 0.95)',
+        'error': 'rgba(255, 107, 107, 0.95)',
+        'warning': 'rgba(255, 193, 7, 0.95)',
+        'info': 'rgba(94, 86, 231, 0.95)'
+    };
+    return colors[type] || colors.info;
+}
+
+function setupNotificationFunctionality(notification, duration) {
+    const closeBtn = notification.querySelector('.notification-close');
+    
+    // Cerrar al hacer clic en el botón
+    closeBtn.addEventListener('click', () => {
+        closeNotification(notification);
+    });
+    
+    // Auto-cerrar después de la duración
+    let autoCloseTimer = setTimeout(() => {
+        closeNotification(notification);
+    }, duration);
+    
+    // Pausar auto-cerrar al hover
+    notification.addEventListener('mouseenter', () => {
+        clearTimeout(autoCloseTimer);
+    });
+    
+    notification.addEventListener('mouseleave', () => {
+        autoCloseTimer = setTimeout(() => {
+            closeNotification(notification);
+        }, 3000);
+    });
+    
+    // Cerrar con ESC
+    const closeOnEsc = (e) => {
+        if (e.key === 'Escape') {
+            closeNotification(notification);
+            document.removeEventListener('keydown', closeOnEsc);
+        }
+    };
+    document.addEventListener('keydown', closeOnEsc);
+}
+
+function closeNotification(notification) {
+    notification.style.transform = 'translateX(120%)';
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 300);
+}
+
+// ===== FORM HANDLING MEJORADO =====
+function initFormHandling() {
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        // Validación en tiempo real
+        setupRealTimeValidation(form);
+        
+        // Manejo de envío
+        form.addEventListener('submit', handleFormSubmit);
+        
+        // Mejorar UX de inputs
+        improveInputUX(form);
+    });
+    
+    // Inicializar botones de urgencia
+    initUrgencyButtons();
+    
+    // Inicializar file upload
+    initFileUpload();
+}
+
+function setupRealTimeValidation(form) {
+    const inputs = form.querySelectorAll('input, textarea, select');
+    
+    inputs.forEach(input => {
+        // Validar al salir del campo
+        input.addEventListener('blur', () => {
+            validateField(input);
+        });
+        
+        // Limpiar errores al escribir
+        input.addEventListener('input', () => {
+            clearFieldError(input);
+        });
+        
+        // Validar campos requeridos al cambiar
+        if (input.hasAttribute('required')) {
+            input.addEventListener('change', () => {
+                validateField(input);
+            });
         }
     });
 }
 
-function initSmoothScroll() {
-    // Smooth scroll para enlaces internos
+function validateField(field) {
+    const value = field.value.trim();
+    let isValid = true;
+    let errorMessage = '';
+    
+    // Validaciones básicas
+    if (field.hasAttribute('required') && !value) {
+        isValid = false;
+        errorMessage = 'Este campo es requerido';
+    }
+    
+    if (field.type === 'email' && value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+            isValid = false;
+            errorMessage = 'Ingresa un email válido';
+        }
+    }
+    
+    if (field.type === 'tel' && value) {
+        const phoneRegex = /^[\d\s\-\+\(\)]{8,20}$/;
+        if (!phoneRegex.test(value.replace(/\s/g, ''))) {
+            isValid = false;
+            errorMessage = 'Ingresa un teléfono válido (8-20 dígitos)';
+        }
+    }
+    
+    if (field.id === 'message' && value.length < 10) {
+        isValid = false;
+        errorMessage = 'Por favor, proporciona más detalles (mínimo 10 caracteres)';
+    }
+    
+    if (!isValid) {
+        showFieldError(field, errorMessage);
+    } else {
+        clearFieldError(field);
+        showFieldSuccess(field);
+    }
+    
+    return isValid;
+}
+
+function showFieldError(field, message) {
+    clearFieldError(field);
+    
+    const error = document.createElement('div');
+    error.className = 'error-message';
+    error.textContent = message;
+    error.id = `${field.id}-error`;
+    
+    field.parentNode.appendChild(error);
+    field.classList.add('error');
+    field.setAttribute('aria-invalid', 'true');
+    field.setAttribute('aria-describedby', error.id);
+}
+
+function showFieldSuccess(field) {
+    field.classList.remove('error');
+    field.classList.add('success');
+    field.setAttribute('aria-invalid', 'false');
+    
+    // Remover clase success después de 2 segundos
+    setTimeout(() => {
+        field.classList.remove('success');
+    }, 2000);
+}
+
+function clearFieldError(field) {
+    const error = field.parentNode.querySelector('.error-message');
+    if (error) {
+        error.remove();
+    }
+    field.classList.remove('error');
+    field.removeAttribute('aria-describedby');
+}
+
+function improveInputUX(form) {
+    const inputs = form.querySelectorAll('input, textarea');
+    
+    inputs.forEach(input => {
+        // Auto-expand textarea
+        if (input.tagName === 'TEXTAREA') {
+            input.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        }
+        
+        // Formatear teléfono mientras se escribe
+        if (input.type === 'tel') {
+            input.addEventListener('input', function(e) {
+                let value = this.value.replace(/\D/g, '');
+                if (value.length > 0) {
+                    value = '+' + value;
+                }
+                this.value = value;
+            });
+        }
+    });
+}
+
+function initUrgencyButtons() {
+    const urgencyBtns = document.querySelectorAll('.urgency-btn');
+    const urgencyInput = document.getElementById('urgency');
+    
+    if (!urgencyBtns.length || !urgencyInput) return;
+    
+    urgencyBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remover active de todos
+            urgencyBtns.forEach(b => b.classList.remove('active'));
+            
+            // Agregar active al clickeado
+            this.classList.add('active');
+            
+            // Actualizar valor del input hidden
+            urgencyInput.value = this.getAttribute('data-value');
+        });
+        
+        // Establecer normal como activo por defecto
+        if (btn.getAttribute('data-value') === 'normal') {
+            btn.classList.add('active');
+        }
+    });
+}
+
+function initFileUpload() {
+    const fileInputs = document.querySelectorAll('.file-input');
+    
+    fileInputs.forEach(input => {
+        const label = input.nextElementSibling;
+        
+        input.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                const fileNames = Array.from(this.files)
+                    .map(file => file.name)
+                    .join(', ');
+                
+                label.innerHTML = `
+                    <i class="fas fa-check-circle" aria-hidden="true"></i>
+                    <span>${this.files.length} archivo(s) seleccionado(s)</span>
+                    <span class="file-hint">${fileNames}</span>
+                `;
+                label.classList.add('has-files');
+            } else {
+                label.innerHTML = `
+                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                    <span>Sube imágenes de referencia</span>
+                    <span class="file-hint">PNG, JPG o PDF (máx. 5MB cada uno)</span>
+                `;
+                label.classList.remove('has-files');
+            }
+        });
+        
+        // Drag and drop
+        label.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            label.classList.add('dragover');
+        });
+        
+        label.addEventListener('dragleave', () => {
+            label.classList.remove('dragover');
+        });
+        
+        label.addEventListener('drop', (e) => {
+            e.preventDefault();
+            label.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                input.files = e.dataTransfer.files;
+                const event = new Event('change', { bubbles: true });
+                input.dispatchEvent(event);
+            }
+        });
+    });
+}
+
+async function handleFormSubmit(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const submitBtn = form.querySelector('.submit-btn');
+    
+    if (!submitBtn) return false;
+    
+    // Validar formulario
+    if (!validateForm(form)) {
+        showNotification('Por favor, corrige los errores en el formulario.', 'error');
+        // Enfocar el primer campo con error
+        const firstError = form.querySelector('.error');
+        if (firstError) {
+            firstError.focus();
+        }
+        return false;
+    }
+    
+    // Mostrar estado de carga
+    const originalText = submitBtn.innerHTML;
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+    
+    // Preparar datos del formulario
+    const formData = new FormData(form);
+    const formObject = Object.fromEntries(formData.entries());
+    
+    try {
+        // Simular envío a servidor (reemplazar con tu endpoint real)
+        await simulateFormSubmission(formObject);
+        
+        // Éxito
+        showNotification('✅ Solicitud enviada correctamente. Te contactaremos en menos de 2 horas.', 'success');
+        
+        // Reset form
+        form.reset();
+        
+        // Reset file upload labels
+        form.querySelectorAll('.file-label').forEach(label => {
+            label.innerHTML = `
+                <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                <span>Sube imágenes de referencia</span>
+                <span class="file-hint">PNG, JPG o PDF (máx. 5MB cada uno)</span>
+            `;
+            label.classList.remove('has-files');
+        });
+        
+        // Reset urgency buttons
+        const urgencyBtns = form.querySelectorAll('.urgency-btn');
+        urgencyBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-value') === 'normal') {
+                btn.classList.add('active');
+            }
+        });
+        
+        // Enviar evento a analytics si está disponible
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'form_submit', {
+                'event_category': 'contact',
+                'event_label': 'solicitud_presupuesto'
+            });
+        }
+        
+    } catch (error) {
+        // Error
+        showNotification('❌ Error al enviar la solicitud. Por favor, inténtalo de nuevo o contáctanos directamente.', 'error');
+        console.error('Form submission error:', error);
+        
+    } finally {
+        // Restaurar botón
+        submitBtn.classList.remove('loading');
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        
+        // Scroll al inicio del formulario
+        form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    
+    return false;
+}
+
+function validateForm(form) {
+    const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
+    let isValid = true;
+    
+    requiredFields.forEach(field => {
+        if (!validateField(field)) {
+            isValid = false;
+        }
+    });
+    
+    return isValid;
+}
+
+async function simulateFormSubmission(data) {
+    // Simular delay de red
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Simular respuesta exitosa
+    return { success: true, message: 'Form submitted successfully' };
+}
+
+// ===== SMOOTH SCROLLING AND ACTIVE MENU =====
+function initSmoothScrolling() {
+    // Actualizar menú activo al hacer scroll
+    window.addEventListener('scroll', throttle(updateActiveMenuItem, 100));
+    
+    // Smooth scroll para anclas internas
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
+            const targetId = this.getAttribute('href');
+            if (targetId === '#' || targetId === '#!') return;
             
-            if (href === '#') return;
-            
-            e.preventDefault();
-            const targetElement = document.querySelector(href);
-            
+            const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                const headerHeight = document.querySelector('.header').offsetHeight;
-                const targetPosition = targetElement.offsetTop - headerHeight;
+                e.preventDefault();
+                smoothScrollTo(targetElement);
                 
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+                // Actualizar URL sin recargar
+                if (history.pushState) {
+                    history.pushState(null, null, targetId);
+                }
             }
         });
     });
     
     // Logo click para ir al inicio
-    document.querySelector('.logo-container')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    const logoContainer = document.querySelector('.logo-container');
+    if (logoContainer) {
+        logoContainer.addEventListener('click', (e) => {
+            e.preventDefault();
+            smoothScrollTo(document.body);
+            
+            if (history.pushState) {
+                history.pushState(null, null, window.location.pathname);
+            }
+        });
+    }
+}
+
+function smoothScrollTo(element) {
+    const header = document.getElementById('header');
+    const headerHeight = header ? header.offsetHeight : 90;
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+    
+    window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
     });
 }
 
-function initActiveMenu() {
+function updateActiveMenuItem() {
     const sections = document.querySelectorAll('.section');
     const menuItems = document.querySelectorAll('.menu-item');
     const header = document.getElementById('header');
+    const scrollToTopBtn = document.getElementById('scrollToTop');
     
-    function updateActiveSection() {
-        const scrollPosition = window.scrollY + 100;
+    let currentSection = '';
+    const scrollPosition = window.scrollY + 100;
+    
+    // Determinar sección actual
+    sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
         
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            const sectionId = section.getAttribute('id');
-            
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                // Actualizar item activo del menú
-                menuItems.forEach(item => {
-                    item.classList.remove('active');
-                    if (item.getAttribute('href') === `#${sectionId}`) {
-                        item.classList.add('active');
-                    }
-                });
-            }
-        });
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            currentSection = section.getAttribute('id');
+        }
+    });
+    
+    // Actualizar items del menú
+    menuItems.forEach(item => {
+        item.classList.remove('active');
+        item.setAttribute('aria-current', 'false');
         
-        // Header con scroll
-        if (window.scrollY > 50) {
+        const href = item.getAttribute('href');
+        if (href === `#${currentSection}`) {
+            item.classList.add('active');
+            item.setAttribute('aria-current', 'page');
+        }
+    });
+    
+    // Header background on scroll
+    if (header) {
+        const currentScrollTop = window.pageYOffset;
+        
+        if (currentScrollTop > 50) {
             header.classList.add('scrolled');
+            
+            // Determinar dirección del scroll
+            if (currentScrollTop > lastScrollTop) {
+                scrollDirection = 'down';
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                scrollDirection = 'up';
+                header.style.transform = 'translateY(0)';
+            }
         } else {
             header.classList.remove('scrolled');
+            header.style.transform = 'translateY(0)';
         }
         
-        // Scroll to top button
-        const scrollToTopBtn = document.getElementById('scrollToTop');
-        if (scrollToTopBtn) {
-            if (window.scrollY > 500) {
-                scrollToTopBtn.classList.add('visible');
-            } else {
-                scrollToTopBtn.classList.remove('visible');
-            }
-        }
+        lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
     }
     
-    window.addEventListener('scroll', updateActiveSection);
-    updateActiveSection(); // Ejecutar inicialmente
+    // Mostrar/ocultar botón "subir"
+    if (scrollToTopBtn) {
+        if (window.scrollY > 300) {
+            scrollToTopBtn.classList.add('visible');
+            scrollToTopBtn.setAttribute('aria-hidden', 'false');
+        } else {
+            scrollToTopBtn.classList.remove('visible');
+            scrollToTopBtn.setAttribute('aria-hidden', 'true');
+        }
+    }
 }
 
+// ===== SCROLL TO TOP =====
 function initScrollToTop() {
     const scrollToTopBtn = document.getElementById('scrollToTop');
     
-    if (scrollToTopBtn) {
-        scrollToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
-}
-
-// ===== CONTACTO =====
-function initContact() {
-    initQuickRequest();
-    initSocialLinks();
-    initContactCards();
-}
-
-function initQuickRequest() {
-    const quickRequestBtn = document.querySelector('.contact-request .btn-primary');
+    if (!scrollToTopBtn) return;
     
-    if (quickRequestBtn) {
-        quickRequestBtn.addEventListener('click', sendQuickRequest);
-    }
-}
-
-function sendQuickRequest() {
-    const name = document.getElementById('quickName').value.trim();
-    const phone = document.getElementById('quickPhone').value.trim();
-    const message = document.getElementById('quickMessage').value.trim();
-    const service = document.getElementById('quickService').value;
+    scrollToTopBtn.addEventListener('click', () => {
+        smoothScrollTo(document.body);
+    });
     
-    // Validación básica
-    if (!name || !phone) {
-        showNotification('Por favor completa tu nombre y teléfono', 'warning');
-        return;
-    }
-    
-    // Construir mensaje para WhatsApp
-    let whatsappMessage = `*Nueva solicitud de contacto:*%0A%0A`;
-    whatsappMessage += `*Nombre:* ${name}%0A`;
-    whatsappMessage += `*Teléfono:* ${phone}%0A`;
-    
-    if (service) {
-        const serviceText = {
-            tarjetas: 'Tarjetas personales',
-            reconocimientos: 'Reconocimientos',
-            invitaciones: 'Invitaciones',
-            afiches: 'Afiches',
-            otros: 'Otros servicios'
-        }[service] || 'Servicio no especificado';
-        whatsappMessage += `*Servicio:* ${serviceText}%0A`;
-    }
-    
-    if (message) {
-        whatsappMessage += `*Mensaje:* ${message}%0A`;
-    }
-    
-    whatsappMessage += `%0A_Enviado desde el sitio web_`;
-    
-    // Abrir WhatsApp
-    window.open(`https://wa.me/${config.whatsapp.phone}?text=${whatsappMessage}`, '_blank');
-    
-    // Mostrar modal de confirmación
-    showRequestConfirmation(name);
-    
-    // Limpiar formulario
-    document.getElementById('quickName').value = '';
-    document.getElementById('quickPhone').value = '';
-    document.getElementById('quickMessage').value = '';
-    document.getElementById('quickService').value = '';
-}
-
-function showRequestConfirmation(name) {
-    const modal = document.getElementById('quickContactModal');
-    if (modal) {
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-function initSocialLinks() {
-    // Asegurar que todos los enlaces sociales se abran en nueva pestaña
-    document.querySelectorAll('a[href*="facebook"], a[href*="instagram"], a[href*="tiktok"]').forEach(link => {
-        if (!link.hasAttribute('target')) {
-            link.setAttribute('target', '_blank');
-            link.setAttribute('rel', 'noopener noreferrer');
+    // Soporte para teclado
+    scrollToTopBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            scrollToTopBtn.click();
         }
     });
 }
 
-function initContactCards() {
-    // Añadir funcionalidad a las tarjetas de contacto
-    document.querySelectorAll('.contact-card').forEach(card => {
-        card.addEventListener('click', function(e) {
-            // Si el click fue en un botón o enlace, no hacer nada
-            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || 
-                e.target.closest('button') || e.target.closest('a')) {
-                return;
-            }
-            
-            // Enfocar el elemento principal de la tarjeta
-            const mainAction = this.querySelector('a, button');
-            if (mainAction) {
-                mainAction.click();
-            }
-        });
-    });
-}
-
-// ===== MODALES =====
-function initModals() {
-    initPdfViewer();
-}
-
-function initPdfViewer() {
-    // Esta función se ejecutará cuando se haga clic en los botones de catálogo
-    // Los catálogos reales deberían estar en /catalogos/
-}
-
-function openPdfViewer(pdfType) {
-    const pdfTitles = {
-        invitaciones: 'Catálogo de Invitaciones',
-        reconocimientos: 'Catálogo de Reconocimientos',
-        medallas: 'Catálogo de Medallas y Accesorios',
-        indumentaria: 'Catálogo de Indumentaria'
-    };
+// ===== PDF VIEWER MEJORADO =====
+function openPdfViewer(pdfUrl, title = 'Catálogo') {
+    // Verificar si el PDF está disponible
+    if (!pdfUrl || pdfUrl === '#') {
+        showNotification('El catálogo no está disponible en este momento. Por favor, contáctanos directamente.', 'error');
+        return;
+    }
     
-    const title = pdfTitles[pdfType] || 'Catálogo';
-    
-    // Crear modal de PDF (simulado)
+    // Crear modal
     const modal = document.createElement('div');
-    modal.className = 'modal-overlay';
-    modal.id = 'pdfModal';
-    
+    modal.className = 'pdf-viewer-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-labelledby', 'pdf-modal-title');
+    modal.setAttribute('aria-modal', 'true');
     modal.innerHTML = `
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <div class="pdf-viewer-placeholder">
-                <i class="fas fa-file-pdf"></i>
-                <h3>${title}</h3>
-                <p>Para ver nuestros catálogos completos, contáctanos directamente por WhatsApp.</p>
-                <p>Te enviaremos los catálogos actualizados con todos nuestros diseños.</p>
-                <a href="https://wa.me/${config.whatsapp.phone}?text=Hola,%20quiero%20ver%20el%20catálogo%20completo%20de%20${encodeURIComponent(title)}" 
-                   class="btn btn-whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> SOLICITAR CATÁLOGO COMPLETO
-                </a>
+        <div class="pdf-modal-overlay" tabindex="-1"></div>
+        <div class="pdf-modal-content">
+            <div class="pdf-modal-header">
+                <h3 id="pdf-modal-title">${title}</h3>
+                <div class="pdf-modal-actions">
+                    <button class="btn-fullscreen" title="Pantalla completa" aria-label="Pantalla completa">
+                        <i class="fas fa-expand" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn-close-pdf" title="Cerrar" aria-label="Cerrar visor de PDF">
+                        <i class="fas fa-times" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="pdf-viewer-container">
+                <div class="pdf-loading">
+                    <div class="loading-spinner"></div>
+                    <p>Cargando catálogo...</p>
+                </div>
+                <iframe 
+                    src="${pdfUrl}" 
+                    frameborder="0"
+                    title="Visor de PDF - ${title}"
+                    allowfullscreen
+                    loading="lazy"
+                    aria-label="Visor de documento PDF"
+                    onload="hidePdfLoader(this)"
+                    onerror="handlePdfError(this)"
+                ></iframe>
+            </div>
+            <div class="pdf-modal-footer">
+                <p><i class="fas fa-mouse-pointer" aria-hidden="true"></i> Usa las flechas para navegar • <i class="fas fa-search-plus" aria-hidden="true"></i> Rueda del mouse para zoom</p>
+                <p class="pdf-note"><i class="fas fa-info-circle" aria-hidden="true"></i> Catálogo de solo visualización</p>
             </div>
         </div>
     `;
     
+    // Agregar estilos si no existen
+    if (!document.querySelector('#pdf-viewer-styles')) {
+        addPdfViewerStyles();
+    }
+    
+    // Agregar al DOM
     document.body.appendChild(modal);
     document.body.style.overflow = 'hidden';
     
-    // Estilos para el placeholder del PDF
+    // Configurar funcionalidades
+    setupPdfViewerFunctionality(modal, title);
+}
+
+function hidePdfLoader(iframe) {
+    const loader = iframe.parentNode.querySelector('.pdf-loading');
+    if (loader) {
+        loader.style.display = 'none';
+    }
+    iframe.style.display = 'block';
+}
+
+function handlePdfError(iframe) {
+    const loader = iframe.parentNode.querySelector('.pdf-loading');
+    if (loader) {
+        loader.innerHTML = `
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--warning);"></i>
+            <p>Error al cargar el catálogo. Por favor, inténtalo de nuevo o contáctanos.</p>
+            <button onclick="location.reload()" class="btn-primary" style="margin-top: 1rem;">
+                Reintentar
+            </button>
+        `;
+    }
+}
+
+function addPdfViewerStyles() {
     const style = document.createElement('style');
+    style.id = 'pdf-viewer-styles';
     style.textContent = `
-        .pdf-viewer-placeholder {
+        .pdf-viewer-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .pdf-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .pdf-modal-content {
+            position: relative;
+            background: var(--card-bg);
+            border-radius: var(--border-radius-xl);
+            width: 95%;
+            max-width: 1200px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: modalSlideIn 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .pdf-modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .pdf-modal-header h3 {
+            color: white;
+            margin: 0;
+            font-size: 1.4rem;
+        }
+        
+        .pdf-modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-fullscreen, .btn-close-pdf {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-fullscreen:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+        
+        .btn-close-pdf:hover {
+            background: var(--danger);
+            transform: scale(1.1);
+        }
+        
+        .pdf-viewer-container {
+            flex: 1;
+            padding: 20px;
+            min-height: 400px;
+            position: relative;
+        }
+        
+        .pdf-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--card-bg);
+            z-index: 1;
+        }
+        
+        .pdf-viewer-container iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+        }
+        
+        .pdf-modal-footer {
+            padding: 15px 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
             text-align: center;
-            padding: 40px 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 0 0 20px 20px;
         }
         
-        .pdf-viewer-placeholder i {
-            font-size: 80px;
+        .pdf-modal-footer p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .pdf-modal-footer i {
             color: var(--accent);
-            margin-bottom: 20px;
+            margin-right: 8px;
         }
         
-        .pdf-viewer-placeholder h3 {
-            margin-bottom: 15px;
+        .pdf-note {
+            color: var(--warning) !important;
+            font-weight: 600;
+            font-size: 0.85rem !important;
         }
         
-        .pdf-viewer-placeholder p {
-            margin-bottom: 10px;
+        /* Modo pantalla completa */
+        .pdf-viewer-modal.fullscreen .pdf-modal-content {
+            width: 100%;
+            height: 100vh;
+            max-width: none;
+            border-radius: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .pdf-viewer-modal {
+                padding: 10px;
+            }
+            
+            .pdf-modal-content {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+            }
+            
+            .pdf-viewer-container {
+                padding: 10px;
+            }
+            
+            .pdf-modal-header {
+                padding: 15px 20px;
+            }
+            
+            .pdf-modal-header h3 {
+                font-size: 1.2rem;
+            }
+            
+            .pdf-modal-footer p {
+                font-size: 0.8rem;
+            }
         }
     `;
-    
     document.head.appendChild(style);
 }
 
-function closeModal() {
-    const modals = document.querySelectorAll('.modal-overlay');
-    modals.forEach(modal => {
-        modal.style.display = 'none';
+function setupPdfViewerFunctionality(modal, title) {
+    const closeBtn = modal.querySelector('.btn-close-pdf');
+    const fullscreenBtn = modal.querySelector('.btn-fullscreen');
+    const overlay = modal.querySelector('.pdf-modal-overlay');
+    const iframe = modal.querySelector('iframe');
+    
+    if (!closeBtn) return;
+    
+    // Enfocar botón cerrar
+    setTimeout(() => closeBtn.focus(), 100);
+    
+    // Cerrar modal
+    const closeModal = () => {
+        modal.style.animation = 'modalSlideOut 0.3s ease';
         setTimeout(() => {
             if (modal.parentNode) {
-                modal.remove();
+                document.body.removeChild(modal);
+                document.body.style.overflow = '';
             }
         }, 300);
-    });
-    
-    document.body.style.overflow = '';
-}
-
-// ===== RESPONSIVE =====
-function initResponsive() {
-    initResponsiveCoverflow();
-    initTouchOptimizations();
-    initOrientationChange();
-}
-
-function initResponsiveCoverflow() {
-    function adjustCoverflowSize() {
-        const width = window.innerWidth;
-        let itemSize = 300;
-        
-        if (width < 768) {
-            itemSize = 200;
-            config.coverflow.spacing = 180;
-        } else if (width < 1024) {
-            itemSize = 250;
-            config.coverflow.spacing = 200;
-        } else {
-            itemSize = 300;
-            config.coverflow.spacing = 220;
-        }
-        
-        config.coverflow.itemWidth = itemSize;
-        config.coverflow.itemHeight = itemSize;
-        
-        // Actualizar tamaño de los items
-        document.querySelectorAll('.coverflow-item').forEach(item => {
-            item.style.width = `${itemSize}px`;
-            item.style.height = `${itemSize}px`;
-        });
-        
-        if (coverflowItems.length > 0) {
-            updateCoverflow();
-        }
-    }
-    
-    window.addEventListener('resize', adjustCoverflowSize);
-    adjustCoverflowSize(); // Ejecutar inicialmente
-}
-
-function initTouchOptimizations() {
-    // Mejorar experiencia táctil
-    if ('ontouchstart' in window || navigator.maxTouchPoints) {
-        document.body.classList.add('touch-device');
-        
-        // Aumentar área de toque para botones importantes
-        const importantButtons = document.querySelectorAll('.btn-primary, .btn-whatsapp, .nav-button');
-        importantButtons.forEach(btn => {
-            btn.style.minHeight = '44px';
-            btn.style.minWidth = '44px';
-        });
-    }
-}
-
-function initOrientationChange() {
-    let previousOrientation = window.orientation;
-    
-    window.addEventListener('orientationchange', function() {
-        // Pequeño delay para que se complete el cambio de orientación
-        setTimeout(() => {
-            if (window.orientation !== previousOrientation) {
-                previousOrientation = window.orientation;
-                
-                // Forzar reflow en elementos críticos
-                if (coverflowItems.length > 0) {
-                    setTimeout(() => updateCoverflow(), 100);
-                }
-                
-                // Scroll suave al cambio de orientación
-                setTimeout(() => {
-                    window.scrollTo({ top: window.scrollY, behavior: 'smooth' });
-                }, 200);
-            }
-        }, 100);
-    });
-}
-
-// ===== ANIMACIONES Y EFECTOS =====
-function initAnimations() {
-    initIntersectionObserver();
-    initParallaxEffect();
-    initHoverEffects();
-}
-
-function initIntersectionObserver() {
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
     };
     
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animated');
+    closeBtn.addEventListener('click', closeModal);
+    if (overlay) overlay.addEventListener('click', closeModal);
+    
+    // Pantalla completa
+    if (fullscreenBtn) {
+        fullscreenBtn.addEventListener('click', () => {
+            modal.classList.toggle('fullscreen');
+            const icon = fullscreenBtn.querySelector('i');
+            if (modal.classList.contains('fullscreen')) {
+                icon.className = 'fas fa-compress';
+                fullscreenBtn.title = 'Salir de pantalla completa';
+                fullscreenBtn.setAttribute('aria-label', 'Salir de pantalla completa');
+            } else {
+                icon.className = 'fas fa-expand';
+                fullscreenBtn.title = 'Pantalla completa';
+                fullscreenBtn.setAttribute('aria-label', 'Pantalla completa');
             }
-        });
-    }, observerOptions);
-    
-    // Observar elementos para animar
-    document.querySelectorAll('.servicio-card, .portfolio-item, .catalogo-card, .value, .benefit').forEach(el => {
-        observer.observe(el);
-    });
-}
-
-function initParallaxEffect() {
-    const heroBackground = document.querySelector('.hero-background');
-    
-    if (!heroBackground) return;
-    
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const rate = scrolled * -0.5;
-        
-        if (heroBackground) {
-            heroBackground.style.transform = `translate3d(0, ${rate}px, 0)`;
-        }
-    });
-}
-
-function initHoverEffects() {
-    // Efectos de hover mejorados para dispositivos con mouse
-    if (window.matchMedia('(hover: hover)').matches) {
-        document.querySelectorAll('.servicio-card, .catalogo-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-            });
         });
     }
-}
-
-// ===== NOTIFICACIONES =====
-function showNotification(message, type = 'info') {
-    // Eliminar notificaciones existentes
-    const existingNotifications = document.querySelectorAll('.notification');
-    existingNotifications.forEach(notification => {
-        notification.remove();
-    });
     
-    // Crear notificación
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.setAttribute('role', 'alert');
-    notification.setAttribute('aria-live', 'polite');
+    // Focus trap y teclado
+    const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    const firstFocusableElement = focusableElements[0];
+    const lastFocusableElement = focusableElements[focusableElements.length - 1];
     
-    const icons = {
-        success: '✅',
-        error: '❌',
-        warning: '⚠️',
-        info: 'ℹ️'
-    };
-    
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span class="notification-icon">${icons[type] || icons.info}</span>
-            <span class="notification-message">${message}</span>
-        </div>
-        <button class="notification-close" aria-label="Cerrar notificación">&times;</button>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Estilos para la notificación
-    const style = document.createElement('style');
-    if (!document.querySelector('#notification-styles')) {
-        style.id = 'notification-styles';
-        style.textContent = `
-            .notification {
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                background: var(--bg-card);
-                border-left: 4px solid;
-                border-radius: var(--border-radius-md);
-                padding: 15px 20px;
-                color: var(--text-primary);
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                min-width: 300px;
-                max-width: 400px;
-                z-index: var(--z-toast);
-                box-shadow: var(--shadow-lg);
-                animation: slideIn 0.3s ease;
-                backdrop-filter: blur(10px);
+    modal.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (modal.classList.contains('fullscreen')) {
+                modal.classList.remove('fullscreen');
+                if (fullscreenBtn) {
+                    fullscreenBtn.querySelector('i').className = 'fas fa-expand';
+                    fullscreenBtn.title = 'Pantalla completa';
+                    fullscreenBtn.setAttribute('aria-label', 'Pantalla completa');
+                }
+            } else {
+                closeModal();
             }
-            
-            .notification-success { border-color: var(--success); }
-            .notification-error { border-color: var(--danger); }
-            .notification-warning { border-color: var(--warning); }
-            .notification-info { border-color: var(--secondary); }
-            
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            
-            .notification-content {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                flex: 1;
-            }
-            
-            .notification-close {
-                background: none;
-                border: none;
-                color: var(--text-muted);
-                font-size: 24px;
-                cursor: pointer;
-                padding: 0;
-                margin-left: 15px;
-                line-height: 1;
-                transition: color 0.3s ease;
-            }
-            
-            .notification-close:hover {
-                color: var(--text-primary);
-            }
-            
-            @media (max-width: 768px) {
-                .notification {
-                    left: 20px;
-                    right: 20px;
-                    max-width: none;
+        }
+        
+        if (e.key === 'Tab' && focusableElements.length > 1) {
+            if (e.shiftKey) {
+                if (document.activeElement === firstFocusableElement) {
+                    e.preventDefault();
+                    lastFocusableElement.focus();
+                }
+            } else {
+                if (document.activeElement === lastFocusableElement) {
+                    e.preventDefault();
+                    firstFocusableElement.focus();
                 }
             }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    // Botón para cerrar
-    notification.querySelector('.notification-close').addEventListener('click', () => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
+        }
     });
     
-    // Auto-remover después de 5 segundos
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.style.animation = 'slideOut 0.3s ease';
-            setTimeout(() => notification.remove(), 300);
-        }
-    }, 5000);
-    
-    // Animación de salida
-    if (!document.querySelector('#notification-slide-out')) {
-        const slideOutStyle = document.createElement('style');
-        slideOutStyle.id = 'notification-slide-out';
-        slideOutStyle.textContent = `
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(slideOutStyle);
+    // Enfocar iframe después de cargar
+    if (iframe) {
+        iframe.addEventListener('load', () => {
+            setTimeout(() => iframe.focus(), 300);
+        });
     }
 }
 
-// ===== FUNCIONES GLOBALES =====
-// Exportar funciones que necesitan ser accesibles desde HTML
-window.navigate = navigateCoverflow;
-window.toggleAutoplay = toggleCoverflowAutoplay;
-window.openPdfViewer = openPdfViewer;
-window.closeModal = closeModal;
-window.sendQuickRequest = sendQuickRequest;
+// ===== PORTFOLIO MODALS =====
+function initPortfolioModals() {
+    const viewDetailsBtns = document.querySelectorAll('.view-details');
+    
+    viewDetailsBtns.forEach((btn, index) => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            const portfolioItem = this.closest('.portfolio-item');
+            if (!portfolioItem) return;
+            
+            const image = portfolioItem.querySelector('img');
+            const titleElement = portfolioItem.querySelector('h4');
+            const descriptionElement = portfolioItem.querySelector('p');
+            
+            if (!image || !titleElement) return;
+            
+            const imageSrc = image.src;
+            const title = titleElement.textContent;
+            const shortDescription = descriptionElement ? descriptionElement.textContent : '';
+            
+            // Descripciones detalladas
+            const detailedDescriptions = [
+                {
+                    title: "Tarjetas Personales Corporativas",
+                    description: "En IMPRESIONES GRAFIC diseñamos tarjetas de presentación que no solo transmiten información, sino que cuentan la historia de tu marca. Utilizamos materiales premium como cartulina couché de 300g, acabados en relieve, troquelados especiales y barniz UV selectivo para crear piezas que dejan una impresión duradera.",
+                    features: ["Diseño personalizado con 3 revisiones", "Materiales premium (cartulina 300g)", "Acabados especiales (relieve, troquelado)", "Impresión full color de alta resolución", "Entrega en 48 horas hábiles", "Mínimo 100 unidades"],
+                    price: "Desde Bs. 150",
+                    delivery: "48 horas"
+                },
+                {
+                    title: "Reconocimientos Personalizados",
+                    description: "Nuestros reconocimientos y diplomas son diseñados para premiar la excelencia. Trabajamos con papeles especiales como pergamino, texturizados y con marcas de agua, incorporando elementos gráficos que reflejan la importancia del logro. Cada pieza es única y diseñada según la institución o evento.",
+                    features: ["Diseño elegante y formal", "Papeles especiales (pergamino, texturizados)", "Marcos de madera o acrílico opcional", "Personalización completa de textos", "Numeración y validación oficial", "Embalaje protector premium"],
+                    price: "Desde Bs. 80",
+                    delivery: "72 horas"
+                },
+                {
+                    title: "Trofeos Exclusivos",
+                    description: "Creamos trofeos que se convierten en símbolos de logro y reconocimiento. Combinamos diferentes materiales como cristal tallado, acrílico láser, metal cromado y bases de mármol sintético para piezas realmente memorables. Cada trofeo cuenta una historia de triunfo.",
+                    features: ["Combinación de materiales premium", "Grabado láser personalizado", "Bases estables y elegantes", "Diseño exclusivo para cada evento", "Embalaje de lujo con espuma", "Instalación en evento (opcional)"],
+                    price: "Desde Bs. 200",
+                    delivery: "5-7 días"
+                },
+                {
+                    title: "Invitaciones Elegantes",
+                    description: "Transformamos tus momentos especiales en recuerdos tangibles. Diseñamos invitaciones que anticipan la magia de tu evento, utilizando técnicas como letterpress, foil stamping, cortes láser y papeles especiales importados. Cada detalle es cuidadosamente considerado.",
+                    features: ["Diseño único para cada evento", "Papeles importados de alta calidad", "Técnicas especiales (foil, relieve)", "Sobres personalizados y lacrados", "Coordinación completa del diseño", "Muestras físicas antes de producción"],
+                    price: "Desde Bs. 3 por unidad",
+                    delivery: "5 días"
+                },
+                {
+                    title: "Afiches Publicitarios",
+                    description: "Diseñamos afiches que no solo informan, sino que impactan y persuaden. Trabajamos con impresión de gran formato hasta 150x100cm, materiales resistentes a la intemperie y técnicas de visualización estratégica para maximizar el alcance de tu mensaje.",
+                    features: ["Gran formato hasta 150x100cm", "Materiales resistentes a la intemperie", "Impresión en alta resolución", "Diseño optimizado para visualización", "Instalación profesional incluida", "Resistencia UV para exteriores"],
+                    price: "Desde Bs. 50",
+                    delivery: "24-48 horas"
+                },
+                {
+                    title: "Certificados Institucionales",
+                    description: "Documentos oficiales que otorgan validez y prestigio. Diseñamos certificados con elementos de seguridad, numeración serial, marcas de agua y firmas digitales, garantizando autenticidad y profesionalismo para instituciones educativas, empresas y organizaciones.",
+                    features: ["Elementos de seguridad integrados", "Numeración serial consecutiva", "Marcas de agua y fondos seguridad", "Papeles de calidad archivística", "Validación oficial y firmas", "Diseño acorde a normativa institucional"],
+                    price: "Desde Bs. 25 por unidad",
+                    delivery: "3 días"
+                }
+            ];
+            
+            // Obtener descripción detallada
+            const detailedInfo = detailedDescriptions[index] || {
+                title: title,
+                description: shortDescription,
+                features: ["Calidad garantizada", "Diseño personalizado", "Entrega puntual", "Atención personalizada"],
+                price: "Consultar",
+                delivery: "Variable"
+            };
+            
+            // Crear modal
+            const modal = createPortfolioModal(detailedInfo, imageSrc);
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+            
+            // Configurar funcionalidades del modal
+            setupModalFunctionality(modal);
+        });
+        
+        // Soporte para teclado
+        btn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                btn.click();
+            }
+        });
+    });
+}
 
-// ===== PERFORMANCE OPTIMIZATIONS =====
-// Debounce para eventos de scroll y resize
+// ===== UTILITY FUNCTIONS =====
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -1231,62 +1733,358 @@ function debounce(func, wait) {
     };
 }
 
-// Aplicar debounce a eventos pesados
-window.addEventListener('scroll', debounce(updateActiveSection, 10));
-window.addEventListener('resize', debounce(adjustCoverflowSize, 100));
+// ===== AJUSTES RESPONSIVE =====
+function adjustForScreenSize() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    isMobile = width <= 768;
+    
+    // Ajustar menú según tamaño
+    if (menuToggle && mainMenu) {
+        if (isMobile) {
+            // MÓVIL: Mostrar hamburguesa
+            menuToggle.style.display = 'flex';
+            if (!mainMenu.classList.contains('active')) {
+                mainMenu.style.display = 'none';
+            }
+        } else {
+            // DESKTOP: Ocultar hamburguesa, mostrar menú
+            menuToggle.style.display = 'none';
+            mainMenu.style.display = 'flex';
+            mainMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+    }
+    
+    // Ajustar tamaño de items del coverflow
+    if (width < 480) {
+        coverflowItems.forEach(item => {
+            item.style.width = '170px';
+            item.style.height = '170px';
+        });
+    } else if (width < 768) {
+        coverflowItems.forEach(item => {
+            item.style.width = '200px';
+            item.style.height = '200px';
+        });
+    } else if (width < 1024) {
+        coverflowItems.forEach(item => {
+            item.style.width = '240px';
+            item.style.height = '240px';
+        });
+    } else {
+        coverflowItems.forEach(item => {
+            item.style.width = '280px';
+            item.style.height = '280px';
+        });
+    }
+    
+    // Ajustar altura del contenedor del coverflow
+    if (coverflowContainer) {
+        if (isMobile && width > height) {
+            // Landscape en móvil
+            coverflowContainer.style.height = '250px';
+        } else {
+            coverflowContainer.style.height = isMobile ? '300px' : '400px';
+        }
+    }
+    
+    // Actualizar coverflow
+    updateCoverflow();
+}
 
-// ===== PWA READINESS (OPCIONAL) =====
-if ('serviceWorker' in navigator) {
+// Throttle resize event
+window.addEventListener('resize', debounce(() => {
+    adjustForScreenSize();
+    
+    // Cerrar menú móvil al cambiar a desktop
+    if (window.innerWidth > 768) {
+        closeMobileMenu();
+    }
+}, 250));
+
+// ===== LOAD PARTICLES =====
+function loadParticles() {
+    if (!heroParticlesContainer || isMobile) return;
+    
+    const particleCount = 30;
+    heroParticlesContainer.innerHTML = '';
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'hero-particle';
+        
+        const size = Math.random() * 3 + 1;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 10 + 10;
+        const opacity = Math.random() * 0.3 + 0.1;
+        
+        particle.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            left: ${posX}%;
+            top: ${posY}%;
+            animation-delay: ${delay}s;
+            animation-duration: ${duration}s;
+            background: rgba(94, 86, 231, ${opacity});
+        `;
+        
+        heroParticlesContainer.appendChild(particle);
+    }
+}
+
+// ===== INICIALIZACIÓN COMPLETA =====
+function initAll() {
+    console.log('🚀 Inicializando IMPRESIONES GRAFIC...');
+    
+    // Detectar dispositivo y aplicar optimizaciones
+    detectDeviceAndBrowser();
+    
+    // Inicializar componentes
+    createCoverflowDots();
+    updateCoverflow();
+    initMobileMenu();
+    initPortfolioFilter();
+    initPortfolioModals();
+    initFormHandling();
+    initSmoothScrolling();
+    initScrollToTop();
+    initScrollAnimations();
+    
+    // Configurar ARIA attributes
+    setAriaAttributes();
+    
+    // Ajustar para tamaño de pantalla actual
+    adjustForScreenSize();
+    
+    // Iniciar autoplay
+    setTimeout(() => {
+        startAutoplay();
+    }, 1000);
+    
+    // Cargar partículas (solo en desktop)
+    if (!isMobile) {
+        loadParticles();
+    }
+    
+    // Marcar como cargado
+    document.body.classList.add('loaded');
+    
+    console.log('✅ Sitio inicializado correctamente');
+}
+
+// Configurar ARIA attributes
+function setAriaAttributes() {
+    // Menu toggle
+    if (menuToggle) {
+        menuToggle.setAttribute('aria-label', 'Abrir menú');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-controls', 'mainMenu');
+    }
+    
+    // Main menu
+    if (mainMenu) {
+        mainMenu.setAttribute('aria-label', 'Menú principal');
+    }
+    
+    // Coverflow
+    if (coverflowContainer) {
+        coverflowContainer.setAttribute('aria-label', 'Galería de trabajos');
+        coverflowContainer.setAttribute('aria-roledescription', 'carousel');
+        coverflowContainer.setAttribute('aria-live', 'polite');
+    }
+    
+    // Navigation buttons
+    const prevBtn = document.querySelector('.nav-button.prev');
+    const nextBtn = document.querySelector('.nav-button.next');
+    
+    if (prevBtn) prevBtn.setAttribute('aria-label', 'Imagen anterior');
+    if (nextBtn) nextBtn.setAttribute('aria-label', 'Siguiente imagen');
+    
+    // Play/Pause button
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    if (playPauseBtn) playPauseBtn.setAttribute('aria-label', 'Reproducir presentación automática');
+    
+    // Service cards
+    document.querySelectorAll('.servicio-card').forEach((card, index) => {
+        card.setAttribute('role', 'article');
+        const title = card.querySelector('h3');
+        if (title) {
+            card.setAttribute('aria-label', `Servicio: ${title.textContent}`);
+        }
+    });
+    
+    // Portfolio items
+    document.querySelectorAll('.portfolio-item').forEach((item, index) => {
+        item.setAttribute('role', 'article');
+        const title = item.querySelector('h4');
+        if (title) {
+            item.setAttribute('aria-label', `Proyecto: ${title.textContent}`);
+        }
+    });
+    
+    // Catalog cards
+    document.querySelectorAll('.catalogo-card').forEach((card, index) => {
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        const title = card.querySelector('h3');
+        if (title) {
+            card.setAttribute('aria-label', `Abrir catálogo: ${title.textContent}`);
+        }
+    });
+    
+    // Form elements
+    const form = document.getElementById('consultaForm');
+    if (form) {
+        form.setAttribute('aria-label', 'Formulario de solicitud de presupuesto');
+        form.querySelectorAll('input, textarea, select').forEach(input => {
+            if (!input.id) {
+                const name = input.getAttribute('name');
+                if (name) {
+                    input.id = `input-${name}`;
+                    const label = input.parentNode.querySelector('label');
+                    if (label) {
+                        label.setAttribute('for', input.id);
+                    }
+                }
+            }
+        });
+    }
+}
+
+// ===== LOADING Y WELCOME =====
+window.addEventListener('load', function() {
+    // Remover preloader
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        // Asegurar que la barra de progreso llegue al 100%
+        const progressBar = preloader.querySelector('.preloader-progress-bar');
+        if (progressBar) {
+            progressBar.style.width = '100%';
+        }
+        
+        setTimeout(() => {
+            preloader.style.opacity = '0';
+            document.body.classList.add('loaded');
+            
+            setTimeout(() => {
+                if (preloader.parentNode) {
+                    preloader.style.display = 'none';
+                }
+                
+                // Inicializar todo
+                initAll();
+                
+                // Mostrar notificación de bienvenida
+                setTimeout(() => {
+                    showNotification(
+                        '🎨 ¡Bienvenido a IMPRESIONES GRAFIC! Descubre 25 años de experiencia en diseño e impresión.',
+                        'info',
+                        4000
+                    );
+                }, 1000);
+                
+                // Marcar como completamente cargado
+                document.body.classList.add('fully-loaded');
+                
+                // Enviar evento de carga completa a analytics
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'page_view', {
+                        'page_title': 'IMPRESIONES GRAFIC - Inicio',
+                        'page_location': window.location.href
+                    });
+                }
+                
+            }, 500);
+        }, 800);
+    } else {
+        // Si no hay preloader, inicializar directamente
+        initAll();
+    }
+});
+
+// Inicializar en DOM ready si el load event ya pasó
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        // Configuración inicial básica
+        detectDeviceAndBrowser();
+        adjustForScreenSize();
+    });
+} else {
+    // DOM ya está listo
+    detectDeviceAndBrowser();
+    adjustForScreenSize();
+}
+
+// ===== ERROR HANDLING =====
+window.addEventListener('error', (e) => {
+    console.error('Error en la aplicación:', e.error);
+    
+    // Enviar error a analytics si está disponible
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'exception', {
+            'description': e.error.message,
+            'fatal': false
+        });
+    }
+});
+
+window.addEventListener('unhandledrejection', (e) => {
+    console.error('Promesa rechazada no manejada:', e.reason);
+});
+
+// ===== EXPORT FUNCIONES GLOBALES =====
+window.scrollToContact = scrollToContact;
+window.handleSubmit = handleSubmit;
+window.navigate = navigateCoverflow;
+window.goToIndex = goToCoverflowIndex;
+window.toggleAutoplay = toggleAutoplay;
+window.openPdfViewer = openPdfViewer;
+window.showNotification = showNotification;
+
+// Performance monitoring
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    window.addEventListener('load', () => {
+        if ('performance' in window) {
+            const perfData = window.performance.getEntriesByType('navigation')[0];
+            if (perfData) {
+                console.log('📊 Performance Metrics:', {
+                    'DOM Loaded': (perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart).toFixed(2) + 'ms',
+                    'Load Complete': (perfData.loadEventEnd - perfData.loadEventStart).toFixed(2) + 'ms',
+                    'Total Time': (perfData.loadEventEnd - perfData.fetchStart).toFixed(2) + 'ms'
+                });
+            }
+        }
+        
+        // Log de recursos cargados
+        const resources = window.performance.getEntriesByType('resource');
+        console.log(`📦 Recursos cargados: ${resources.length} items`);
+    });
+}
+
+// Service Worker (opcional)
+if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js').catch(error => {
-            console.log('Service Worker registration failed:', error);
+            console.log('Service Worker no registrado:', error);
         });
     });
 }
 
-// ===== ANALYTICS (OPCIONAL) =====
-function trackEvent(category, action, label) {
-    if (typeof gtag !== 'undefined') {
-        gtag('event', action, {
-            'event_category': category,
-            'event_label': label
-        });
-    }
-    
-    // Track interno
-    console.log(`Track: ${category} - ${action} - ${label}`);
+// Web App Manifest
+if ('standalone' in navigator || window.matchMedia('(display-mode: standalone)').matches) {
+    document.body.classList.add('standalone');
 }
 
-// ===== ERROR HANDLING =====
-window.addEventListener('error', function(e) {
-    console.error('Error capturado:', e.error);
-    
-    // Mostrar error amigable al usuario si es crítico
-    if (e.error.message.includes('Critical')) {
-        showNotification('Ha ocurrido un error. Por favor recarga la página.', 'error');
-    }
-});
-
-// ===== OFFLINE DETECTION =====
+// Online/Offline detection
 window.addEventListener('online', () => {
-    showNotification('¡Conexión restablecida!', 'success');
+    showNotification('✅ Conexión restablecida', 'success', 3000);
 });
 
 window.addEventListener('offline', () => {
-    showNotification('Sin conexión a internet. Algunas funciones pueden no estar disponibles.', 'warning');
+    showNotification('⚠️ Estás trabajando sin conexión', 'warning', 5000);
 });
-
-// ===== INITIAL CHECK =====
-// Verificar estado inicial
-if (!navigator.onLine) {
-    showNotification('Estás navegando sin conexión. Algunas funciones pueden no estar disponibles.', 'warning');
-}
-
-// Verificar compatibilidad
-if (!('IntersectionObserver' in window)) {
-    console.warn('IntersectionObserver no soportado, algunas animaciones pueden no funcionar');
-}
-
-// ===== EXPORT CONFIGURATION =====
-// Para uso en otras partes del código
-window.IMPRESIONES_GRAFIC_CONFIG = config;

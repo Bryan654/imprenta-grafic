@@ -2,68 +2,216 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMPRESIONES GRAFIC - 25 Años de Experiencia en Diseño e Impresión en Oruro</title>
-    <meta name="description" content="25 años de experiencia en diseño gráfico, impresión de calidad, tarjetas personales, reconocimientos, trofeos e invitaciones en Oruro, Bolivia.">
-    <meta name="keywords" content="diseño gráfico, impresión, Oruro, Bolivia, tarjetas personales, reconocimientos, trofeos, invitaciones, afiches, calendarios">
-    <meta name="author" content="IMPRESIONES GRAFIC">
+    <!-- VIEWPORT OPTIMIZADO PARA TODOS LOS DISPOSITIVOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     
-    <!-- Open Graph / Facebook -->
+    <!-- META TAGS PARA MEJOR SEO Y COMPATIBILIDAD -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#5E56E7">
+    <meta name="description" content="IMPRESIONES GRAFIC - 25 años de experiencia en diseño e impresión de calidad en Oruro. Tarjetas personales, reconocimientos, invitaciones y más.">
+    <meta name="keywords" content="impresión, diseño gráfico, Oruro, tarjetas personales, reconocimientos, invitaciones, afiches, calendarios">
+    <meta name="author" content="IMPRESIONES GRAFIC">
+    <meta property="og:title" content="IMPRESIONES GRAFIC - Diseño e Impresión">
+    <meta property="og:description" content="25 años de experiencia en diseño e impresión de calidad en Oruro">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://impresionesgrafic.com/">
-    <meta property="og:title" content="IMPRESIONES GRAFIC - 25 Años de Experiencia">
-    <meta property="og:description" content="Diseño e impresión de calidad en Oruro, Bolivia. Especialistas en tarjetas, reconocimientos y material gráfico.">
+    <meta property="og:url" content="https://impresionesgrafic.com">
     <meta property="og:image" content="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png">
     
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://impresionesgrafic.com/">
-    <meta property="twitter:title" content="IMPRESIONES GRAFIC - 25 Años de Experiencia">
-    <meta property="twitter:description" content="Diseño e impresión de calidad en Oruro, Bolivia.">
-    <meta property="twitter:image" content="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png">
+    <title>IMPRESIONES GRAFIC - Diseño e Impresión en Oruro</title>
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png">
+    <!-- PRELOAD DE RECURSOS CRÍTICOS -->
+    <link rel="preload" href="templatemo-3d-coverflow.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" as="style" crossorigin>
     
-    <!-- CSS -->
+    <!-- ESTILOS PRINCIPALES -->
     <link href="templatemo-3d-coverflow.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     
-    <!-- Preconnect para fuentes y CDN -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FUENTES OPTIMIZADAS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" crossorigin="anonymous">
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png">
+    
+    <!-- ESTILOS DE CARGA INICIAL -->
+    <style>
+        /* Preloader mejorado */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .preloader-content {
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .preloader-logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 25px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(94, 86, 231, 0.4));
+        }
+        
+        .preloader-text {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #5E56E7, #FF6B8B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .preloader-progress {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .preloader-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #5E56E7, #FF6B8B);
+            width: 0%;
+            animation: progressLoad 2s ease-in-out;
+            border-radius: 10px;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+        
+        @keyframes progressLoad {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Ocultar preloader cuando cargue */
+        body.loaded .preloader {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Mejoras de accesibilidad */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+        
+        /* Optimizaciones para dispositivos específicos */
+        @media (max-width: 768px) {
+            .preloader-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .preloader-text {
+                font-size: 1.1rem;
+                letter-spacing: 1px;
+            }
+            
+            .preloader-progress {
+                width: 160px;
+            }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0f0f1a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #5E56E7, #FF6B8B);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #4a43d4, #e85673);
+        }
+    </style>
 </head>
 <body>
-    <!-- Loading -->
-    <div class="loading-overlay" id="loading">
-        <div class="loading-spinner">
-            <div class="spinner"></div>
-            <p>Cargando IMPRESIONES GRAFIC...</p>
+    <!-- Preloader mejorado -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <img src="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png" alt="Cargando IMPRESIONES GRAFIC" class="preloader-logo" width="100" height="100">
+            <div class="preloader-text">IMPRESIONES GRAFIC</div>
+            <div class="preloader-progress">
+                <div class="preloader-progress-bar"></div>
+            </div>
         </div>
     </div>
 
-    <!-- WhatsApp Float -->
+    <!-- WhatsApp Float - MEJORADO -->
     <a href="https://wa.me/59164793488?text=Hola%20IMPRESIONES%20GRAFIC,%20quiero%20consultar%20sobre%20sus%20servicios" 
-       class="whatsapp-float" target="_blank" rel="noopener noreferrer" 
-       aria-label="Contactar por WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-        <span class="pulse"></span>
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       aria-label="Chatear por WhatsApp"
+       title="WhatsApp">
+        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+        <span class="whatsapp-pulse"></span>
+        <span class="whatsapp-text">¡Contáctanos!</span>
+        <span class="sr-only">Abrir chat de WhatsApp</span>
     </a>
 
-    <!-- Call Float -->
-    <a href="tel:+59164793488" class="call-float" aria-label="Llamar por teléfono">
-        <i class="fas fa-phone"></i>
-    </a>
-
-    <!-- Header -->
+    <!-- Header - MEJORADO -->
     <header class="header" id="header">
-        <a href="#home" class="logo-container">
+        <a href="#home" class="logo-container" aria-label="Ir al inicio">
             <div class="logo">
                 <img src="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png" 
-                     alt="Logo IMPRESIONES GRAFIC - 25 años de experiencia"
+                     alt="Logo IMPRESIONES GRAFIC"
                      class="logo-image"
-                     width="50" height="50">
+                     loading="eager"
+                     width="60"
+                     height="60">
             </div>
             <div class="logo-text">
                 <span class="logo-main">IMPRESIONES GRAFIC</span>
@@ -72,880 +220,1954 @@
         </a>
         
         <nav class="main-menu" id="mainMenu" aria-label="Navegación principal">
-            <a href="#home" class="menu-item active">
-                <i class="fas fa-home"></i> INICIO
+            <a href="#home" class="menu-item active" aria-current="page">
+                <i class="fas fa-home menu-icon" aria-hidden="true"></i>
+                <span class="menu-text">INICIO</span>
             </a>
             <a href="#servicios" class="menu-item">
-                <i class="fas fa-concierge-bell"></i> SERVICIOS
+                <i class="fas fa-palette menu-icon" aria-hidden="true"></i>
+                <span class="menu-text">SERVICIOS</span>
             </a>
             <a href="#portafolio" class="menu-item">
-                <i class="fas fa-images"></i> PORTAFOLIO
+                <i class="fas fa-images menu-icon" aria-hidden="true"></i>
+                <span class="menu-text">PORTAFOLIO</span>
             </a>
             <a href="#catalogos" class="menu-item">
-                <i class="fas fa-book-open"></i> CATÁLOGOS
+                <i class="fas fa-book-open menu-icon" aria-hidden="true"></i>
+                <span class="menu-text">CATÁLOGOS</span>
             </a>
             <a href="#about" class="menu-item">
-                <i class="fas fa-info-circle"></i> NOSOTROS
+                <i class="fas fa-building menu-icon" aria-hidden="true"></i>
+                <span class="menu-text">ACERCA DE</span>
             </a>
-            <a href="#contact" class="menu-item cta-menu">
-                <i class="fas fa-comment-dots"></i> CONTACTO
+            <a href="#contact" class="menu-item">
+                <i class="fas fa-phone-alt menu-icon" aria-hidden="true"></i>
+                <span class="menu-text">CONTACTO</span>
             </a>
         </nav>
         
         <div class="header-actions">
-            <a href="tel:+59164793488" class="header-phone" aria-label="Llamar por teléfono">
-                <i class="fas fa-phone-alt"></i>
-                <span>+591 6479 3488</span>
+            <a href="https://wa.me/59164793488" class="header-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                <span class="header-action-text">WhatsApp</span>
             </a>
             
-            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="menu-toggle" 
+                    id="menuToggle" 
+                    aria-label="Menú de navegación" 
+                    aria-expanded="false" 
+                    aria-controls="mainMenu"
+                    aria-haspopup="true">
+                <span class="sr-only">Menú</span>
+                <span class="menu-toggle-line top"></span>
+                <span class="menu-toggle-line middle"></span>
+                <span class="menu-toggle-line bottom"></span>
             </button>
         </div>
     </header>
 
-    <!-- Home Section -->
-    <section id="home" class="section hero-section">
-        <div class="hero-background"></div>
-        
-        <div class="hero-content">
-            <div class="hero-badge">
-                <span>🏆 25 años de experiencia</span>
-            </div>
-            
-            <h1 class="hero-title">
-                <span class="hero-line-1">DISEÑO E IMPRESIÓN</span>
-                <span class="hero-line-2">DE <span class="highlight">CALIDAD</span> EN ORURO</span>
-            </h1>
-            
-            <p class="hero-description">
-                Transformamos tus ideas en realidad con diseño personalizado, 
-                materiales premium y entrega puntual.
-            </p>
-            
-            <div class="hero-actions">
-                <a href="#servicios" class="btn btn-primary">
-                    <i class="fas fa-eye"></i> VER SERVICIOS
-                </a>
-                <a href="https://wa.me/59164793488" class="btn btn-whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> COTIZAR AHORA
-                </a>
-            </div>
-            
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-number">2000+</span>
-                    <span class="stat-label">Proyectos</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">500+</span>
-                    <span class="stat-label">Clientes</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">98%</span>
-                    <span class="stat-label">Satisfacción</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">72h</span>
-                    <span class="stat-label">Entrega</span>
-                </div>
-            </div>
+    <!-- Home Section - MEJORADO -->
+    <section id="home" class="section hero-section" aria-label="Sección de inicio">
+        <div class="hero-background">
+            <div class="hero-overlay"></div>
+            <div class="hero-particles" id="heroParticles"></div>
         </div>
         
         <div class="coverflow-wrapper">
-            <div class="coverflow-container">
-                <div class="coverflow" id="coverflow" aria-label="Galería de trabajos">
-                    <!-- Las imágenes se cargarán dinámicamente -->
+            <div class="hero-content" aria-label="Información principal">
+                <h1 class="hero-title">
+                    <span class="hero-highlight">25 AÑOS</span>
+                    <span class="hero-subtitle">de experiencia</span>
+                </h1>
+                <p class="hero-tagline">Diseño e Impresión de Calidad en Oruro</p>
+                <div class="hero-cta">
+                    <a href="#servicios" class="btn-primary">
+                        <span>Ver Servicios</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                    <a href="#contact" class="btn-secondary">
+                        <span>Contactar Ahora</span>
+                        <i class="fas fa-comment-alt" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="coverflow-container" 
+                 tabindex="0" 
+                 role="region" 
+                 aria-label="Galería de trabajos"
+                 aria-roledescription="carousel"
+                 aria-live="polite">
+                
+                <div class="coverflow" id="coverflow">
+                    <!-- Item 1 -->
+                    <div class="coverflow-item" data-index="0" role="group" aria-label="Imagen 1 de 7: Tarjetas de Presentación">
+                        <div class="cover image-loading">
+                            <div class="cover-badge">Tarjetas</div>
+                            <img src="images/mountain-landscape.jpg" 
+                                 alt="Tarjetas de Presentación - Diseños profesionales para tu negocio"
+                                 loading="lazy"
+                                 width="280"
+                                 height="280"
+                                 onerror="this.src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=600&fit=crop&auto=format'">
+                        </div>
+                        <div class="reflection" aria-hidden="true"></div>
+                    </div>
+                    
+                    <!-- Item 2 -->
+                    <div class="coverflow-item" data-index="1" role="group" aria-label="Imagen 2 de 7: Reconocimientos">
+                        <div class="cover image-loading">
+                            <div class="cover-badge">Reconocimientos</div>
+                            <img src="images/forest-path.jpg" 
+                                 alt="Reconocimientos y diplomas personalizados para eventos especiales"
+                                 loading="lazy"
+                                 width="280"
+                                 height="280"
+                                 onerror="this.src='https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=600&fit=crop&auto=format'">
+                        </div>
+                        <div class="reflection" aria-hidden="true"></div>
+                    </div>
+                    
+                    <!-- Item 3 -->
+                    <div class="coverflow-item" data-index="2" role="group" aria-label="Imagen 3 de 7: Invitaciones">
+                        <div class="cover image-loading">
+                            <div class="cover-badge">Invitaciones</div>
+                            <img src="images/serene-water-mirroring.jpg" 
+                                 alt="Invitaciones elegantes para bodas, cumpleaños y eventos corporativos"
+                                 loading="lazy"
+                                 width="280"
+                                 height="280"
+                                 onerror="this.src='https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=600&h=600&fit=crop&auto=format'">
+                        </div>
+                        <div class="reflection" aria-hidden="true"></div>
+                    </div>
+                    
+                    <!-- Item 4 (Centro) -->
+                    <div class="coverflow-item active" data-index="3" role="group" aria-label="Imagen 4 de 7: Afiches Publicitarios">
+                        <div class="cover image-loading">
+                            <div class="cover-badge">Afiches</div>
+                            <img src="images/ocean-sunset-golden-hour.jpg" 
+                                 alt="Afiches Publicitarios - Diseño creativo e impactante para tu marca"
+                                 loading="lazy"
+                                 width="280"
+                                 height="280"
+                                 onerror="this.src='https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=600&h=600&fit=crop&auto=format'">
+                        </div>
+                        <div class="reflection" aria-hidden="true"></div>
+                    </div>
+                    
+                    <!-- Item 5 -->
+                    <div class="coverflow-item" data-index="4" role="group" aria-label="Imagen 5 de 7: Calendarios Personalizados">
+                        <div class="cover image-loading">
+                            <div class="cover-badge">Calendarios</div>
+                            <img src="images/rolling-sand-dunes.jpg" 
+                                 alt="Calendarios Personalizados - Organiza tu año con estilo"
+                                 loading="lazy"
+                                 width="280"
+                                 height="280"
+                                 onerror="this.src='https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=600&h=600&fit=crop&auto=format'">
+                        </div>
+                        <div class="reflection" aria-hidden="true"></div>
+                    </div>
+                    
+                    <!-- Item 6 -->
+                    <div class="coverflow-item" data-index="5" role="group" aria-label="Imagen 6 de 7: Trofeos Exclusivos">
+                        <div class="cover image-loading">
+                            <div class="cover-badge">Trofeos</div>
+                            <img src="images/starry-night.jpg" 
+                                 alt="Trofeos Exclusivos - Reconocimientos únicos para eventos deportivos"
+                                 loading="lazy"
+                                 width="280"
+                                 height="280"
+                                 onerror="this.src='https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=600&h=600&fit=crop&auto=format'">
+                        </div>
+                        <div class="reflection" aria-hidden="true"></div>
+                    </div>
+                    
+                    <!-- Item 7 -->
+                    <div class="coverflow-item" data-index="6" role="group" aria-label="Imagen 7 de 7: Material Corporativo">
+                        <div class="cover image-loading">
+                            <div class="cover-badge">Corporativo</div>
+                            <img src="images/cascading-waterfall.jpg" 
+                                 alt="Material Corporativo - Todo para la identidad de tu empresa"
+                                 loading="lazy"
+                                 width="280"
+                                 height="280"
+                                 onerror="this.src='https://images.unsplash.com/photo-1512273222628-4daea6e55abb?w=600&h=600&fit=crop&auto=format'">
+                        </div>
+                        <div class="reflection" aria-hidden="true"></div>
+                    </div>
+                </div>
+
+                <!-- Botones de navegación -->
+                <button class="nav-button prev" 
+                        onclick="navigate(-1)" 
+                        aria-label="Imagen anterior"
+                        title="Imagen anterior">
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    <span class="sr-only">Anterior</span>
+                </button>
+                
+                <button class="nav-button next" 
+                        onclick="navigate(1)" 
+                        aria-label="Siguiente imagen"
+                        title="Siguiente imagen">
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    <span class="sr-only">Siguiente</span>
+                </button>
+
+                <!-- Indicadores de puntos -->
+                <div class="dots-container" id="dots" role="tablist" aria-label="Indicadores de imágenes">
+                    <!-- Los dots se generan con JavaScript -->
                 </div>
                 
-                <div class="coverflow-controls">
-                    <button class="nav-button prev" onclick="navigate(-1)" aria-label="Imagen anterior">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="nav-button next" onclick="navigate(1)" aria-label="Siguiente imagen">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                    
-                    <div class="dots-container" id="dots"></div>
-                    
-                    <button class="play-pause-button" id="playPauseBtn" onclick="toggleAutoplay()" 
-                            aria-label="Reproducir/pausar galería">
-                        <span class="play-icon"><i class="fas fa-play"></i></span>
-                        <span class="pause-icon" style="display: none;"><i class="fas fa-pause"></i></span>
-                    </button>
+                <!-- Contador -->
+                <div class="coverflow-counter">
+                    <span id="currentSlide">1</span>
+                    <span class="counter-separator">/</span>
+                    <span id="totalSlides">7</span>
                 </div>
+                
+                <!-- Botón Play/Pause -->
+                <button class="play-pause-button" 
+                        id="playPauseBtn" 
+                        onclick="toggleAutoplay()"
+                        aria-label="Reproducir presentación automática"
+                        title="Reproducir/Pausar">
+                    <i class="fas fa-play play-icon" aria-hidden="true"></i>
+                    <i class="fas fa-pause pause-icon" style="display: none;" aria-hidden="true"></i>
+                    <span class="sr-only">Reproducir presentación automática</span>
+                </button>
             </div>
         </div>
         
-        <a href="#servicios" class="scroll-indicator" aria-label="Desplazarse hacia abajo">
-            <i class="fas fa-chevron-down"></i>
-        </a>
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator">
+            <span class="scroll-text">Desplázate</span>
+            <div class="scroll-line">
+                <div class="scroll-dot"></div>
+            </div>
+        </div>
     </section>
 
-    <!-- Servicios Section -->
-    <section id="servicios" class="section servicios-section">
-        <div class="container">
+    <!-- Servicios Section - MEJORADO -->
+    <section id="servicios" class="section servicios-section" aria-label="Nuestros servicios">
+        <div class="section-decoration">
+            <div class="decoration-circle circle-1"></div>
+            <div class="decoration-circle circle-2"></div>
+            <div class="decoration-circle circle-3"></div>
+        </div>
+        
+        <div class="servicios-content">
             <div class="section-header">
-                <span class="section-subtitle">Lo que ofrecemos</span>
-                <h2 class="section-title">NUESTROS SERVICIOS PRINCIPALES</h2>
-                <p class="section-description">
-                    Soluciones gráficas completas desde el concepto hasta la entrega final
-                </p>
+                <div class="section-badge">¿Qué ofrecemos?</div>
+                <h2 class="section-title">NUESTROS SERVICIOS</h2>
+                <p class="section-subtitle">Diseño, impresión y presencia digital en un solo lugar</p>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-star" aria-hidden="true"></i></div>
+                    <div class="divider-line"></div>
+                </div>
             </div>
             
-            <div class="servicios-grid">
+            <div class="servicios-grid" role="list" aria-label="Lista de servicios">
                 <!-- Tarjetas Personales -->
-                <div class="servicio-card servicio-card-premium">
-                    <div class="servicio-card-header">
-                        <div class="servicio-icon">
-                            <i class="fas fa-id-card"></i>
-                        </div>
-                        <span class="servicio-badge">MÁS POPULAR</span>
+                <div class="servicio-card" data-service="tarjetas" role="listitem">
+                    <div class="card-glow"></div>
+                    <div class="servicio-icon" aria-hidden="true">
+                        <i class="fas fa-id-card"></i>
                     </div>
-                    
-                    <h3>Tarjetas Personales</h3>
-                    <p class="servicio-subtitle">Diseño exclusivo para tu negocio</p>
-                    
-                    <div class="servicio-features">
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>1000 unidades mínimo</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Diseño 100% personalizado</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Materiales premium</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Entrega en 48-72 horas</span>
-                        </div>
-                    </div>
-                    
+                    <div class="servicio-badge">Más Popular</div>
+                    <h3>DISEÑO DE TARJETAS PERSONALES</h3>
+                    <p class="servicio-desc">DISEÑO PROPIO ELABORADO PARA TU NEGOCIO</p>
+                    <ul class="servicio-features" aria-label="Características del servicio">
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> 1000 TARJETAS</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> DISEÑO PERSONALIZADO</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> ENTREGA RAPIDA</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> IMPRESION DE CALIDAD</li>
+                    </ul>
                     <div class="servicio-pricing">
-                        <span class="price">Desde Bs. 150</span>
-                        <span class="price-note">+ materiales especiales</span>
+                        <span class="price-label">Desde</span>
+                        <span class="price-value">Bs. 150</span>
                     </div>
-                    
-                    <div class="servicio-actions">
-                        <a href="#contact" class="btn btn-secondary">
-                            <i class="fas fa-comments"></i> Cotizar
-                        </a>
-                        <button class="btn btn-outline view-examples" data-service="tarjetas">
-                            <i class="fas fa-images"></i> Ver ejemplos
-                        </button>
-                    </div>
+                    <button class="servicio-btn" onclick="scrollToContact('tarjetas')" aria-label="Consultar servicio de tarjetas personales">
+                        <span>Solicitar Cotización</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </button>
                 </div>
                 
                 <!-- Reconocimientos -->
-                <div class="servicio-card">
-                    <div class="servicio-card-header">
-                        <div class="servicio-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
+                <div class="servicio-card" data-service="reconocimientos" role="listitem">
+                    <div class="card-glow"></div>
+                    <div class="servicio-icon" aria-hidden="true">
+                        <i class="fas fa-trophy"></i>
                     </div>
-                    
-                    <h3>Reconocimientos & Trofeos</h3>
-                    <p class="servicio-subtitle">Premia la excelencia con estilo</p>
-                    
-                    <div class="servicio-features">
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Acrílico y madera premium</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Grabado láser personalizado</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Diseños exclusivos</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Embalaje de lujo</span>
-                        </div>
-                    </div>
-                    
+                    <div class="servicio-badge">Exclusivo</div>
+                    <h3>RECONOCIMIENTOS Y TROFEOS</h3>
+                    <p class="servicio-desc">DISEÑOS SUPER EXCLUSIVOS QUE MARCAN LA DIFERENCIA</p>
+                    <ul class="servicio-features" aria-label="Características del servicio">
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> CALIDAD EN MATERIAL</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> DISEÑO 100% PERSONALIZADO</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> ENTREGA RAPIDA</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> REVISION DEL DISEÑO</li>
+                    </ul>
                     <div class="servicio-pricing">
-                        <span class="price">Desde Bs. 200</span>
-                        <span class="price-note">por unidad</span>
+                        <span class="price-label">Desde</span>
+                        <span class="price-value">Bs. 200</span>
                     </div>
-                    
-                    <div class="servicio-actions">
-                        <a href="#contact" class="btn btn-secondary">
-                            <i class="fas fa-comments"></i> Cotizar
-                        </a>
-                        <button class="btn btn-outline view-examples" data-service="reconocimientos">
-                            <i class="fas fa-images"></i> Ver ejemplos
-                        </button>
+                    <button class="servicio-btn" onclick="scrollToContact('reconocimientos')" aria-label="Consultar servicio de reconocimientos y trofeos">
+                        <span>Solicitar Cotización</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+                
+                <!-- Invitaciones -->
+                <div class="servicio-card" data-service="invitaciones" role="listitem">
+                    <div class="card-glow"></div>
+                    <div class="servicio-icon" aria-hidden="true">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <div class="servicio-badge">Elegante</div>
+                    <h3>INVITACIONES PARA TODO ACONTECIMIENTO</h3>
+                    <p class="servicio-desc">Invitaciones únicas y elegantes para cada ocasión especial.</p>
+                    <ul class="servicio-features" aria-label="Características del servicio">
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> Calidad premium en materiales</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> Diseño 100% personalizado</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> Entrega rápida y puntual</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> Revisión del diseño incluidos</li>
+                    </ul>
+                    <div class="servicio-pricing">
+                        <span class="price-label">Desde</span>
+                        <span class="price-value">Bs. 3/unidad</span>
+                    </div>
+                    <button class="servicio-btn" onclick="scrollToContact('invitaciones')" aria-label="Consultar servicio de invitaciones">
+                        <span>Solicitar Cotización</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+                
+                <!-- Afiches -->
+                <div class="servicio-card" data-service="afiches" role="listitem">
+                    <div class="card-glow"></div>
+                    <div class="servicio-icon" aria-hidden="true">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="servicio-badge">Creativo</div>
+                    <h3>AFICHES Y CALENDARIOS</h3>
+                    <p class="servicio-desc">Diseño creativo e impresión de alta calidad para tu negocio.</p>
+                    <ul class="servicio-features" aria-label="Características del servicio">
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> Diseño 100% personalizado</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> Materiales de alta calidad</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> Impresión nítida y colores duraderos</li>
+                        <li><i class="fas fa-check-circle" aria-hidden="true"></i> Entrega rápida y garantizada</li>
+                    </ul>
+                    <div class="servicio-pricing">
+                        <span class="price-label">Desde</span>
+                        <span class="price-value">Bs. 50</span>
+                    </div>
+                    <button class="servicio-btn" onclick="scrollToContact('afiches')" aria-label="Consultar servicio de afiches y calendarios">
+                        <span>Solicitar Cotización</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="servicios-cta">
+                <p>¿Necesitas algo diferente? ¡Contáctanos y haremos realidad tu proyecto!</p>
+                <a href="#contact" class="btn-primary btn-large">
+                    <span>Hablar con un asesor</span>
+                    <i class="fas fa-comments" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portafolio Section - MEJORADO -->
+    <section id="portafolio" class="section portafolio-section" aria-label="Portafolio de trabajos">
+        <div class="section-decoration">
+            <div class="decoration-square square-1"></div>
+            <div class="decoration-square square-2"></div>
+        </div>
+        
+        <div class="portafolio-content">
+            <div class="section-header">
+                <div class="section-badge">Nuestro Trabajo</div>
+                <h2 class="section-title">PORTAFOLIO DE SERVICIOS</h2>
+                <p class="section-subtitle">Portafolio de Servicios en Creación y Producción Gráfica</p>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-images" aria-hidden="true"></i></div>
+                    <div class="divider-line"></div>
+                </div>
+            </div>
+            
+            <div class="portfolio-filter" id="portfolioFilter" role="tablist" aria-label="Filtros de portafolio">
+                <button class="filter-btn active" 
+                        data-filter="all" 
+                        role="tab" 
+                        aria-selected="true"
+                        aria-controls="portfolio-content">
+                    <i class="fas fa-th-large" aria-hidden="true"></i>
+                    TODOS
+                </button>
+                <button class="filter-btn" 
+                        data-filter="tarjetas" 
+                        role="tab" 
+                        aria-selected="false"
+                        aria-controls="portfolio-content">
+                    <i class="fas fa-id-card" aria-hidden="true"></i>
+                    TARJETAS
+                </button>
+                <button class="filter-btn" 
+                        data-filter="reconocimientos" 
+                        role="tab" 
+                        aria-selected="false"
+                        aria-controls="portfolio-content">
+                    <i class="fas fa-award" aria-hidden="true"></i>
+                    RECONOCIMIENTOS
+                </button>
+                <button class="filter-btn" 
+                        data-filter="trofeos" 
+                        role="tab" 
+                        aria-selected="false"
+                        aria-controls="portfolio-content">
+                    <i class="fas fa-trophy" aria-hidden="true"></i>
+                    TROFEOS
+                </button>
+                <button class="filter-btn" 
+                        data-filter="invitaciones" 
+                        role="tab" 
+                        aria-selected="false"
+                        aria-controls="portfolio-content">
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                    INVITACIONES
+                </button>
+            </div>
+            
+            <div class="portfolio-grid" id="portfolio-content" role="tabpanel" aria-label="Contenido del portafolio">
+                <!-- Tarjetas 1 -->
+                <div class="portfolio-item" data-category="tarjetas" role="article">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/m5hNpSyn/Tarjetas-Personales-Corporativas.png" 
+                             alt="Tarjetas Personales Corporativas - Diseño profesional para empresas"
+                             loading="lazy"
+                             width="300"
+                             height="225">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-category">Tarjetas</div>
+                            <h4>Tarjetas Personales Corporativas</h4>
+                            <p>Diseño e impresión de alta calidad</p>
+                            <button class="view-details" aria-label="Ver detalles de Tarjetas Personales Corporativas">
+                                <span>Ver detalles</span>
+                                <i class="fas fa-expand-alt" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Tarjetas Personales</h4>
+                        <p>Diseño corporativo premium</p>
+                    </div>
+                </div>
+                
+                <!-- Reconocimientos 1 -->
+                <div class="portfolio-item" data-category="reconocimientos" role="article">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/F40gmXP5/Reconocimientos-Personalizados.png" 
+                             alt="Reconocimientos Personalizados - Diplomas y certificados de calidad"
+                             loading="lazy"
+                             width="300"
+                             height="225">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-category">Reconocimientos</div>
+                            <h4>Reconocimientos Personalizados</h4>
+                            <p>Certificados y diplomas de calidad</p>
+                            <button class="view-details" aria-label="Ver detalles de Reconocimientos Personalizados">
+                                <span>Ver detalles</span>
+                                <i class="fas fa-expand-alt" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Reconocimientos</h4>
+                        <p>Diplomas y certificados</p>
+                    </div>
+                </div>
+                
+                <!-- Trofeos -->
+                <div class="portfolio-item" data-category="trofeos" role="article">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/cS2cFRZV/Trofeos-Exclusivos.jpg" 
+                             alt="Trofeos Exclusivos - Diseños únicos para eventos deportivos"
+                             loading="lazy"
+                             width="300"
+                             height="225">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-category">Trofeos</div>
+                            <h4>Trofeos Exclusivos</h4>
+                            <p>Diseños únicos para eventos especiales</p>
+                            <button class="view-details" aria-label="Ver detalles de Trofeos Exclusivos">
+                                <span>Ver detalles</span>
+                                <i class="fas fa-expand-alt" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Trofeos Exclusivos</h4>
+                        <p>Premios y reconocimientos</p>
                     </div>
                 </div>
                 
                 <!-- Invitaciones -->
-                <div class="servicio-card">
-                    <div class="servicio-card-header">
-                        <div class="servicio-icon">
-                            <i class="fas fa-envelope-open-text"></i>
+                <div class="portfolio-item" data-category="invitaciones" role="article">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/67pqHvw7/Invitaciones-Elegantes.jpg" 
+                             alt="Invitaciones Elegantes - Para bodas, cumpleaños y eventos especiales"
+                             loading="lazy"
+                             width="300"
+                             height="225">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-category">Invitaciones</div>
+                            <h4>Invitaciones Elegantes</h4>
+                            <p>Para bodas, cumpleaños y eventos</p>
+                            <button class="view-details" aria-label="Ver detalles de Invitaciones Elegantes">
+                                <span>Ver detalles</span>
+                                <i class="fas fa-expand-alt" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
-                    
-                    <h3>Invitaciones Especiales</h3>
-                    <p class="servicio-subtitle">Para momentos inolvidables</p>
-                    
-                    <div class="servicio-features">
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Bodas, cumpleaños, eventos</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Papeles importados</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Técnicas especiales</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Sobres personalizados</span>
-                        </div>
-                    </div>
-                    
-                    <div class="servicio-pricing">
-                        <span class="price">Desde Bs. 3</span>
-                        <span class="price-note">por unidad</span>
-                    </div>
-                    
-                    <div class="servicio-actions">
-                        <a href="#contact" class="btn btn-secondary">
-                            <i class="fas fa-comments"></i> Cotizar
-                        </a>
-                        <button class="btn btn-outline view-examples" data-service="invitaciones">
-                            <i class="fas fa-images"></i> Ver ejemplos
-                        </button>
+                    <div class="portfolio-info">
+                        <h4>Invitaciones Elegantes</h4>
+                        <p>Eventos especiales</p>
                     </div>
                 </div>
                 
-                <!-- Afiches y Calendarios -->
-                <div class="servicio-card">
-                    <div class="servicio-card-header">
-                        <div class="servicio-icon">
-                            <i class="fas fa-calendar-alt"></i>
+                <!-- Afiches -->
+                <div class="portfolio-item" data-category="tarjetas" role="article">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/1YX1QJpH/Afiches-Publicitarios.jpg" 
+                             alt="Afiches Publicitarios - Diseño creativo para promoción"
+                             loading="lazy"
+                             width="300"
+                             height="225">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-category">Afiches</div>
+                            <h4>Afiches Publicitarios</h4>
+                            <p>Diseño creativo e impactante</p>
+                            <button class="view-details" aria-label="Ver detalles de Afiches Publicitarios">
+                                <span>Ver detalles</span>
+                                <i class="fas fa-expand-alt" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
-                    
-                    <h3>Afiches & Calendarios</h3>
-                    <p class="servicio-subtitle">Impacto visual garantizado</p>
-                    
-                    <div class="servicio-features">
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Gran formato</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Resistentes a la intemperie</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Diseño estratégico</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Entrega express</span>
-                        </div>
-                    </div>
-                    
-                    <div class="servicio-pricing">
-                        <span class="price">Desde Bs. 50</span>
-                        <span class="price-note">+ instalación</span>
-                    </div>
-                    
-                    <div class="servicio-actions">
-                        <a href="#contact" class="btn btn-secondary">
-                            <i class="fas fa-comments"></i> Cotizar
-                        </a>
-                        <button class="btn btn-outline view-examples" data-service="afiches">
-                            <i class="fas fa-images"></i> Ver ejemplos
-                        </button>
+                    <div class="portfolio-info">
+                        <h4>Afiches Publicitarios</h4>
+                        <p>Promoción y marketing</p>
                     </div>
                 </div>
-            </div>
-            
-            <div class="servicios-extra">
-                <h3>También realizamos:</h3>
-                <div class="extra-services">
-                    <span class="service-tag"><i class="fas fa-print"></i> Volantes</span>
-                    <span class="service-tag"><i class="fas fa-folder-open"></i> Carpetas</span>
-                    <span class="service-tag"><i class="fas fa-book"></i> Catálogos</span>
-                    <span class="service-tag"><i class="fas fa-receipt"></i> Facturas</span>
-                    <span class="service-tag"><i class="fas fa-tags"></i> Etiquetas</span>
-                    <span class="service-tag"><i class="fas fa-flag"></i> Banderines</span>
-                    <span class="service-tag"><i class="fas fa-tshirt"></i> Estampados</span>
-                    <span class="service-tag"><i class="fas fa-gift"></i> Empaques</span>
+                
+                <!-- Certificados -->
+                <div class="portfolio-item" data-category="reconocimientos" role="article">
+                    <div class="portfolio-image">
+                        <img src="https://i.ibb.co/Y7KJ5BBz/Certificados-Institucionales-D.jpg" 
+                             alt="Certificados Institucionales - Documentos formales para instituciones"
+                             loading="lazy"
+                             width="300"
+                             height="225">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-category">Certificados</div>
+                            <h4>Certificados Institucionales</h4>
+                            <p>Diseño formal y profesional</p>
+                            <button class="view-details" aria-label="Ver detalles de Certificados Institucionales">
+                                <span>Ver detalles</span>
+                                <i class="fas fa-expand-alt" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Certificados Institucionales</h4>
+                        <p>Documentos formales</p>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portafolio Section -->
-    <section id="portafolio" class="section portfolio-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">Nuestro trabajo</span>
-                <h2 class="section-title">GALERÍA DE PROYECTOS</h2>
-                <p class="section-description">
-                    Una muestra de nuestra creatividad y calidad de trabajo
-                </p>
-            </div>
-            
-            <div class="portfolio-filter" id="portfolioFilter">
-                <button class="filter-btn active" data-filter="all">TODOS</button>
-                <button class="filter-btn" data-filter="tarjetas">TARJETAS</button>
-                <button class="filter-btn" data-filter="reconocimientos">RECONOCIMIENTOS</button>
-                <button class="filter-btn" data-filter="trofeos">TROFEOS</button>
-                <button class="filter-btn" data-filter="invitaciones">INVITACIONES</button>
-                <button class="filter-btn" data-filter="afiches">AFICHES</button>
-            </div>
-            
-            <div class="portfolio-grid" id="portfolioGrid">
-                <!-- Los proyectos se cargarán dinámicamente -->
             </div>
             
             <div class="portfolio-cta">
-                <p>¿Quieres ver más ejemplos de nuestro trabajo?</p>
-                <a href="https://wa.me/59164793488?text=Hola,%20quiero%20ver%20más%20ejemplos%20de%20sus%20trabajos" 
-                   class="btn btn-primary" target="_blank">
-                    <i class="fab fa-whatsapp"></i> SOLICITAR MÁS EJEMPLOS
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Catálogos Section -->
-    <section id="catalogos" class="section catalogos-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">Explora nuestros diseños</span>
-                <h2 class="section-title">CATÁLOGOS DIGITALES</h2>
-                <p class="section-description">
-                    Navega por nuestras colecciones completas desde cualquier dispositivo
-                </p>
-            </div>
-            
-            <div class="catalogos-grid">
-                <!-- Catálogo 1 -->
-                <div class="catalogo-card" data-pdf="invitaciones">
-                    <div class="catalogo-card-inner">
-                        <div class="catalogo-header">
-                            <div class="catalogo-icon" style="background: linear-gradient(135deg, #FF6B6B, #FF8E53);">
-                                <i class="fas fa-envelope-open-text"></i>
-                            </div>
-                            <span class="catalogo-badge">+30 diseños</span>
-                        </div>
-                        
-                        <h3>Invitaciones Elegantes</h3>
-                        <p>Colección completa para bodas, cumpleaños, eventos corporativos y ocasiones especiales.</p>
-                        
-                        <div class="catalogo-features">
-                            <span><i class="fas fa-palette"></i> Diseños exclusivos</span>
-                            <span><i class="fas fa-layer-group"></i> Varios estilos</span>
-                            <span><i class="fas fa-eye"></i> Vista previa</span>
-                        </div>
-                        
-                        <button class="btn btn-primary btn-catalogo" onclick="openPdfViewer('invitaciones')">
-                            <i class="fas fa-external-link-alt"></i> VER CATÁLOGO
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Catálogo 2 -->
-                <div class="catalogo-card" data-pdf="reconocimientos">
-                    <div class="catalogo-card-inner">
-                        <div class="catalogo-header">
-                            <div class="catalogo-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
-                                <i class="fas fa-award"></i>
-                            </div>
-                            <span class="catalogo-badge">+25 modelos</span>
-                        </div>
-                        
-                        <h3>Reconocimientos en Acrílico</h3>
-                        <p>Diseños premium para premios, diplomas, certificados y logros especiales.</p>
-                        
-                        <div class="catalogo-features">
-                            <span><i class="fas fa-star"></i> Calidad premium</span>
-                            <span><i class="fas fa-gem"></i> Acrílico exclusivo</span>
-                            <span><i class="fas fa-eye"></i> Vista previa</span>
-                        </div>
-                        
-                        <button class="btn btn-primary btn-catalogo" onclick="openPdfViewer('reconocimientos')">
-                            <i class="fas fa-external-link-alt"></i> VER CATÁLOGO
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Catálogo 3 -->
-                <div class="catalogo-card" data-pdf="medallas">
-                    <div class="catalogo-card-inner">
-                        <div class="catalogo-header">
-                            <div class="catalogo-icon" style="background: linear-gradient(135deg, #4ECDC4, #44A08D);">
-                                <i class="fas fa-medal"></i>
-                            </div>
-                            <span class="catalogo-badge">+40 modelos</span>
-                        </div>
-                        
-                        <h3>Medallas & Accesorios</h3>
-                        <p>Acrílico de alta calidad para eventos deportivos, reconocimientos y premios.</p>
-                        
-                        <div class="catalogo-features">
-                            <span><i class="fas fa-shapes"></i> Varias formas</span>
-                            <span><i class="fas fa-tags"></i> Personalizable</span>
-                            <span><i class="fas fa-eye"></i> Vista previa</span>
-                        </div>
-                        
-                        <button class="btn btn-primary btn-catalogo" onclick="openPdfViewer('medallas')">
-                            <i class="fas fa-external-link-alt"></i> VER CATÁLOGO
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Catálogo 4 -->
-                <div class="catalogo-card" data-pdf="indumentaria">
-                    <div class="catalogo-card-inner">
-                        <div class="catalogo-header">
-                            <div class="catalogo-icon" style="background: linear-gradient(135deg, #FFFFFF, #F8F9FA); color: #333;">
-                                <i class="fas fa-tshirt"></i>
-                            </div>
-                            <span class="catalogo-badge">2 colecciones</span>
-                        </div>
-                        
-                        <h3>Indumentaria Minimalista</h3>
-                        <p>Diseños elegantes en blanco para un estilo profesional y moderno.</p>
-                        
-                        <div class="catalogo-features">
-                            <span><i class="fas fa-snowflake"></i> Estilo clean</span>
-                            <span><i class="fas fa-vector-square"></i> Diseño simple</span>
-                            <span><i class="fas fa-eye"></i> Vista previa</span>
-                        </div>
-                        
-                        <button class="btn btn-primary btn-catalogo" onclick="openPdfViewer('indumentaria')">
-                            <i class="fas fa-external-link-alt"></i> VER CATÁLOGO
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="catalogos-nota">
-                <div class="nota-icon">
-                    <i class="fas fa-info-circle"></i>
-                </div>
-                <div class="nota-content">
-                    <h4>Información importante</h4>
-                    <p>Todos los catálogos son de <strong>solo visualización</strong>. Para precios, personalización y cotizaciones específicas, contáctanos directamente por WhatsApp.</p>
-                    <a href="https://wa.me/59164793488" class="nota-link" target="_blank">
-                        <i class="fab fa-whatsapp"></i> Solicitar cotización personalizada
+                <div class="cta-content">
+                    <h3>¿Quieres ver más de nuestro trabajo?</h3>
+                    <p>Solicita nuestro portafolio completo con más de 200 proyectos realizados</p>
+                    <a href="#contact" class="btn-primary btn-outline">
+                        <span>Solicitar Portafolio Completo</span>
+                        <i class="fas fa-download" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="section about-section">
-        <div class="container">
+    <!-- Catálogos Section - MEJORADO -->
+    <section id="catalogos" class="section catalogos-section" aria-label="Catálogos digitales">
+        <div class="section-decoration">
+            <div class="decoration-dots"></div>
+        </div>
+        
+        <div class="catalogos-content">
             <div class="section-header">
-                <span class="section-subtitle">Nuestra historia</span>
-                <h2 class="section-title">25 AÑOS DE TRAYECTORIA</h2>
-                <p class="section-description">
-                    Experiencia, calidad y compromiso en cada proyecto
-                </p>
+                <div class="section-badge">Nuestra Colección</div>
+                <h2 class="section-title">CATÁLOGOS DIGITALES</h2>
+                <p class="section-subtitle">Explora nuestra completa colección de productos directamente en tu navegador</p>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-book" aria-hidden="true"></i></div>
+                    <div class="divider-line"></div>
+                </div>
             </div>
             
-            <div class="about-content">
-                <div class="about-visual">
-                    <div class="about-image-container">
-                        <img src="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png" 
-                             alt="IMPRESIONES GRAFIC - 25 años de experiencia"
-                             class="about-logo">
-                        <div class="about-badge">
-                            <span>1999</span>
-                            <span>2024</span>
+            <div class="catalogos-grid" role="list" aria-label="Lista de catálogos">
+                <!-- Catálogo 1: Invitaciones -->
+                <div class="catalogo-card" 
+                     role="listitem"
+                     onclick="openPdfViewer('catalogos/catalogo-invitaciones.pdf', 'Catálogo de Invitaciones')"
+                     tabindex="0"
+                     aria-label="Abrir catálogo de invitaciones elegantes">
+                    <div class="catalogo-icon-wrapper">
+                        <div class="catalogo-icon" style="background: linear-gradient(135deg, #FF6B8B, #FF8E53);" aria-hidden="true">
+                            <i class="fas fa-envelope-open-text"></i>
+                        </div>
+                        <div class="catalogo-count">+30 diseños</div>
+                    </div>
+                    <div class="catalogo-content">
+                        <h3>Invitaciones Elegantes</h3>
+                        <p>Diseños exclusivos para bodas, cumpleaños, eventos corporativos y ocasiones especiales</p>
+                        <div class="catalogo-tags">
+                            <span class="tag">Bodas</span>
+                            <span class="tag">XV Años</span>
+                            <span class="tag">Corporativo</span>
                         </div>
                     </div>
+                    <div class="catalogo-footer">
+                        <div class="catalogo-meta">
+                            <span><i class="fas fa-file-pdf" aria-hidden="true"></i> PDF Interactivo</span>
+                            <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
+                        </div>
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de invitaciones">
+                            <span>Ver Catálogo</span>
+                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="catalogo-hover-effect"></div>
+                </div>
+                
+                <!-- Catálogo 2: Medallas -->
+                <div class="catalogo-card" 
+                     role="listitem"
+                     onclick="openPdfViewer('catalogos/catalogo-medallas-accesorios-acrilico.pdf', 'Catálogo de Medallas y Accesorios en Acrílico')"
+                     tabindex="0"
+                     aria-label="Abrir catálogo de medallas y accesorios">
+                    <div class="catalogo-icon-wrapper">
+                        <div class="catalogo-icon" style="background: linear-gradient(135deg, #4ECDC4, #44A08D);" aria-hidden="true">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="catalogo-count">Premium</div>
+                    </div>
+                    <div class="catalogo-content">
+                        <h3>Medallas y Accesorios</h3>
+                        <p>Acrílico de alta calidad para eventos deportivos, reconocimientos y premios especiales</p>
+                        <div class="catalogo-tags">
+                            <span class="tag">Deportes</span>
+                            <span class="tag">Acrílico</span>
+                            <span class="tag">Premios</span>
+                        </div>
+                    </div>
+                    <div class="catalogo-footer">
+                        <div class="catalogo-meta">
+                            <span><i class="fas fa-gem" aria-hidden="true"></i> Alta Calidad</span>
+                            <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
+                        </div>
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de medallas y accesorios">
+                            <span>Ver Catálogo</span>
+                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="catalogo-hover-effect"></div>
+                </div>
+                
+                <!-- Catálogo 3: Pines -->
+                <div class="catalogo-card" 
+                     role="listitem"
+                     onclick="openPdfViewer('catalogos/catalogo-pines.pdf', 'Catálogo de Pines')"
+                     tabindex="0"
+                     aria-label="Abrir catálogo de pines personalizados">
+                    <div class="catalogo-icon-wrapper">
+                        <div class="catalogo-icon" style="background: linear-gradient(135deg, #C56CD6, #3425AF);" aria-hidden="true">
+                            <i class="fas fa-map-pin"></i>
+                        </div>
+                        <div class="catalogo-count">Personalizable</div>
+                    </div>
+                    <div class="catalogo-content">
+                        <h3>Pines Personalizados</h3>
+                        <p>Pines de alta calidad para identificación corporativa, eventos y coleccionables</p>
+                        <div class="catalogo-tags">
+                            <span class="tag">Identificación</span>
+                            <span class="tag">Eventos</span>
+                            <span class="tag">Colección</span>
+                        </div>
+                    </div>
+                    <div class="catalogo-footer">
+                        <div class="catalogo-meta">
+                            <span><i class="fas fa-palette" aria-hidden="true"></i> Personalizable</span>
+                            <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
+                        </div>
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de pines personalizados">
+                            <span>Ver Catálogo</span>
+                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="catalogo-hover-effect"></div>
+                </div>
+                
+                <!-- Catálogo 4: Porta Certificados -->
+                <div class="catalogo-card" 
+                     role="listitem"
+                     onclick="openPdfViewer('catalogos/catalogo-porta-certificados.pdf', 'Catálogo de Porta Certificados')"
+                     tabindex="0"
+                     aria-label="Abrir catálogo de porta certificados">
+                    <div class="catalogo-icon-wrapper">
+                        <div class="catalogo-icon" style="background: linear-gradient(135deg, #F9CA24, #F093FB);" aria-hidden="true">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="catalogo-count">+15 modelos</div>
+                    </div>
+                    <div class="catalogo-content">
+                        <h3>Porta Certificados</h3>
+                        <p>Elegantes portadores para diplomas, certificados y documentos importantes</p>
+                        <div class="catalogo-tags">
+                            <span class="tag">Diplomas</span>
+                            <span class="tag">Certificados</span>
+                            <span class="tag">Documentos</span>
+                        </div>
+                    </div>
+                    <div class="catalogo-footer">
+                        <div class="catalogo-meta">
+                            <span><i class="fas fa-folder-open" aria-hidden="true"></i> Varios modelos</span>
+                            <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
+                        </div>
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de porta certificados">
+                            <span>Ver Catálogo</span>
+                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="catalogo-hover-effect"></div>
+                </div>
+                
+                <!-- Catálogo 5: Indumentaria 1 -->
+                <div class="catalogo-card" 
+                     role="listitem"
+                     onclick="openPdfViewer('catalogos/catalogo-indumentaria-minimalista-1.pdf', 'Catálogo de Indumentaria Minimalista Blanco - Colección 1')"
+                     tabindex="0"
+                     aria-label="Abrir catálogo de indumentaria minimalista colección 1">
+                    <div class="catalogo-icon-wrapper">
+                        <div class="catalogo-icon" style="background: linear-gradient(135deg, #FFFFFF, #F8F9FA); color: #333;" aria-hidden="true">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <div class="catalogo-count">Colección 1</div>
+                    </div>
+                    <div class="catalogo-content">
+                        <h3>Indumentaria Minimalista</h3>
+                        <p>Colección 1: Diseños elegantes en blanco para un estilo profesional y moderno</p>
+                        <div class="catalogo-tags">
+                            <span class="tag">Minimalista</span>
+                            <span class="tag">Profesional</span>
+                            <span class="tag">Blanco</span>
+                        </div>
+                    </div>
+                    <div class="catalogo-footer">
+                        <div class="catalogo-meta">
+                            <span><i class="fas fa-snowflake" aria-hidden="true"></i> Estilo limpio</span>
+                            <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
+                        </div>
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de indumentaria minimalista colección 1">
+                            <span>Ver Catálogo</span>
+                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="catalogo-hover-effect"></div>
+                </div>
+                
+                <!-- Catálogo 6: Indumentaria 2 -->
+                <div class="catalogo-card" 
+                     role="listitem"
+                     onclick="openPdfViewer('catalogos/catalogo-indumentaria-minimalista-2.pdf', 'Catálogo de Indumentaria Minimalista Blanco - Colección 2')"
+                     tabindex="0"
+                     aria-label="Abrir catálogo de indumentaria minimalista colección 2">
+                    <div class="catalogo-icon-wrapper">
+                        <div class="catalogo-icon" style="background: linear-gradient(135deg, #E0E0E0, #BDBDBD); color: #333;" aria-hidden="true">
+                            <i class="fas fa-vest"></i>
+                        </div>
+                        <div class="catalogo-count">Colección 2</div>
+                    </div>
+                    <div class="catalogo-content">
+                        <h3>Indumentaria Minimalista 2</h3>
+                        <p>Colección 2: Más opciones en blanco para completar tu look profesional</p>
+                        <div class="catalogo-tags">
+                            <span class="tag">Segunda línea</span>
+                            <span class="tag">Completo</span>
+                            <span class="tag">Variedad</span>
+                        </div>
+                    </div>
+                    <div class="catalogo-footer">
+                        <div class="catalogo-meta">
+                            <span><i class="fas fa-layer-group" aria-hidden="true"></i> Más opciones</span>
+                            <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
+                        </div>
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de indumentaria minimalista colección 2">
+                            <span>Ver Catálogo</span>
+                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="catalogo-hover-effect"></div>
+                </div>
+                
+                <!-- Catálogo 7: Reconocimientos Acrílico -->
+                <div class="catalogo-card" 
+                     role="listitem"
+                     onclick="openPdfViewer('catalogos/catalogo-reconocimientos-acrilico.pdf', 'Catálogo de Reconocimientos en Acrílico')"
+                     tabindex="0"
+                     aria-label="Abrir catálogo de reconocimientos en acrílico">
+                    <div class="catalogo-icon-wrapper">
+                        <div class="catalogo-icon" style="background: linear-gradient(135deg, #5E56E7, #764ba2);" aria-hidden="true">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="catalogo-count">Exclusivo</div>
+                    </div>
+                    <div class="catalogo-content">
+                        <h3>Reconocimientos en Acrílico</h3>
+                        <p>Diseños exclusivos en acrílico para premios, reconocimientos y logros especiales</p>
+                        <div class="catalogo-tags">
+                            <span class="tag">Acrílico</span>
+                            <span class="tag">Exclusivo</span>
+                            <span class="tag">Premios</span>
+                        </div>
+                    </div>
+                    <div class="catalogo-footer">
+                        <div class="catalogo-meta">
+                            <span><i class="fas fa-star" aria-hidden="true"></i> Diseños únicos</span>
+                            <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
+                        </div>
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de reconocimientos en acrílico">
+                            <span>Ver Catálogo</span>
+                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="catalogo-hover-effect"></div>
+                </div>
+            </div>
+            
+            <div class="catalogos-nota" role="note" aria-label="Nota importante sobre catálogos">
+                <div class="nota-icon">
+                    <i class="fas fa-info-circle" aria-hidden="true"></i>
+                </div>
+                <div class="nota-content">
+                    <p><strong>Nota importante:</strong> Todos los catálogos son de solo visualización. Para precios, personalización y cotizaciones exactas, <a href="#contact" aria-label="Ir a la sección de contacto">contáctanos directamente</a>.</p>
+                    <p class="nota-update"><i class="fas fa-sync-alt" aria-hidden="true"></i> Los catálogos se actualizan periódicamente con nuevos diseños</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section - MEJORADO -->
+    <section id="about" class="section about-section" aria-label="Acerca de nosotros">
+        <div class="section-decoration">
+            <div class="decoration-waves"></div>
+        </div>
+        
+        <div class="about-content">
+            <div class="section-header">
+                <div class="section-badge">Nuestra Historia</div>
+                <h2 class="section-title">DESCUBRE IMPRESIONES GRAFIC</h2>
+                <p class="section-subtitle">CONTAMOS CON 25 AÑOS DE EXPERIENCIA EN DISEÑO Y CREACION GRAFICA</p>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-history" aria-hidden="true"></i></div>
+                    <div class="divider-line"></div>
+                </div>
+            </div>
+            
+            <div class="about-main">
+                <div class="about-visual">
+                    <div class="experience-badge">
+                        <div class="badge-number">25</div>
+                        <div class="badge-text">Años<br>de Experiencia</div>
+                    </div>
                     
-                    <div class="about-stats">
-                        <div class="about-stat">
-                            <span class="stat-number">25+</span>
-                            <span class="stat-label">Años de experiencia</span>
-                        </div>
-                        <div class="about-stat">
-                            <span class="stat-number">2000+</span>
-                            <span class="stat-label">Proyectos realizados</span>
-                        </div>
-                        <div class="about-stat">
-                            <span class="stat-number">500+</span>
-                            <span class="stat-label">Clientes satisfechos</span>
+                    <div class="showcase-display" role="region" aria-label="Presentación visual">
+                        <div class="showcase-main">
+                            <div class="corner-decoration top-left" aria-hidden="true"></div>
+                            <div class="corner-decoration top-right" aria-hidden="true"></div>
+                            <div class="corner-decoration bottom-left" aria-hidden="true"></div>
+                            <div class="corner-decoration bottom-right" aria-hidden="true"></div>
+                            
+                            <div class="showcase-logo">
+                                <img src="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png" 
+                                     alt="Logo IMPRESIONES GRAFIC - 25 años de experiencia"
+                                     class="showcase-logo-image"
+                                     width="100"
+                                     height="100">
+                            </div>
+                            
+                            <h3 class="showcase-title">DONDE TUS IDEAS SON UNA REALIDAD</h3>
+                            <p class="showcase-subtitle">Transformamos tu visión en diseños impactantes</p>
+                            
+                            <div class="showcase-badges" role="list" aria-label="Características principales">
+                                <a href="#servicios" class="badge" role="listitem" aria-label="Servicio de diseño">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                    DISEÑO
+                                </a>
+                                <a href="#servicios" class="badge" role="listitem" aria-label="Servicio de impresión">
+                                    <i class="fas fa-print" aria-hidden="true"></i>
+                                    IMPRESIÓN
+                                </a>
+                                <a href="#about" class="badge" role="listitem" aria-label="Garantía de calidad">
+                                    <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                                    CALIDAD
+                                </a>
+                                <a href="#portafolio" class="badge" role="listitem" aria-label="Creatividad en diseño">
+                                    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                                    CREATIVIDAD
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="about-info">
-                    <div class="about-text">
+                    <div class="info-header">
                         <h3>IMPRESIONES GRAFIC</h3>
-                        <p>Con más de <strong>25 años de trayectoria</strong> en la ciudad de Oruro, hemos consolidado nuestra posición como líderes en servicios de diseño e impresión gráfica. Nuestra historia está marcada por la <strong>calidad, innovación y compromiso</strong> con cada cliente.</p>
+                        <div class="info-subtitle">Tu Socio en Soluciones Gráficas</div>
+                    </div>
+                    
+                    <div class="info-content">
+                        <p class="highlight">IMPRESIONES GRAFIC cuenta con 25 años de trayectoria en la ciudad de Oruro, ofreciendo servicios de diseño e impresión para todo tipo de acontecimientos.</p>
                         
-                        <p>Desde nuestra fundación, nos hemos especializado en ofrecer soluciones gráficas completas para todo tipo de acontecimientos, manteniendo siempre los más altos estándares de calidad en materiales y diseño.</p>
+                        <p>A lo largo de su historia, se ha caracterizado por la <strong>calidad en sus materiales</strong>, <strong>diseños personalizados</strong> y <strong>atención responsable</strong>, ganándose la confianza de personas, instituciones y empresas.</p>
                         
-                        <div class="about-values">
-                            <div class="value">
-                                <i class="fas fa-heart"></i>
-                                <h4>Pasión</h4>
-                                <p>Amamos lo que hacemos</p>
+                        <p>Hoy, combinamos <strong>experiencia y tecnología</strong> para brindar soluciones gráficas creativas, manteniendo el compromiso y la dedicación que nos identifican desde nuestra apertura.</p>
+                    </div>
+                    
+                    <ul class="feature-list" role="list" aria-label="Características de la empresa">
+                        <li>
+                            <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                            <span>25 años de experiencia en diseño e impresión gráfica</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-palette" aria-hidden="true"></i>
+                            <span>Diseños personalizados para todo tipo de acontecimientos</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-award" aria-hidden="true"></i>
+                            <span>Materiales de calidad garantizada</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-shipping-fast" aria-hidden="true"></i>
+                            <span>Entrega rápida y puntual</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-headset" aria-hidden="true"></i>
+                            <span>Atención responsable y trato personalizado</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="about-cta">
+                        <a href="#contact" class="cta-button" aria-label="Iniciar un proyecto con IMPRESIONES GRAFIC">
+                            <span>Inicia tu Proyecto</span>
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <a href="#portafolio" class="cta-button cta-secondary" aria-label="Ver nuestro portafolio">
+                            <span>Ver Portafolio</span>
+                            <i class="fas fa-images" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Proceso de Trabajo -->
+            <div class="proceso-trabajo">
+                <div class="proceso-header">
+                    <h3>NUESTRO PROCESO DE ELABORACIÓN</h3>
+                    <p>Cuatro simples pasos para transformar tu idea en realidad</p>
+                </div>
+                
+                <div class="proceso-steps" role="list" aria-label="Pasos del proceso de trabajo">
+                    <div class="proceso-step" role="listitem">
+                        <div class="step-connector"></div>
+                        <div class="step-content">
+                            <div class="step-number" aria-hidden="true">1</div>
+                            <div class="step-icon">
+                                <i class="fas fa-comments" aria-hidden="true"></i>
                             </div>
-                            <div class="value">
-                                <i class="fas fa-shield-alt"></i>
-                                <h4>Calidad</h4>
-                                <p>Garantizada en cada detalle</p>
-                            </div>
-                            <div class="value">
-                                <i class="fas fa-clock"></i>
-                                <h4>Puntualidad</h4>
-                                <p>Entregas a tiempo</p>
-                            </div>
-                            <div class="value">
-                                <i class="fas fa-users"></i>
-                                <h4>Confianza</h4>
-                                <p>Relaciones duraderas</p>
-                            </div>
+                            <h4>CONSULTA INICIAL</h4>
+                            <p>CONTRATO DEL TRABAJO Y REQUERIMIENTOS DEL CLIENTE</p>
                         </div>
                     </div>
                     
-                    <div class="about-process">
-                        <h4><i class="fas fa-cogs"></i> NUESTRO PROCESO</h4>
-                        <div class="process-steps">
-                            <div class="process-step">
-                                <div class="step-number">1</div>
-                                <div class="step-content">
-                                    <h5>Consulta</h5>
-                                    <p>Entendemos tus necesidades</p>
-                                </div>
+                    <div class="proceso-step" role="listitem">
+                        <div class="step-connector"></div>
+                        <div class="step-content">
+                            <div class="step-number" aria-hidden="true">2</div>
+                            <div class="step-icon">
+                                <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                             </div>
-                            <div class="process-step">
-                                <div class="step-number">2</div>
-                                <div class="step-content">
-                                    <h5>Diseño</h5>
-                                    <p>Creación y revisión</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="step-number">3</div>
-                                <div class="step-content">
-                                    <h5>Producción</h5>
-                                    <p>Impresión y acabados</p>
-                                </div>
-                            </div>
-                            <div class="process-step">
-                                <div class="step-number">4</div>
-                                <div class="step-content">
-                                    <h5>Entrega</h5>
-                                    <p>Puntual y segura</p>
-                                </div>
-                            </div>
+                            <h4>ELABORACIÓN DEL DISEÑO</h4>
+                            <p>DESARROLLO RÁPIDO Y POSTERIOR REVISIÓN DEL CLIENTE</p>
                         </div>
                     </div>
+                    
+                    <div class="proceso-step" role="listitem">
+                        <div class="step-connector"></div>
+                        <div class="step-content">
+                            <div class="step-number" aria-hidden="true">3</div>
+                            <div class="step-icon">
+                                <i class="fas fa-print" aria-hidden="true"></i>
+                            </div>
+                            <h4>IMPRESIÓN Y ELABORACIÓN FINAL</h4>
+                            <p>ACABADO Y DETALLADO DEL TRABAJO</p>
+                        </div>
+                    </div>
+                    
+                    <div class="proceso-step" role="listitem">
+                        <div class="step-content">
+                            <div class="step-number" aria-hidden="true">4</div>
+                            <div class="step-icon">
+                                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                            </div>
+                            <h4>ENTREGA FINAL</h4>
+                            <p>ENTREGA PERSONAL O ENVÍO NACIONAL</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-section" role="region" aria-label="Estadísticas de la empresa">
+                <div class="stat-item" role="listitem">
+                    <div class="stat-icon">
+                        <i class="fas fa-paint-brush" aria-hidden="true"></i>
+                    </div>
+                    <div class="stat-number" data-count="200">0</div>
+                    <div class="stat-label">DISEÑOS PERSONALIZADOS</div>
+                </div>
+                
+                <div class="stat-item" role="listitem">
+                    <div class="stat-icon">
+                        <i class="fas fa-smile" aria-hidden="true"></i>
+                    </div>
+                    <div class="stat-number" data-count="500">0</div>
+                    <div class="stat-label">CLIENTES CONTENTOS</div>
+                </div>
+                
+                <div class="stat-item" role="listitem">
+                    <div class="stat-icon">
+                        <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                    </div>
+                    <div class="stat-number" data-count="100">0</div>
+                    <div class="stat-label">CONFIABILIDAD Y TRAYECTORIA</div>
+                </div>
+                
+                <div class="stat-item" role="listitem">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock" aria-hidden="true"></i>
+                    </div>
+                    <div class="stat-number" data-count="72">0</div>
+                    <div class="stat-label">TIEMPO PROMEDIO DE ENTREGA</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section contact-section">
-        <div class="container">
+    <!-- Contact Section - MEJORADO -->
+    <section id="contact" class="section contact-section" aria-label="Formulario de contacto">
+        <div class="contact-background">
+            <div class="contact-overlay"></div>
+        </div>
+        
+        <div class="contact-content">
             <div class="section-header">
-                <span class="section-subtitle">Trabajemos juntos</span>
-                <h2 class="section-title">CONTÁCTANOS HOY MISMO</h2>
-                <p class="section-description">
-                    Respuesta inmediata por WhatsApp durante horario laboral
-                </p>
+                <div class="section-badge">Contáctanos</div>
+                <h2 class="section-title">Hablemos sobre tu <span class="highlight">próximo proyecto</span></h2>
+                <p class="section-subtitle">Estamos aquí para ayudarte a materializar tus ideas</p>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon"><i class="fas fa-paper-plane" aria-hidden="true"></i></div>
+                    <div class="divider-line"></div>
+                </div>
             </div>
             
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-card">
-                        <div class="contact-card-header">
-                            <i class="fab fa-whatsapp"></i>
-                            <h3>WhatsApp Instantáneo</h3>
+            <div class="contact-container">
+                <div class="contact-info-section" role="complementary" aria-label="Información de contacto">
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <i class="fas fa-comment-dots" aria-hidden="true"></i>
+                            <h3>¿POR QUÉ ELEGIRNOS?</h3>
                         </div>
-                        <div class="contact-card-body">
-                            <p class="contact-highlight">Respuesta en minutos</p>
-                            <p>Disponible de Lunes a Sábado en horario laboral</p>
-                            <a href="https://wa.me/59164793488?text=Hola%20IMPRESIONES%20GRAFIC,%20quiero%20consultar%20sobre%20:" 
-                               class="btn btn-whatsapp btn-block" target="_blank">
-                                <i class="fab fa-whatsapp"></i> ESCRIBIR POR WHATSAPP
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-card">
-                        <div class="contact-card-header">
-                            <i class="fas fa-phone-alt"></i>
-                            <h3>Llamada Directa</h3>
-                        </div>
-                        <div class="contact-card-body">
-                            <p class="contact-phone">+591 6479 3488</p>
-                            <p>Horario de atención:</p>
-                            <p><strong>Lunes a Viernes:</strong> 8:30 AM - 6:30 PM</p>
-                            <p><strong>Sábados:</strong> 9:00 AM - 1:00 PM</p>
-                            <a href="tel:+59164793488" class="btn btn-outline btn-block">
-                                <i class="fas fa-phone-alt"></i> LLAMAR AHORA
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-card">
-                        <div class="contact-card-header">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <h3>Visítanos</h3>
-                        </div>
-                        <div class="contact-card-body">
-                            <p><strong>Dirección:</strong></p>
-                            <p>AV. 6 de Agosto y Herrera</p>
-                            <p>Oruro, Bolivia</p>
+                        <div class="info-card-content">
+                            <p>En <strong>IMPRESIONES GRAFIC</strong> combinamos <strong>25 años de experiencia</strong> con tecnología de punta para ofrecerte soluciones gráficas completas.</p>
                             
-                            <div class="map-preview">
-                                <i class="fas fa-map"></i>
-                                <p>Zona céntrica de Oruro</p>
-                                <a href="https://maps.google.com?q=AV.+6+de+Agosto+y+Herrera,+Oruro" 
-                                   class="map-link" target="_blank">
-                                    <i class="fas fa-external-link-alt"></i> Ver en Google Maps
+                            <div class="contact-benefits" role="list" aria-label="Beneficios de trabajar con nosotros">
+                                <div class="benefit-item" role="listitem">
+                                    <div class="benefit-icon">
+                                        <i class="fas fa-clock" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="benefit-content">
+                                        <h4>RESPUESTA RÁPIDA</h4>
+                                        <p>Te respondemos en menos de 2 horas</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="benefit-item" role="listitem">
+                                    <div class="benefit-icon">
+                                        <i class="fas fa-percentage" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="benefit-content">
+                                        <h4>PRESUPUESTO INMEDIATO</h4>
+                                        <p>Sin compromiso, en menos de 24 horas</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="benefit-item" role="listitem">
+                                    <div class="benefit-icon">
+                                        <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="benefit-content">
+                                        <h4>GARANTÍA DE CALIDAD</h4>
+                                        <p>Si no te gusta, lo reimprimimos</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                            <h3>INFORMACIÓN DE CONTACTO</h3>
+                        </div>
+                        <div class="info-card-content">
+                            <div class="contact-details" role="region" aria-label="Detalles de contacto">
+                                <div class="contact-item" role="listitem">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </div>
+                                    <div class="contact-text">
+                                        <h4>TELÉFONO / WHATSAPP</h4>
+                                        <p class="contact-value">+591 6479 3488</p>
+                                        <p class="contact-note">Disponible de Lunes a Sábado</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item" role="listitem">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="contact-text">
+                                        <h4>CORREO ELECTRÓNICO</h4>
+                                        <p class="contact-value">impresionesgrafic2025@gmail.com</p>
+                                        <p class="contact-note">Respuesta en menos de 24 horas</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item" role="listitem">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
+                                    <div class="contact-text">
+                                        <h4>DIRECCIÓN</h4>
+                                        <p class="contact-value">AV. 6 de Agosto y Herrera</p>
+                                        <p class="contact-note">Oruro, Bolivia</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item" role="listitem">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-business-time"></i>
+                                    </div>
+                                    <div class="contact-text">
+                                        <h4>HORARIO DE ATENCIÓN</h4>
+                                        <p class="contact-value">Lunes a Viernes: 8:30 AM - 6:30 PM</p>
+                                        <p class="contact-note">Sábados: 9:00 AM - 1:00 PM</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <i class="fas fa-share-alt" aria-hidden="true"></i>
+                            <h3>SÍGUENOS EN REDES</h3>
+                        </div>
+                        <div class="info-card-content">
+                            <div class="social-links" role="region" aria-label="Redes sociales">
+                                <div class="social-buttons" role="list" aria-label="Enlaces a redes sociales">
+                                    <a href="https://www.facebook.com/share/1GbzLQbdWL/?mibextid=wwXIfr" 
+                                       class="social-btn facebook" 
+                                       role="listitem"
+                                       title="Facebook"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       aria-label="Visitar nuestro Facebook">
+                                        <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                                        <span>Facebook</span>
+                                    </a>
+                                    
+                                    <a href="https://www.instagram.com/impresiones_grafic?igsh=MWNlcDBpbWVobG4yZQ%3D%3D&utm_source=qr" 
+                                       class="social-btn instagram" 
+                                       role="listitem"
+                                       title="Instagram"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       aria-label="Visitar nuestro Instagram">
+                                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                                        <span>Instagram</span>
+                                    </a>
+                                    
+                                    <a href="https://www.tiktok.com/@impresiones_grafic?_r=1&_t=ZS-93OXcbIn8Sr" 
+                                       class="social-btn tiktok" 
+                                       role="listitem"
+                                       title="TikTok"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       aria-label="Visitar nuestro TikTok">
+                                        <i class="fab fa-tiktok" aria-hidden="true"></i>
+                                        <span>TikTok</span>
+                                    </a>
+                                    
+                                    <a href="https://wa.me/59164793488" 
+                                       class="social-btn whatsapp" 
+                                       role="listitem"
+                                       title="WhatsApp"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       aria-label="Chatear por WhatsApp">
+                                        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                                        <span>WhatsApp</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-section" role="form" aria-label="Formulario de cotización">
+                    <div class="form-card">
+                        <div class="form-header">
+                            <div class="form-icon">
+                                <i class="fas fa-file-contract" aria-hidden="true"></i>
+                            </div>
+                            <div class="form-title">
+                                <h3>SOLICITUD DE PRESUPUESTO</h3>
+                                <p>Completa el formulario y recibe tu cotización personalizada en menos de 2 horas</p>
+                            </div>
+                        </div>
+                        
+                        <form class="contact-form" 
+                              id="consultaForm" 
+                              onsubmit="return handleSubmit(event)"
+                              aria-label="Formulario de solicitud de cotización"
+                              method="post"
+                              novalidate>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name" class="form-label">
+                                        <i class="fas fa-user" aria-hidden="true"></i> 
+                                        <span>Nombre completo *</span>
+                                    </label>
+                                    <div class="form-input-wrapper">
+                                        <input type="text" 
+                                               id="name" 
+                                               name="name" 
+                                               required 
+                                               placeholder="Ej: Juan Pérez"
+                                               aria-required="true"
+                                               aria-describedby="name-error"
+                                               class="form-input">
+                                        <div class="form-focus-border"></div>
+                                    </div>
+                                    <div id="name-error" class="error-message" aria-live="polite"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email" class="form-label">
+                                        <i class="fas fa-envelope" aria-hidden="true"></i> 
+                                        <span>Correo electrónico *</span>
+                                    </label>
+                                    <div class="form-input-wrapper">
+                                        <input type="email" 
+                                               id="email" 
+                                               name="email" 
+                                               required 
+                                               placeholder="ejemplo@correo.com"
+                                               aria-required="true"
+                                               aria-describedby="email-error"
+                                               class="form-input">
+                                        <div class="form-focus-border"></div>
+                                    </div>
+                                    <div id="email-error" class="error-message" aria-live="polite"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">
+                                        <i class="fas fa-phone" aria-hidden="true"></i> 
+                                        <span>Teléfono / WhatsApp *</span>
+                                    </label>
+                                    <div class="form-input-wrapper">
+                                        <input type="tel" 
+                                               id="phone" 
+                                               name="phone" 
+                                               required 
+                                               placeholder="+591 6479 3488"
+                                               aria-required="true"
+                                               aria-describedby="phone-error"
+                                               class="form-input">
+                                        <div class="form-focus-border"></div>
+                                    </div>
+                                    <div id="phone-error" class="error-message" aria-live="polite"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="company" class="form-label">
+                                        <i class="fas fa-building" aria-hidden="true"></i> 
+                                        <span>Empresa / Institución</span>
+                                    </label>
+                                    <div class="form-input-wrapper">
+                                        <input type="text" 
+                                               id="company" 
+                                               name="company" 
+                                               placeholder="Nombre de tu empresa o institución (opcional)"
+                                               aria-describedby="company-help"
+                                               class="form-input">
+                                        <div class="form-focus-border"></div>
+                                    </div>
+                                    <div id="company-help" class="help-text">Opcional</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="service" class="form-label">
+                                    <i class="fas fa-concierge-bell" aria-hidden="true"></i> 
+                                    <span>¿Qué servicio te interesa? *</span>
+                                </label>
+                                <div class="form-select-wrapper">
+                                    <select id="service" 
+                                            name="service" 
+                                            required
+                                            aria-required="true"
+                                            aria-describedby="service-error"
+                                            class="form-select">
+                                        <option value="">Selecciona un servicio</option>
+                                        <option value="tarjetas">Tarjetas Personales</option>
+                                        <option value="reconocimientos">Reconocimientos y Trofeos</option>
+                                        <option value="invitaciones">Invitaciones Especiales</option>
+                                        <option value="afiches">Afiches y Calendarios</option>
+                                        <option value="volantes">Volantes y Folletos</option>
+                                        <option value="diseno">Diseño Gráfico Personalizado</option>
+                                        <option value="otros">Otros servicios</option>
+                                    </select>
+                                    <div class="select-arrow">
+                                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="form-focus-border"></div>
+                                </div>
+                                <div id="service-error" class="error-message" aria-live="polite"></div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="quantity" class="form-label">
+                                        <i class="fas fa-calculator" aria-hidden="true"></i> 
+                                        <span>Cantidad aproximada</span>
+                                    </label>
+                                    <div class="form-input-wrapper">
+                                        <input type="text" 
+                                               id="quantity" 
+                                               name="quantity" 
+                                               placeholder="Ej: 1000 tarjetas, 200 invitaciones"
+                                               aria-describedby="quantity-help"
+                                               class="form-input">
+                                        <div class="form-focus-border"></div>
+                                    </div>
+                                    <div id="quantity-help" class="help-text">Para una cotización más precisa</div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="urgency" class="form-label">
+                                        <i class="fas fa-clock" aria-hidden="true"></i> 
+                                        <span>Urgencia de entrega</span>
+                                    </label>
+                                    <div class="urgency-buttons">
+                                        <button type="button" class="urgency-btn" data-value="normal">
+                                            Normal (5-7 días)
+                                        </button>
+                                        <button type="button" class="urgency-btn" data-value="urgent">
+                                            Urgente (24-48h)
+                                        </button>
+                                        <input type="hidden" id="urgency" name="urgency" value="normal">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message" class="form-label">
+                                    <i class="fas fa-comment-dots" aria-hidden="true"></i> 
+                                    <span>Cuéntanos sobre tu proyecto *</span>
+                                </label>
+                                <div class="form-textarea-wrapper">
+                                    <textarea id="message" 
+                                              name="message" 
+                                              rows="4" 
+                                              required 
+                                              placeholder="Describe tu proyecto, incluye detalles como colores preferidos, tamaño, material deseado, fecha de entrega, etc..."
+                                              aria-required="true"
+                                              aria-describedby="message-error"
+                                              class="form-textarea"></textarea>
+                                    <div class="form-focus-border"></div>
+                                </div>
+                                <div id="message-error" class="error-message" aria-live="polite"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reference" class="form-label">
+                                    <i class="fas fa-image" aria-hidden="true"></i> 
+                                    <span>Imágenes de referencia (opcional)</span>
+                                </label>
+                                <div class="file-upload">
+                                    <input type="file" 
+                                           id="reference" 
+                                           name="reference" 
+                                           accept="image/*"
+                                           multiple
+                                           class="file-input"
+                                           aria-describedby="reference-help">
+                                    <label for="reference" class="file-label">
+                                        <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                                        <span>Sube imágenes de referencia</span>
+                                        <span class="file-hint">PNG, JPG o PDF (máx. 5MB cada uno)</span>
+                                    </label>
+                                </div>
+                                <div id="reference-help" class="help-text">Puedes subir hasta 3 imágenes</div>
+                            </div>
+                            
+                            <div class="form-checkbox-group">
+                                <div class="form-checkbox">
+                                    <input type="checkbox" 
+                                           id="newsletter" 
+                                           name="newsletter"
+                                           aria-describedby="newsletter-help"
+                                           class="checkbox-input">
+                                    <label for="newsletter" class="checkbox-label">
+                                        <div class="checkbox-custom"></div>
+                                        <span>Deseo recibir promociones, novedades y consejos de diseño por correo</span>
+                                    </label>
+                                </div>
+                                <div id="newsletter-help" class="help-text">Puedes desuscribirte en cualquier momento</div>
+                            </div>
+                            
+                            <div class="form-submit">
+                                <button type="submit" 
+                                        class="submit-btn"
+                                        aria-label="Enviar solicitud de cotización">
+                                    <span class="submit-text">ENVIAR SOLICITUD</span>
+                                    <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                                    <div class="submit-loading">
+                                        <div class="loading-spinner"></div>
+                                    </div>
+                                </button>
+                                
+                                <p class="form-note" role="note">
+                                    <i class="fas fa-lock" aria-hidden="true"></i> 
+                                    <span>Tus datos están protegidos y no serán compartidos con terceros.</span>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="contact-alternative" role="complementary" aria-label="Alternativas de contacto">
+                        <div class="alternative-header">
+                            <i class="fas fa-bolt" aria-hidden="true"></i>
+                            <h4>¿Prefieres contacto más rápido?</h4>
+                        </div>
+                        
+                        <div class="alternative-options">
+                            <a href="https://wa.me/59164793488" 
+                               class="alternative-option whatsapp-option"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               aria-label="Chatear por WhatsApp directamente">
+                                <div class="option-icon">
+                                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                                </div>
+                                <div class="option-content">
+                                    <h5>WhatsApp Directo</h5>
+                                    <p>Respuesta inmediata en horario laboral</p>
+                                </div>
+                                <div class="option-arrow">
+                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                </div>
+                            </a>
+                            
+                            <a href="tel:+59164793488" 
+                               class="alternative-option phone-option"
+                               aria-label="Llamar por teléfono">
+                                <div class="option-icon">
+                                    <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                                </div>
+                                <div class="option-content">
+                                    <h5>Llamada Telefónica</h5>
+                                    <p>Lunes a Sábado: 8:30 AM - 6:30 PM</p>
+                                </div>
+                                <div class="option-arrow">
+                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <div class="alternative-note">
+                            <i class="fas fa-info-circle" aria-hidden="true"></i>
+                            <p>También puedes visitarnos en nuestra oficina en AV. 6 de Agosto y Herrera, Oruro</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mapa -->
+            <div class="map-section" role="region" aria-label="Ubicación en mapa">
+                <div class="map-header">
+                    <h3><i class="fas fa-map-marked-alt" aria-hidden="true"></i> NUESTRA UBICACIÓN</h3>
+                    <p>Visítanos en nuestro local en Oruro</p>
+                </div>
+                
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <div class="map-icon">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                        </div>
+                        <div class="map-info">
+                            <h4>IMPRESIONES GRAFIC</h4>
+                            <p>AV. 6 de Agosto y Herrera<br>Oruro, Bolivia</p>
+                            <div class="map-actions">
+                                <a href="https://maps.google.com?q=Churrasqueria%20El%20Mana,%20Av.%206%20de%20Agosto%20895,%20Oruro&ftid=0x93e2b0bab06e0c8f:0xb3c73135f02bbf5b&entry=gps&shh=CAE&lucs=,94297699,94275415,94231188,94280568,47071704,94218641,94282134,94286869&g_st=iw" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   class="map-link"
+                                   aria-label="Ver ubicación en Google Maps">
+                                    <i class="fas fa-external-link-alt" aria-hidden="true"></i> 
+                                    <span>Abrir en Google Maps</span>
+                                </a>
+                                
+                                <a href="https://www.google.com/maps/dir/?api=1&destination=Av.+6+de+Agosto+y+Herrera,+Oruro" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   class="map-link"
+                                   aria-label="Cómo llegar">
+                                    <i class="fas fa-directions" aria-hidden="true"></i> 
+                                    <span>Cómo llegar</span>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="contact-social">
-                        <h4>Síguenos en redes</h4>
-                        <div class="social-links">
-                            <a href="https://www.facebook.com/share/1GbzLQbdWL/?mibextid=wwXIfr" 
-                               class="social-link facebook" target="_blank" aria-label="Facebook">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="https://www.instagram.com/impresiones_grafic?igsh=MWNlcDBpbWVobG4yZQ%3D%3D&utm_source=qr" 
-                               class="social-link instagram" target="_blank" aria-label="Instagram">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="https://www.tiktok.com/@impresiones_grafic?_r=1&_t=ZS-93OXcbIn8Sr" 
-                               class="social-link tiktok" target="_blank" aria-label="TikTok">
-                                <i class="fab fa-tiktok"></i>
-                            </a>
-                            <a href="mailto:impresionesgrafic2025@gmail.com" 
-                               class="social-link email" aria-label="Email">
-                                <i class="fas fa-envelope"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="contact-form-section">
-                    <div class="form-intro">
-                        <h3><i class="fas fa-comment-alt"></i> ¿Prefieres que te contactemos?</h3>
-                        <p>Deja tus datos y te llamamos en menos de 2 horas</p>
-                    </div>
-                    
-                    <div class="contact-request">
-                        <div class="request-item">
-                            <i class="fas fa-user"></i>
-                            <div class="request-info">
-                                <h4>Consulta rápida</h4>
-                                <p>Cuéntanos brevemente tu proyecto</p>
-                            </div>
-                        </div>
-                        
-                        <div class="request-form">
-                            <div class="form-group">
-                                <input type="text" id="quickName" placeholder="Tu nombre *" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="tel" id="quickPhone" placeholder="WhatsApp o teléfono *" required>
-                            </div>
-                            <div class="form-group">
-                                <textarea id="quickMessage" placeholder="Describe tu proyecto, materiales, cantidades, fechas..." rows="3"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <select id="quickService">
-                                    <option value="">Tipo de servicio</option>
-                                    <option value="tarjetas">Tarjetas personales</option>
-                                    <option value="reconocimientos">Reconocimientos</option>
-                                    <option value="invitaciones">Invitaciones</option>
-                                    <option value="afiches">Afiches</option>
-                                    <option value="otros">Otros</option>
-                                </select>
-                            </div>
-                            
-                            <button class="btn btn-primary btn-block" onclick="sendQuickRequest()">
-                                <i class="fas fa-paper-plane"></i> ENVIAR SOLICITUD
-                            </button>
-                            
-                            <p class="form-note">
-                                <i class="fas fa-lock"></i> Tus datos están seguros. No compartiremos tu información.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-benefits">
-                        <h4><i class="fas fa-star"></i> Beneficios de trabajar con nosotros</h4>
-                        <div class="benefits-grid">
-                            <div class="benefit">
-                                <i class="fas fa-clock"></i>
-                                <h5>Respuesta rápida</h5>
-                                <p>Menos de 2 horas</p>
-                            </div>
-                            <div class="benefit">
-                                <i class="fas fa-percentage"></i>
-                                <h5>Presupuesto claro</h5>
-                                <p>Sin sorpresas</p>
-                            </div>
-                            <div class="benefit">
-                                <i class="fas fa-shield-alt"></i>
-                                <h5>Calidad garantizada</h5>
-                                <p>Reimpresión si no gusta</p>
-                            </div>
-                            <div class="benefit">
-                                <i class="fas fa-truck"></i>
-                                <h5>Entrega puntual</h5>
-                                <p>72 horas promedio</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
+    <!-- Footer - MEJORADO -->
+    <footer class="footer" role="contentinfo" aria-label="Pie de página">
+        <div class="footer-background">
+            <div class="footer-overlay"></div>
+        </div>
+        
+        <div class="footer-content">
+            <div class="footer-main">
                 <div class="footer-brand">
-                    <div class="footer-logo">
+                    <a href="#home" class="footer-logo" aria-label="Ir al inicio">
                         <img src="https://i.ibb.co/mFzJGMpB/Sin-t-tulo-1.png" 
-                             alt="IMPRESIONES GRAFIC"
-                             width="60" height="60">
+                             alt="Logo IMPRESIONES GRAFIC"
+                             class="footer-logo-image"
+                             width="60"
+                             height="60">
                         <div class="footer-logo-text">
-                            <h3>IMPRESIONES GRAFIC</h3>
-                            <p>25 años de excelencia gráfica</p>
+                            <span class="footer-logo-main">IMPRESIONES GRAFIC</span>
+                            <span class="footer-logo-sub">25 años transformando ideas</span>
                         </div>
-                    </div>
+                    </a>
+                    
                     <p class="footer-description">
-                        Especialistas en diseño e impresión de calidad en Oruro, Bolivia. 
-                        Transformamos ideas en realidad desde 1999.
+                        Especialistas en diseño e impresión gráfica en Oruro. Transformamos tus ideas en soluciones visuales impactantes con 25 años de experiencia.
                     </p>
                     
-                    <div class="footer-certifications">
-                        <span class="cert-badge"><i class="fas fa-check-circle"></i> Calidad garantizada</span>
-                        <span class="cert-badge"><i class="fas fa-shipping-fast"></i> Entrega puntual</span>
-                        <span class="cert-badge"><i class="fas fa-heart"></i> Satisfacción 100%</span>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/share/1GbzLQbdWL/?mibextid=wwXIfr" 
+                           class="social-link"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://www.instagram.com/impresiones_grafic?igsh=MWNlcDBpbWVobG4yZQ%3D%3D&utm_source=qr" 
+                           class="social-link"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@impresiones_grafic?_r=1&_t=ZS-93OXcbIn8Sr" 
+                           class="social-link"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="TikTok">
+                            <i class="fab fa-tiktok" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://wa.me/59164793488" 
+                           class="social-link"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
                 
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Servicios</h4>
-                        <a href="#servicios">Tarjetas personales</a>
-                        <a href="#servicios">Reconocimientos</a>
-                        <a href="#servicios">Trofeos</a>
-                        <a href="#servicios">Invitaciones</a>
-                        <a href="#servicios">Afiches publicitarios</a>
-                        <a href="#servicios">Calendarios</a>
+                <div class="footer-columns">
+                    <div class="footer-column" role="navigation" aria-label="Enlaces a servicios">
+                        <h4 class="footer-column-title">Servicios</h4>
+                        <ul class="footer-links">
+                            <li><a href="#servicios" aria-label="Ver servicios de tarjetas personales">Tarjetas Personales</a></li>
+                            <li><a href="#servicios" aria-label="Ver servicios de reconocimientos">Reconocimientos</a></li>
+                            <li><a href="#servicios" aria-label="Ver servicios de invitaciones">Invitaciones</a></li>
+                            <li><a href="#servicios" aria-label="Ver servicios de afiches y calendarios">Afiches y Calendarios</a></li>
+                            <li><a href="#servicios" aria-label="Ver servicios de trofeos">Trofeos</a></li>
+                            <li><a href="#servicios" aria-label="Ver todos los servicios">Ver todos los servicios</a></li>
+                        </ul>
                     </div>
                     
-                    <div class="footer-column">
-                        <h4>Recursos</h4>
-                        <a href="#portafolio">Portafolio</a>
-                        <a href="#catalogos">Catálogos</a>
-                        <a href="#about">Nuestra historia</a>
-                        <a href="#about">Proceso de trabajo</a>
-                        <a href="#contact">Cotizar proyecto</a>
-                        <a href="#contact">Contacto</a>
+                    <div class="footer-column" role="navigation" aria-label="Enlaces a recursos">
+                        <h4 class="footer-column-title">Recursos</h4>
+                        <ul class="footer-links">
+                            <li><a href="#portafolio" aria-label="Ver portafolio">Portafolio</a></li>
+                            <li><a href="#catalogos" aria-label="Ver catálogos">Catálogos Digitales</a></li>
+                            <li><a href="#about" aria-label="Ver proceso de trabajo">Proceso de Trabajo</a></li>
+                            <li><a href="#about" aria-label="Ver nuestra historia">Acerca de Nosotros</a></li>
+                            <li><a href="#contact" aria-label="Preguntas frecuentes">Preguntas Frecuentes</a></li>
+                            <li><a href="#contact" aria-label="Ir a contacto">Contáctanos</a></li>
+                        </ul>
                     </div>
                     
-                    <div class="footer-column">
-                        <h4>Contacto</h4>
-                        <div class="footer-contact">
-                            <p><i class="fas fa-phone-alt"></i> +591 6479 3488</p>
-                            <p><i class="fab fa-whatsapp"></i> WhatsApp disponible</p>
-                            <p><i class="fas fa-envelope"></i> impresionesgrafic2025@gmail.com</p>
-                            <p><i class="fas fa-map-marker-alt"></i> AV. 6 de Agosto y Herrera, Oruro</p>
+                    <div class="footer-column" role="contentinfo" aria-label="Información de la empresa">
+                        <h4 class="footer-column-title">Horarios de Atención</h4>
+                        <div class="footer-hours">
+                            <div class="hours-item">
+                                <span class="hours-days">Lunes - Viernes</span>
+                                <span class="hours-time">8:30 AM - 6:30 PM</span>
+                            </div>
+                            <div class="hours-item">
+                                <span class="hours-days">Sábados</span>
+                                <span class="hours-time">9:00 AM - 1:00 PM</span>
+                            </div>
+                            <div class="hours-item">
+                                <span class="hours-days">Domingos</span>
+                                <span class="hours-time">Cerrado</span>
+                            </div>
+                        </div>
+                        
+                        <div class="footer-contact-info">
+                            <h5>Contacto Rápido</h5>
+                            <a href="tel:+59164793488" class="footer-phone">
+                                <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                                +591 6479 3488
+                            </a>
+                            <a href="mailto:impresionesgrafic2025@gmail.com" class="footer-email">
+                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                                impresionesgrafic2025@gmail.com
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <div class="footer-copyright">
-                    <p>&copy; 2024 IMPRESIONES GRAFIC. Todos los derechos reservados. | 25 años de experiencia</p>
-                    <p class="footer-note">Sitio web optimizado para todos los dispositivos</p>
+                <div class="footer-copyright" role="contentinfo">
+                    <p>&copy; 2025 IMPRESIONES GRAFIC. Todos los derechos reservados. | 25 años de experiencia en Oruro, Bolivia</p>
                 </div>
                 
-                <div class="footer-social">
-                    <span>Síguenos:</span>
-                    <a href="https://www.facebook.com/share/1GbzLQbdWL/?mibextid=wwXIfr" target="_blank" aria-label="Facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://www.instagram.com/impresiones_grafic?igsh=MWNlcDBpbWVobG4yZQ%3D%3D&utm_source=qr" target="_blank" aria-label="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@impresiones_grafic?_r=1&_t=ZS-93OXcbIn8Sr" target="_blank" aria-label="TikTok">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
+                <div class="footer-legal">
+                    <a href="#" aria-label="Política de privacidad">Política de Privacidad</a>
+                    <span class="separator">•</span>
+                    <a href="#" aria-label="Términos de servicio">Términos de Servicio</a>
+                    <span class="separator">•</span>
+                    <a href="#" aria-label="Política de cookies">Política de Cookies</a>
                 </div>
-            </div>
-            
-            <div class="footer-extra">
-                <p><i class="fas fa-mobile-alt"></i> Sitio 100% responsive - Compatible con iPhone, Android, Tablet y PC</p>
-                <p class="footer-warning">Los precios pueden variar según materiales, cantidades y especificaciones del proyecto.</p>
+                
+                <div class="certifications" role="list" aria-label="Certificaciones y garantías">
+                    <span class="cert-badge" role="listitem">
+                        <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                        Calidad Garantizada
+                    </span>
+                    <span class="cert-badge" role="listitem">
+                        <i class="fas fa-truck" aria-hidden="true"></i>
+                        Entrega Puntual
+                    </span>
+                    <span class="cert-badge" role="listitem">
+                        <i class="fas fa-heart" aria-hidden="true"></i>
+                        100% Satisfacción
+                    </span>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Scroll to top -->
-    <button class="scroll-to-top" id="scrollToTop" aria-label="Volver arriba">
-        <i class="fas fa-chevron-up"></i>
-    </button>
-
-    <!-- Quick Contact Modal -->
-    <div class="modal-overlay" id="quickContactModal" style="display: none;">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <div class="modal-icon success">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <h3>¡Solicitud enviada!</h3>
-            <p>Te contactaremos en menos de 2 horas por WhatsApp o teléfono.</p>
-            <p>Mientras tanto, puedes escribirnos directamente:</p>
-            <a href="https://wa.me/59164793488" class="btn btn-whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i> ABRIR WHATSAPP
-            </a>
-            <button class="btn btn-outline" onclick="closeModal()">CERRAR</button>
-        </div>
+    <!-- Scroll to top button -->
+    <div class="scroll-to-top" 
+         id="scrollToTop" 
+         role="button" 
+         aria-label="Volver arriba"
+         tabindex="0"
+         aria-hidden="true">
+        <i class="fas fa-chevron-up" aria-hidden="true"></i>
+        <span class="sr-only">Volver al inicio de la página</span>
     </div>
 
-    <!-- JavaScript -->
-    <script src="templatemo-3d-coverflow-scripts.js"></script>
+    <!-- SCRIPTS - OPTIMIZADOS -->
+    <script src="templatemo-3d-coverflow-scripts.js" defer></script>
     
-    <!-- Analytics placeholder -->
+    <!-- SCRIPT DE INICIALIZACIÓN INLINE -->
     <script>
-        // Analytics can be added here later
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
+        // Función para cargar partículas en el hero (solo para desktop)
+        function loadHeroParticles() {
+            const particlesContainer = document.getElementById('heroParticles');
+            if (!particlesContainer || window.innerWidth < 768) return;
+            
+            const particles = 30;
+            for (let i = 0; i < particles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'hero-particle';
+                
+                // Posición aleatoria
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 10;
+                
+                particle.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${posX}%;
+                    top: ${posY}%;
+                    animation-delay: ${delay}s;
+                    animation-duration: ${duration}s;
+                    background: rgba(94, 86, 231, ${Math.random() * 0.3 + 0.1});
+                `;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Contador animado para estadísticas
+        function animateStats() {
+            const statItems = document.querySelectorAll('.stat-number');
+            statItems.forEach(item => {
+                const target = parseInt(item.getAttribute('data-count'));
+                const suffix = item.textContent.includes('%') ? '%' : '';
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    item.textContent = suffix === '%' ? 
+                        Math.round(current) + suffix : 
+                        Math.round(current);
+                }, 30);
+            });
+        }
+        
+        // Observador de intersección para animaciones
+        function setupIntersectionObserver() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.target.classList.contains('stats-section')) {
+                            animateStats();
+                            observer.unobserve(entry.target);
+                        }
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observar elementos que necesitan animación
+            document.querySelectorAll('.servicio-card, .portfolio-item, .catalogo-card, .stat-item').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Observar stats section
+            const statsSection = document.querySelector('.stats-section');
+            if (statsSection) observer.observe(statsSection);
+        }
+        
+        // Ocultar preloader cuando todo cargue
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                // Asegurar que la barra de progreso llegue al 100%
+                const progressBar = preloader.querySelector('.preloader-progress-bar');
+                if (progressBar) {
+                    progressBar.style.width = '100%';
+                }
+                
+                setTimeout(function() {
+                    preloader.style.opacity = '0';
+                    document.body.classList.add('loaded');
+                    
+                    setTimeout(function() {
+                        preloader.style.display = 'none';
+                        
+                        // Iniciar animaciones después de cargar
+                        loadHeroParticles();
+                        setupIntersectionObserver();
+                        
+                        // Mostrar notificación de bienvenida
+                        setTimeout(() => {
+                            if (typeof showNotification === 'function') {
+                                showNotification('🎨 ¡Bienvenido a IMPRESIONES GRAFIC! Descubre 25 años de experiencia en diseño e impresión.', 'info');
+                            }
+                        }, 1000);
+                        
+                    }, 500);
+                }, 800);
+            }
+        });
+
+        // Mejorar accesibilidad de botones
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('button, a, [role="button"]').forEach(element => {
+                element.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+            
+            // Configuración inicial del menú
+            const menuToggle = document.getElementById('menuToggle');
+            const mainMenu = document.getElementById('mainMenu');
+            const width = window.innerWidth;
+            
+            if (width <= 768) {
+                // MÓVIL
+                if (menuToggle) menuToggle.style.display = 'flex';
+                if (mainMenu) mainMenu.style.display = 'none';
+            } else {
+                // DESKTOP
+                if (menuToggle) menuToggle.style.display = 'none';
+                if (mainMenu) mainMenu.style.display = 'flex';
+            }
+            
+            // Inicializar botones de urgencia en el formulario
+            const urgencyBtns = document.querySelectorAll('.urgency-btn');
+            const urgencyInput = document.getElementById('urgency');
+            
+            if (urgencyBtns.length && urgencyInput) {
+                urgencyBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        // Remover active de todos
+                        urgencyBtns.forEach(b => b.classList.remove('active'));
+                        
+                        // Agregar active al clickeado
+                        this.classList.add('active');
+                        
+                        // Actualizar valor del input hidden
+                        urgencyInput.value = this.getAttribute('data-value');
+                    });
+                    
+                    // Establecer normal como activo por defecto
+                    if (btn.getAttribute('data-value') === 'normal') {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+        });
+        
+        // Smooth scroll para anclas internas
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    
+                    const header = document.getElementById('header');
+                    const headerHeight = header ? header.offsetHeight : 90;
+                    const targetPosition = targetElement.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Manejo de scroll para el botón "subir"
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        if (scrollToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollToTopBtn.classList.add('visible');
+                    scrollToTopBtn.setAttribute('aria-hidden', 'false');
+                } else {
+                    scrollToTopBtn.classList.remove('visible');
+                    scrollToTopBtn.setAttribute('aria-hidden', 'true');
+                }
+            });
+            
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+        
+        // Detectar dispositivo y aplicar clases específicas
+        function detectDevice() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            
+            if (/android/.test(userAgent)) {
+                document.body.classList.add('android');
+            }
+            
+            if (/iphone|ipad|ipod/.test(userAgent)) {
+                document.body.classList.add('ios');
+            }
+            
+            if (/chrome/.test(userAgent) && /android/.test(userAgent)) {
+                document.body.classList.add('android-chrome');
+            }
+            
+            if (/safari/.test(userAgent) && !/chrome/.test(userAgent) && /iphone|ipad/.test(userAgent)) {
+                document.body.classList.add('ios-safari');
+            }
+        }
+        
+        // Llamar detección de dispositivo
+        detectDevice();
     </script>
 </body>
 </html>

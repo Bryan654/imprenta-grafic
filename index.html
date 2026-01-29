@@ -5,7 +5,7 @@
     <!-- VIEWPORT OPTIMIZADO PARA TODOS LOS DISPOSITIVOS -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     
-    <!-- META TAGS PARA MEJOR SEO Y COMPATIBILIDAD -->
+    <!-- META TAGS PARA MEJORAR SEO Y COMPATIBILIDAD -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="theme-color" content="#5E56E7">
     <meta name="description" content="IMPRESIONES GRAFIC - 25 años de experiencia en diseño e impresión de calidad en Oruro. Tarjetas personales, reconocimientos, invitaciones y más.">
@@ -175,6 +175,99 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #4a43d4, #e85673);
         }
+        
+        /* PDF Modal Styles */
+        .pdf-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .pdf-modal-content {
+            background: #1a1a2e;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .pdf-modal-header {
+            padding: 20px;
+            background: #252542;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .pdf-modal-body {
+            padding: 20px;
+            height: 70vh;
+            overflow: auto;
+        }
+        
+        .pdf-modal-footer {
+            padding: 15px 20px;
+            background: #252542;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        .close-pdf-btn {
+            background: #ff6b6b;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        /* Portfolio Modal */
+        .portfolio-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .portfolio-modal-content {
+            background: #1a1a2e;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Estilos para imágenes del coverflow */
+        .coverflow-item .cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
     </style>
 </head>
 <body>
@@ -190,7 +283,7 @@
     </div>
 
     <!-- WhatsApp Float - MEJORADO -->
-    <a href="https://wa.me/59164793488?text=Hola%20IMPRESIONES%20GRAFIC,%20quiero%20consultar%20sobre%20sus%20servicios" 
+    <a href="https://wa.me/59160409066?text=Hola%20IMPRESIONES%20GRAFIC,%20quiero%20consultar%20sobre%20sus%20servicios" 
        class="whatsapp-float" 
        target="_blank" 
        rel="noopener noreferrer" 
@@ -247,7 +340,7 @@
         </nav>
         
         <div class="header-actions">
-            <a href="https://wa.me/59164793488" class="header-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <a href="https://wa.me/59160409066" class="header-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
                 <i class="fab fa-whatsapp" aria-hidden="true"></i>
                 <span class="header-action-text">WhatsApp</span>
             </a>
@@ -300,100 +393,93 @@
                  aria-live="polite">
                 
                 <div class="coverflow" id="coverflow">
-                    <!-- Item 1 -->
+                    <!-- Item 1 - Tarjetas de Presentación -->
                     <div class="coverflow-item" data-index="0" role="group" aria-label="Imagen 1 de 7: Tarjetas de Presentación">
-                        <div class="cover image-loading">
+                        <div class="cover">
                             <div class="cover-badge">Tarjetas</div>
-                            <img src="images/mountain-landscape.jpg" 
+                            <img src="https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                                  alt="Tarjetas de Presentación - Diseños profesionales para tu negocio"
                                  loading="lazy"
                                  width="280"
-                                 height="280"
-                                 onerror="this.src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=600&fit=crop&auto=format'">
+                                 height="280">
                         </div>
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 2 -->
+                    <!-- Item 2 - Reconocimientos -->
                     <div class="coverflow-item" data-index="1" role="group" aria-label="Imagen 2 de 7: Reconocimientos">
-                        <div class="cover image-loading">
+                        <div class="cover">
                             <div class="cover-badge">Reconocimientos</div>
-                            <img src="images/forest-path.jpg" 
+                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                                  alt="Reconocimientos y diplomas personalizados para eventos especiales"
                                  loading="lazy"
                                  width="280"
-                                 height="280"
-                                 onerror="this.src='https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=600&fit=crop&auto=format'">
+                                 height="280">
                         </div>
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 3 -->
+                    <!-- Item 3 - Invitaciones -->
                     <div class="coverflow-item" data-index="2" role="group" aria-label="Imagen 3 de 7: Invitaciones">
-                        <div class="cover image-loading">
+                        <div class="cover">
                             <div class="cover-badge">Invitaciones</div>
-                            <img src="images/serene-water-mirroring.jpg" 
+                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                                  alt="Invitaciones elegantes para bodas, cumpleaños y eventos corporativos"
                                  loading="lazy"
                                  width="280"
-                                 height="280"
-                                 onerror="this.src='https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=600&h=600&fit=crop&auto=format'">
+                                 height="280">
                         </div>
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 4 (Centro) -->
+                    <!-- Item 4 (Centro) - Afiches Publicitarios -->
                     <div class="coverflow-item active" data-index="3" role="group" aria-label="Imagen 4 de 7: Afiches Publicitarios">
-                        <div class="cover image-loading">
+                        <div class="cover">
                             <div class="cover-badge">Afiches</div>
-                            <img src="images/ocean-sunset-golden-hour.jpg" 
+                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                                  alt="Afiches Publicitarios - Diseño creativo e impactante para tu marca"
                                  loading="lazy"
                                  width="280"
-                                 height="280"
-                                 onerror="this.src='https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=600&h=600&fit=crop&auto=format'">
+                                 height="280">
                         </div>
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 5 -->
+                    <!-- Item 5 - Calendarios Personalizados -->
                     <div class="coverflow-item" data-index="4" role="group" aria-label="Imagen 5 de 7: Calendarios Personalizados">
-                        <div class="cover image-loading">
+                        <div class="cover">
                             <div class="cover-badge">Calendarios</div>
-                            <img src="images/rolling-sand-dunes.jpg" 
+                            <img src="https://images.unsplash.com/photo-1589256469067-ea99122bbdc4?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                                  alt="Calendarios Personalizados - Organiza tu año con estilo"
                                  loading="lazy"
                                  width="280"
-                                 height="280"
-                                 onerror="this.src='https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=600&h=600&fit=crop&auto=format'">
+                                 height="280">
                         </div>
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 6 -->
+                    <!-- Item 6 - Trofeos Exclusivos -->
                     <div class="coverflow-item" data-index="5" role="group" aria-label="Imagen 6 de 7: Trofeos Exclusivos">
-                        <div class="cover image-loading">
+                        <div class="cover">
                             <div class="cover-badge">Trofeos</div>
-                            <img src="images/starry-night.jpg" 
+                            <img src="https://images.unsplash.com/photo-1510525009512-ad7fc13eefab?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                                  alt="Trofeos Exclusivos - Reconocimientos únicos para eventos deportivos"
                                  loading="lazy"
                                  width="280"
-                                 height="280"
-                                 onerror="this.src='https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=600&h=600&fit=crop&auto=format'">
+                                 height="280">
                         </div>
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
                     
-                    <!-- Item 7 -->
+                    <!-- Item 7 - Material Corporativo -->
                     <div class="coverflow-item" data-index="6" role="group" aria-label="Imagen 7 de 7: Material Corporativo">
-                        <div class="cover image-loading">
+                        <div class="cover">
                             <div class="cover-badge">Corporativo</div>
-                            <img src="images/cascading-waterfall.jpg" 
+                            <img src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                                  alt="Material Corporativo - Todo para la identidad de tu empresa"
                                  loading="lazy"
                                  width="280"
-                                 height="280"
-                                 onerror="this.src='https://images.unsplash.com/photo-1512273222628-4daea6e55abb?w=600&h=600&fit=crop&auto=format'">
+                                 height="280">
                         </div>
                         <div class="reflection" aria-hidden="true"></div>
                     </div>
@@ -648,7 +734,7 @@
                 <!-- Tarjetas 1 -->
                 <div class="portfolio-item" data-category="tarjetas" role="article">
                     <div class="portfolio-image">
-                        <img src="https://i.ibb.co/m5hNpSyn/Tarjetas-Personales-Corporativas.png" 
+                        <img src="https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                              alt="Tarjetas Personales Corporativas - Diseño profesional para empresas"
                              loading="lazy"
                              width="300"
@@ -657,7 +743,7 @@
                             <div class="portfolio-category">Tarjetas</div>
                             <h4>Tarjetas Personales Corporativas</h4>
                             <p>Diseño e impresión de alta calidad</p>
-                            <button class="view-details" aria-label="Ver detalles de Tarjetas Personales Corporativas">
+                            <button class="view-details" onclick="openPortfolioModal(0)" aria-label="Ver detalles de Tarjetas Personales Corporativas">
                                 <span>Ver detalles</span>
                                 <i class="fas fa-expand-alt" aria-hidden="true"></i>
                             </button>
@@ -672,7 +758,7 @@
                 <!-- Reconocimientos 1 -->
                 <div class="portfolio-item" data-category="reconocimientos" role="article">
                     <div class="portfolio-image">
-                        <img src="https://i.ibb.co/F40gmXP5/Reconocimientos-Personalizados.png" 
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                              alt="Reconocimientos Personalizados - Diplomas y certificados de calidad"
                              loading="lazy"
                              width="300"
@@ -681,7 +767,7 @@
                             <div class="portfolio-category">Reconocimientos</div>
                             <h4>Reconocimientos Personalizados</h4>
                             <p>Certificados y diplomas de calidad</p>
-                            <button class="view-details" aria-label="Ver detalles de Reconocimientos Personalizados">
+                            <button class="view-details" onclick="openPortfolioModal(1)" aria-label="Ver detalles de Reconocimientos Personalizados">
                                 <span>Ver detalles</span>
                                 <i class="fas fa-expand-alt" aria-hidden="true"></i>
                             </button>
@@ -696,7 +782,7 @@
                 <!-- Trofeos -->
                 <div class="portfolio-item" data-category="trofeos" role="article">
                     <div class="portfolio-image">
-                        <img src="https://i.ibb.co/cS2cFRZV/Trofeos-Exclusivos.jpg" 
+                        <img src="https://images.unsplash.com/photo-1510525009512-ad7fc13eefab?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                              alt="Trofeos Exclusivos - Diseños únicos para eventos deportivos"
                              loading="lazy"
                              width="300"
@@ -705,7 +791,7 @@
                             <div class="portfolio-category">Trofeos</div>
                             <h4>Trofeos Exclusivos</h4>
                             <p>Diseños únicos para eventos especiales</p>
-                            <button class="view-details" aria-label="Ver detalles de Trofeos Exclusivos">
+                            <button class="view-details" onclick="openPortfolioModal(2)" aria-label="Ver detalles de Trofeos Exclusivos">
                                 <span>Ver detalles</span>
                                 <i class="fas fa-expand-alt" aria-hidden="true"></i>
                             </button>
@@ -720,7 +806,7 @@
                 <!-- Invitaciones -->
                 <div class="portfolio-item" data-category="invitaciones" role="article">
                     <div class="portfolio-image">
-                        <img src="https://i.ibb.co/67pqHvw7/Invitaciones-Elegantes.jpg" 
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                              alt="Invitaciones Elegantes - Para bodas, cumpleaños y eventos especiales"
                              loading="lazy"
                              width="300"
@@ -729,7 +815,7 @@
                             <div class="portfolio-category">Invitaciones</div>
                             <h4>Invitaciones Elegantes</h4>
                             <p>Para bodas, cumpleaños y eventos</p>
-                            <button class="view-details" aria-label="Ver detalles de Invitaciones Elegantes">
+                            <button class="view-details" onclick="openPortfolioModal(3)" aria-label="Ver detalles de Invitaciones Elegantes">
                                 <span>Ver detalles</span>
                                 <i class="fas fa-expand-alt" aria-hidden="true"></i>
                             </button>
@@ -744,7 +830,7 @@
                 <!-- Afiches -->
                 <div class="portfolio-item" data-category="tarjetas" role="article">
                     <div class="portfolio-image">
-                        <img src="https://i.ibb.co/1YX1QJpH/Afiches-Publicitarios.jpg" 
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                              alt="Afiches Publicitarios - Diseño creativo para promoción"
                              loading="lazy"
                              width="300"
@@ -753,7 +839,7 @@
                             <div class="portfolio-category">Afiches</div>
                             <h4>Afiches Publicitarios</h4>
                             <p>Diseño creativo e impactante</p>
-                            <button class="view-details" aria-label="Ver detalles de Afiches Publicitarios">
+                            <button class="view-details" onclick="openPortfolioModal(4)" aria-label="Ver detalles de Afiches Publicitarios">
                                 <span>Ver detalles</span>
                                 <i class="fas fa-expand-alt" aria-hidden="true"></i>
                             </button>
@@ -768,7 +854,7 @@
                 <!-- Certificados -->
                 <div class="portfolio-item" data-category="reconocimientos" role="article">
                     <div class="portfolio-image">
-                        <img src="https://i.ibb.co/Y7KJ5BBz/Certificados-Institucionales-D.jpg" 
+                        <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                              alt="Certificados Institucionales - Documentos formales para instituciones"
                              loading="lazy"
                              width="300"
@@ -777,7 +863,7 @@
                             <div class="portfolio-category">Certificados</div>
                             <h4>Certificados Institucionales</h4>
                             <p>Diseño formal y profesional</p>
-                            <button class="view-details" aria-label="Ver detalles de Certificados Institucionales">
+                            <button class="view-details" onclick="openPortfolioModal(5)" aria-label="Ver detalles de Certificados Institucionales">
                                 <span>Ver detalles</span>
                                 <i class="fas fa-expand-alt" aria-hidden="true"></i>
                             </button>
@@ -825,7 +911,7 @@
                 <!-- Catálogo 1: Invitaciones -->
                 <div class="catalogo-card" 
                      role="listitem"
-                     onclick="openPdfViewer('catalogos/catalogo-invitaciones.pdf', 'Catálogo de Invitaciones')"
+                     onclick="openPdfViewer('catálogo de invitaciones elegantes')"
                      tabindex="0"
                      aria-label="Abrir catálogo de invitaciones elegantes">
                     <div class="catalogo-icon-wrapper">
@@ -848,7 +934,7 @@
                             <span><i class="fas fa-file-pdf" aria-hidden="true"></i> PDF Interactivo</span>
                             <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
                         </div>
-                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de invitaciones">
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de invitaciones" onclick="openPdfViewer('catálogo de invitaciones elegantes')">
                             <span>Ver Catálogo</span>
                             <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                         </button>
@@ -859,7 +945,7 @@
                 <!-- Catálogo 2: Medallas -->
                 <div class="catalogo-card" 
                      role="listitem"
-                     onclick="openPdfViewer('catalogos/catalogo-medallas-accesorios-acrilico.pdf', 'Catálogo de Medallas y Accesorios en Acrílico')"
+                     onclick="openPdfViewer('catálogo de medallas y accesorios')"
                      tabindex="0"
                      aria-label="Abrir catálogo de medallas y accesorios">
                     <div class="catalogo-icon-wrapper">
@@ -882,7 +968,7 @@
                             <span><i class="fas fa-gem" aria-hidden="true"></i> Alta Calidad</span>
                             <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
                         </div>
-                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de medallas y accesorios">
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de medallas y accesorios" onclick="openPdfViewer('catálogo de medallas y accesorios')">
                             <span>Ver Catálogo</span>
                             <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                         </button>
@@ -893,7 +979,7 @@
                 <!-- Catálogo 3: Pines -->
                 <div class="catalogo-card" 
                      role="listitem"
-                     onclick="openPdfViewer('catalogos/catalogo-pines.pdf', 'Catálogo de Pines')"
+                     onclick="openPdfViewer('catálogo de pines personalizados')"
                      tabindex="0"
                      aria-label="Abrir catálogo de pines personalizados">
                     <div class="catalogo-icon-wrapper">
@@ -916,7 +1002,7 @@
                             <span><i class="fas fa-palette" aria-hidden="true"></i> Personalizable</span>
                             <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
                         </div>
-                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de pines personalizados">
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de pines personalizados" onclick="openPdfViewer('catálogo de pines personalizados')">
                             <span>Ver Catálogo</span>
                             <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                         </button>
@@ -927,7 +1013,7 @@
                 <!-- Catálogo 4: Porta Certificados -->
                 <div class="catalogo-card" 
                      role="listitem"
-                     onclick="openPdfViewer('catalogos/catalogo-porta-certificados.pdf', 'Catálogo de Porta Certificados')"
+                     onclick="openPdfViewer('catálogo de porta certificados')"
                      tabindex="0"
                      aria-label="Abrir catálogo de porta certificados">
                     <div class="catalogo-icon-wrapper">
@@ -950,109 +1036,7 @@
                             <span><i class="fas fa-folder-open" aria-hidden="true"></i> Varios modelos</span>
                             <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
                         </div>
-                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de porta certificados">
-                            <span>Ver Catálogo</span>
-                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                    <div class="catalogo-hover-effect"></div>
-                </div>
-                
-                <!-- Catálogo 5: Indumentaria 1 -->
-                <div class="catalogo-card" 
-                     role="listitem"
-                     onclick="openPdfViewer('catalogos/catalogo-indumentaria-minimalista-1.pdf', 'Catálogo de Indumentaria Minimalista Blanco - Colección 1')"
-                     tabindex="0"
-                     aria-label="Abrir catálogo de indumentaria minimalista colección 1">
-                    <div class="catalogo-icon-wrapper">
-                        <div class="catalogo-icon" style="background: linear-gradient(135deg, #FFFFFF, #F8F9FA); color: #333;" aria-hidden="true">
-                            <i class="fas fa-tshirt"></i>
-                        </div>
-                        <div class="catalogo-count">Colección 1</div>
-                    </div>
-                    <div class="catalogo-content">
-                        <h3>Indumentaria Minimalista</h3>
-                        <p>Colección 1: Diseños elegantes en blanco para un estilo profesional y moderno</p>
-                        <div class="catalogo-tags">
-                            <span class="tag">Minimalista</span>
-                            <span class="tag">Profesional</span>
-                            <span class="tag">Blanco</span>
-                        </div>
-                    </div>
-                    <div class="catalogo-footer">
-                        <div class="catalogo-meta">
-                            <span><i class="fas fa-snowflake" aria-hidden="true"></i> Estilo limpio</span>
-                            <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
-                        </div>
-                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de indumentaria minimalista colección 1">
-                            <span>Ver Catálogo</span>
-                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                    <div class="catalogo-hover-effect"></div>
-                </div>
-                
-                <!-- Catálogo 6: Indumentaria 2 -->
-                <div class="catalogo-card" 
-                     role="listitem"
-                     onclick="openPdfViewer('catalogos/catalogo-indumentaria-minimalista-2.pdf', 'Catálogo de Indumentaria Minimalista Blanco - Colección 2')"
-                     tabindex="0"
-                     aria-label="Abrir catálogo de indumentaria minimalista colección 2">
-                    <div class="catalogo-icon-wrapper">
-                        <div class="catalogo-icon" style="background: linear-gradient(135deg, #E0E0E0, #BDBDBD); color: #333;" aria-hidden="true">
-                            <i class="fas fa-vest"></i>
-                        </div>
-                        <div class="catalogo-count">Colección 2</div>
-                    </div>
-                    <div class="catalogo-content">
-                        <h3>Indumentaria Minimalista 2</h3>
-                        <p>Colección 2: Más opciones en blanco para completar tu look profesional</p>
-                        <div class="catalogo-tags">
-                            <span class="tag">Segunda línea</span>
-                            <span class="tag">Completo</span>
-                            <span class="tag">Variedad</span>
-                        </div>
-                    </div>
-                    <div class="catalogo-footer">
-                        <div class="catalogo-meta">
-                            <span><i class="fas fa-layer-group" aria-hidden="true"></i> Más opciones</span>
-                            <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
-                        </div>
-                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de indumentaria minimalista colección 2">
-                            <span>Ver Catálogo</span>
-                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                    <div class="catalogo-hover-effect"></div>
-                </div>
-                
-                <!-- Catálogo 7: Reconocimientos Acrílico -->
-                <div class="catalogo-card" 
-                     role="listitem"
-                     onclick="openPdfViewer('catalogos/catalogo-reconocimientos-acrilico.pdf', 'Catálogo de Reconocimientos en Acrílico')"
-                     tabindex="0"
-                     aria-label="Abrir catálogo de reconocimientos en acrílico">
-                    <div class="catalogo-icon-wrapper">
-                        <div class="catalogo-icon" style="background: linear-gradient(135deg, #5E56E7, #764ba2);" aria-hidden="true">
-                            <i class="fas fa-award"></i>
-                        </div>
-                        <div class="catalogo-count">Exclusivo</div>
-                    </div>
-                    <div class="catalogo-content">
-                        <h3>Reconocimientos en Acrílico</h3>
-                        <p>Diseños exclusivos en acrílico para premios, reconocimientos y logros especiales</p>
-                        <div class="catalogo-tags">
-                            <span class="tag">Acrílico</span>
-                            <span class="tag">Exclusivo</span>
-                            <span class="tag">Premios</span>
-                        </div>
-                    </div>
-                    <div class="catalogo-footer">
-                        <div class="catalogo-meta">
-                            <span><i class="fas fa-star" aria-hidden="true"></i> Diseños únicos</span>
-                            <span><i class="fas fa-eye" aria-hidden="true"></i> Vista Previa</span>
-                        </div>
-                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de reconocimientos en acrílico">
+                        <button class="btn-ver-catalogo" aria-label="Ver catálogo de porta certificados" onclick="openPdfViewer('catálogo de porta certificados')">
                             <span>Ver Catálogo</span>
                             <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                         </button>
@@ -1356,7 +1340,7 @@
                                     </div>
                                     <div class="contact-text">
                                         <h4>TELÉFONO / WHATSAPP</h4>
-                                        <p class="contact-value">+591 6479 3488</p>
+                                        <p class="contact-value">+591 6040 9066</p>
                                         <p class="contact-note">Disponible de Lunes a Sábado</p>
                                     </div>
                                 </div>
@@ -1438,7 +1422,7 @@
                                         <span>TikTok</span>
                                     </a>
                                     
-                                    <a href="https://wa.me/59164793488" 
+                                    <a href="https://wa.me/59160409066" 
                                        class="social-btn whatsapp" 
                                        role="listitem"
                                        title="WhatsApp"
@@ -1524,7 +1508,7 @@
                                                id="phone" 
                                                name="phone" 
                                                required 
-                                               placeholder="+591 6479 3488"
+                                               placeholder="+591 6040 9066"
                                                aria-required="true"
                                                aria-describedby="phone-error"
                                                class="form-input">
@@ -1634,28 +1618,6 @@
                                 <div id="message-error" class="error-message" aria-live="polite"></div>
                             </div>
                             
-                            <div class="form-group">
-                                <label for="reference" class="form-label">
-                                    <i class="fas fa-image" aria-hidden="true"></i> 
-                                    <span>Imágenes de referencia (opcional)</span>
-                                </label>
-                                <div class="file-upload">
-                                    <input type="file" 
-                                           id="reference" 
-                                           name="reference" 
-                                           accept="image/*"
-                                           multiple
-                                           class="file-input"
-                                           aria-describedby="reference-help">
-                                    <label for="reference" class="file-label">
-                                        <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
-                                        <span>Sube imágenes de referencia</span>
-                                        <span class="file-hint">PNG, JPG o PDF (máx. 5MB cada uno)</span>
-                                    </label>
-                                </div>
-                                <div id="reference-help" class="help-text">Puedes subir hasta 3 imágenes</div>
-                            </div>
-                            
                             <div class="form-checkbox-group">
                                 <div class="form-checkbox">
                                     <input type="checkbox" 
@@ -1697,7 +1659,7 @@
                         </div>
                         
                         <div class="alternative-options">
-                            <a href="https://wa.me/59164793488" 
+                            <a href="https://wa.me/59160409066" 
                                class="alternative-option whatsapp-option"
                                target="_blank"
                                rel="noopener noreferrer"
@@ -1714,7 +1676,7 @@
                                 </div>
                             </a>
                             
-                            <a href="tel:+59164793488" 
+                            <a href="tel:+59160409066" 
                                class="alternative-option phone-option"
                                aria-label="Llamar por teléfono">
                                 <div class="option-icon">
@@ -1826,7 +1788,7 @@
                            aria-label="TikTok">
                             <i class="fab fa-tiktok" aria-hidden="true"></i>
                         </a>
-                        <a href="https://wa.me/59164793488" 
+                        <a href="https://wa.me/59160409066" 
                            class="social-link"
                            target="_blank"
                            rel="noopener noreferrer"
@@ -1880,9 +1842,9 @@
                         
                         <div class="footer-contact-info">
                             <h5>Contacto Rápido</h5>
-                            <a href="tel:+59164793488" class="footer-phone">
+                            <a href="tel:+59160409066" class="footer-phone">
                                 <i class="fas fa-phone-alt" aria-hidden="true"></i>
-                                +591 6479 3488
+                                +591 6040 9066
                             </a>
                             <a href="mailto:impresionesgrafic2025@gmail.com" class="footer-email">
                                 <i class="fas fa-envelope" aria-hidden="true"></i>
@@ -1935,12 +1897,367 @@
         <span class="sr-only">Volver al inicio de la página</span>
     </div>
 
+    <!-- PDF Viewer Modal -->
+    <div id="pdfModal" class="pdf-modal-overlay" style="display: none;">
+        <div class="pdf-modal-content">
+            <div class="pdf-modal-header">
+                <h3 id="pdfModalTitle">Catálogo</h3>
+                <button class="close-pdf-btn" onclick="closePdfViewer()">Cerrar</button>
+            </div>
+            <div class="pdf-modal-body">
+                <p id="pdfModalContent">Información del catálogo aparecerá aquí.</p>
+            </div>
+            <div class="pdf-modal-footer">
+                <p>Para obtener el catálogo completo y precios, contáctanos directamente.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Modal -->
+    <div id="portfolioModal" class="portfolio-modal-overlay" style="display: none;">
+        <div class="portfolio-modal-content">
+            <div class="portfolio-modal-header" style="padding: 20px; background: #252542; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <h3 id="portfolioModalTitle">Detalles del Proyecto</h3>
+                <button class="close-pdf-btn" onclick="closePortfolioModal()">Cerrar</button>
+            </div>
+            <div class="portfolio-modal-body" style="padding: 20px;">
+                <div id="portfolioModalContent"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- SCRIPTS - OPTIMIZADOS -->
     <script src="templatemo-3d-coverflow-scripts.js" defer></script>
     
     <!-- SCRIPT DE INICIALIZACIÓN INLINE -->
     <script>
-        // Función para cargar partículas en el hero (solo para desktop)
+        // Función para abrir PDF Viewer
+        function openPdfViewer(title) {
+            const modal = document.getElementById('pdfModal');
+            const modalTitle = document.getElementById('pdfModalTitle');
+            const modalContent = document.getElementById('pdfModalContent');
+            
+            modalTitle.textContent = title;
+            
+            // Contenido del catálogo basado en el título
+            let content = '';
+            
+            if (title.includes('invitaciones')) {
+                content = `
+                    <div style="text-align: center;">
+                        <h4 style="color: #5E56E7; margin-bottom: 20px;">Catálogo de Invitaciones Elegantes</h4>
+                        <p>Nuestro catálogo incluye más de 30 diseños exclusivos para:</p>
+                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
+                            <li>Bodas y matrimonios</li>
+                            <li>XV Años</li>
+                            <li>Cumpleaños adultos e infantiles</li>
+                            <li>Eventos corporativos</li>
+                            <li>Graduaciones</li>
+                            <li>Bautizos y primeras comuniones</li>
+                        </ul>
+                        <p><strong>Técnicas disponibles:</strong></p>
+                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
+                            <li>Letterpress</li>
+                            <li>Foil stamping (dorado, plateado, colores)</li>
+                            <li>Troquelados especiales</li>
+                            <li>Papeles importados de alta calidad</li>
+                            <li>Sobres personalizados</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (title.includes('medallas')) {
+                content = `
+                    <div style="text-align: center;">
+                        <h4 style="color: #5E56E7; margin-bottom: 20px;">Catálogo de Medallas y Accesorios en Acrílico</h4>
+                        <p>Medallas de alta calidad para eventos deportivos y reconocimientos:</p>
+                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
+                            <li>Medallas circulares, cuadradas y personalizadas</li>
+                            <li>Acrílico de 3mm y 5mm de grosor</li>
+                            <li>Cintas de raso en diversos colores</li>
+                            <li>Grabado láser de alta precisión</li>
+                            <li>Packaging especial para entrega</li>
+                        </ul>
+                        <p><strong>Para:</strong></p>
+                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
+                            <li>Carreras y maratones</li>
+                            <li>Torneos deportivos</li>
+                            <li>Reconocimientos empresariales</li>
+                            <li>Eventos escolares y universitarios</li>
+                            <li>Competiciones diversas</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (title.includes('pines')) {
+                content = `
+                    <div style="text-align: center;">
+                        <h4 style="color: #5E56E7; margin-bottom: 20px;">Catálogo de Pines Personalizados</h4>
+                        <p>Pines de alta calidad para identificación y colección:</p>
+                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
+                            <li>Pines metálicos esmaltados</li>
+                            <li>Pines de acrílico impresos</li>
+                            <li>Tamaños desde 1cm hasta 10cm</li>
+                            <li>Acabados: brillante, mate, imantado</li>
+                            <li>Clips de seguridad incluidos</li>
+                        </ul>
+                        <p><strong>Aplicaciones:</strong></p>
+                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
+                            <li>Identificación corporativa</li>
+                            <li>Eventos y conferencias</li>
+                            <li>Campañas de marketing</li>
+                            <li>Coleccionables y souvenirs</li>
+                            <li>Premios y reconocimientos</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (title.includes('porta certificados')) {
+                content = `
+                    <div style="text-align: center;">
+                        <h4 style="color: #5E56E7; margin-bottom: 20px;">Catálogo de Porta Certificados</h4>
+                        <p>Portadores elegantes para documentos importantes:</p>
+                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
+                            <li>Tamaños A4 y personalizados</li>
+                            <li>Materiales: cuero sintético, tela, cartón rígido</li>
+                            <li>Ventana de acetato para visualización</li>
+                            <li>Personalización con logo o nombre</li>
+                            <li>Colores disponibles: negro, azul, rojo, verde</li>
+                        </ul>
+                        <p><strong>Para:</strong></p>
+                        <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
+                            <li>Diplomas académicos</li>
+                            <li>Certificados profesionales</li>
+                            <li>Documentos institucionales</li>
+                            <li>Reconocimientos y premios</li>
+                            <li>Documentos legales importantes</li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                content = `
+                    <div style="text-align: center; padding: 40px 0;">
+                        <h4 style="color: #5E56E7; margin-bottom: 20px;">Catálogo no disponible en línea</h4>
+                        <p>Para ver el catálogo completo y recibir precios actualizados, por favor contáctanos directamente.</p>
+                        <button onclick="scrollToContact()" style="background: #5E56E7; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; margin-top: 20px; cursor: pointer;">
+                            Contactar para ver catálogo
+                        </button>
+                    </div>
+                `;
+            }
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Función para cerrar PDF Viewer
+        function closePdfViewer() {
+            const modal = document.getElementById('pdfModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // Función para abrir modal de portafolio
+        function openPortfolioModal(index) {
+            const modal = document.getElementById('portfolioModal');
+            const modalTitle = document.getElementById('portfolioModalTitle');
+            const modalContent = document.getElementById('portfolioModalContent');
+            
+            // Información detallada de cada proyecto
+            const portfolioDetails = [
+                {
+                    title: "Tarjetas Personales Corporativas",
+                    description: "En IMPRESIONES GRAFIC diseñamos tarjetas de presentación que no solo transmiten información, sino que cuentan la historia de tu marca. Utilizamos materiales premium como cartulina couché de 300g, acabados en relieve, troquelados especiales y barniz UV selectivo para crear piezas que dejan una impresión duradera.",
+                    features: ["Diseño personalizado con 3 revisiones", "Materiales premium (cartulina 300g)", "Acabados especiales (relieve, troquelado)", "Impresión full color de alta resolución", "Entrega en 48 horas hábiles", "Mínimo 100 unidades"],
+                    price: "Desde Bs. 150",
+                    delivery: "48 horas",
+                    image: "https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    title: "Reconocimientos Personalizados",
+                    description: "Nuestros reconocimientos y diplomas son diseñados para premiar la excelencia. Trabajamos con papeles especiales como pergamino, texturizados y con marcas de agua, incorporando elementos gráficos que reflejan la importancia del logro. Cada pieza es única y diseñada según la institución o evento.",
+                    features: ["Diseño elegante y formal", "Papeles especiales (pergamino, texturizados)", "Marcos de madera o acrílico opcional", "Personalización completa de textos", "Numeración y validación oficial", "Embalaje protector premium"],
+                    price: "Desde Bs. 80",
+                    delivery: "72 horas",
+                    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    title: "Trofeos Exclusivos",
+                    description: "Creamos trofeos que se convierten en símbolos de logro y reconocimiento. Combinamos diferentes materiales como cristal tallado, acrílico láser, metal cromado y bases de mármol sintético para piezas realmente memorables. Cada trofeo cuenta una historia de triunfo.",
+                    features: ["Combinación de materiales premium", "Grabado láser personalizado", "Bases estables y elegantes", "Diseño exclusivo para cada evento", "Embalaje de lujo con espuma", "Instalación en evento (opcional)"],
+                    price: "Desde Bs. 200",
+                    delivery: "5-7 días",
+                    image: "https://images.unsplash.com/photo-1510525009512-ad7fc13eefab?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    title: "Invitaciones Elegantes",
+                    description: "Transformamos tus momentos especiales en recuerdos tangibles. Diseñamos invitaciones que anticipan la magia de tu evento, utilizando técnicas como letterpress, foil stamping, cortes láser y papeles especiales importados. Cada detalle es cuidadosamente considerado.",
+                    features: ["Diseño único para cada evento", "Papeles importados de alta calidad", "Técnicas especiales (foil, relieve)", "Sobres personalizados y lacrados", "Coordinación completa del diseño", "Muestras físicas antes de producción"],
+                    price: "Desde Bs. 3 por unidad",
+                    delivery: "5 días",
+                    image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    title: "Afiches Publicitarios",
+                    description: "Diseñamos afiches que no solo informan, sino que impactan y persuaden. Trabajamos con impresión de gran formato hasta 150x100cm, materiales resistentes a la intemperie y técnicas de visualización estratégica para maximizar el alcance de tu mensaje.",
+                    features: ["Gran formato hasta 150x100cm", "Materiales resistentes a la intemperie", "Impresión en alta resolución", "Diseño optimizado para visualización", "Instalación profesional incluida", "Resistencia UV para exteriores"],
+                    price: "Desde Bs. 50",
+                    delivery: "24-48 horas",
+                    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    title: "Certificados Institucionales",
+                    description: "Documentos oficiales que otorgan validez y prestigio. Diseñamos certificados con elementos de seguridad, numeración serial, marcas de agua y firmas digitales, garantizando autenticidad y profesionalismo para instituciones educativas, empresas y organizaciones.",
+                    features: ["Elementos de seguridad integrados", "Numeración serial consecutiva", "Marcas de agua y fondos seguridad", "Papeles de calidad archivística", "Validación oficial y firmas", "Diseño acorde a normativa institucional"],
+                    price: "Desde Bs. 25 por unidad",
+                    delivery: "3 días",
+                    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                }
+            ];
+
+            const detail = portfolioDetails[index] || portfolioDetails[0];
+            
+            modalTitle.textContent = detail.title;
+            
+            let content = `
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="display: flex; flex-direction: column; gap: 30px;">
+                        <div style="text-align: center;">
+                            <img src="${detail.image}" alt="${detail.title}" style="width: 100%; max-width: 400px; border-radius: 12px; margin-bottom: 20px;">
+                            <h3 style="color: #5E56E7; margin-bottom: 15px;">${detail.title}</h3>
+                        </div>
+                        
+                        <div>
+                            <h4 style="color: white; margin-bottom: 10px; border-bottom: 2px solid #5E56E7; padding-bottom: 5px;">Descripción del Proyecto</h4>
+                            <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">${detail.description}</p>
+                        </div>
+                        
+                        <div>
+                            <h4 style="color: white; margin-bottom: 10px; border-bottom: 2px solid #5E56E7; padding-bottom: 5px;">Características Principales</h4>
+                            <ul style="color: rgba(255,255,255,0.8); line-height: 1.6; padding-left: 20px;">
+                                ${detail.features.map(feature => `<li>${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: rgba(94, 86, 231, 0.1); padding: 20px; border-radius: 8px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 5px;">PRECIO</div>
+                                <div style="font-size: 1.5rem; color: #5E56E7; font-weight: bold;">${detail.price}</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 5px;">TIEMPO DE ENTREGA</div>
+                                <div style="font-size: 1.5rem; color: #4ECDC4; font-weight: bold;">${detail.delivery}</div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button onclick="scrollToContact('${detail.title.toLowerCase().split(' ')[0]}')" style="background: linear-gradient(135deg, #5E56E7, #4a43d4); color: white; border: none; padding: 12px 30px; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: transform 0.3s ease;">
+                                Solicitar Presupuesto para este Proyecto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Función para cerrar modal de portafolio
+        function closePortfolioModal() {
+            const modal = document.getElementById('portfolioModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // Función para manejar el envío del formulario
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            // Mostrar estado de carga
+            submitBtn.innerHTML = '<span>Enviando...</span><i class="fas fa-spinner fa-spin" aria-hidden="true"></i>';
+            submitBtn.disabled = true;
+            
+            // Simular envío (en producción, esto sería una llamada AJAX real)
+            setTimeout(() => {
+                // Mostrar mensaje de éxito
+                alert('✅ Solicitud enviada correctamente. Te contactaremos en menos de 2 horas.');
+                
+                // Restaurar botón
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Resetear formulario
+                form.reset();
+                
+                // Reset urgency buttons
+                const urgencyBtns = form.querySelectorAll('.urgency-btn');
+                urgencyBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-value') === 'normal') {
+                        btn.classList.add('active');
+                    }
+                });
+                
+            }, 1500);
+            
+            return false;
+        }
+
+        // Función para scroll a contacto
+        function scrollToContact(service = '') {
+            const contactSection = document.getElementById('contact');
+            const header = document.getElementById('header');
+            
+            if (contactSection) {
+                // Cerrar menú móvil si está abierto
+                if (window.innerWidth <= 768) {
+                    const menuToggle = document.getElementById('menuToggle');
+                    const mainMenu = document.getElementById('mainMenu');
+                    if (menuToggle && mainMenu) {
+                        menuToggle.classList.remove('active');
+                        mainMenu.classList.remove('active');
+                    }
+                }
+                
+                // Calcular posición con offset del header
+                const headerHeight = header ? header.offsetHeight : 90;
+                const targetPosition = contactSection.offsetTop - headerHeight + 20;
+                
+                // Scroll suave
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Si se especificó un servicio, llenar el campo después de un delay
+                if (service && service !== '') {
+                    setTimeout(() => {
+                        const serviceSelect = document.getElementById('service');
+                        if (serviceSelect) {
+                            const serviceKey = service.toLowerCase();
+                            const options = Array.from(serviceSelect.options);
+                            const matchingOption = options.find(option => 
+                                option.value.toLowerCase() === serviceKey
+                            );
+                            
+                            if (matchingOption) {
+                                serviceSelect.value = matchingOption.value;
+                                
+                                // Disparar evento change
+                                const event = new Event('change', { bubbles: true });
+                                serviceSelect.dispatchEvent(event);
+                            }
+                        }
+                    }, 500);
+                }
+            }
+        }
+
+        // Función para cargar partículas en el hero
         function loadHeroParticles() {
             const particlesContainer = document.getElementById('heroParticles');
             if (!particlesContainer || window.innerWidth < 768) return;
@@ -1950,7 +2267,6 @@
                 const particle = document.createElement('div');
                 particle.className = 'hero-particle';
                 
-                // Posición aleatoria
                 const size = Math.random() * 3 + 1;
                 const posX = Math.random() * 100;
                 const posY = Math.random() * 100;
@@ -1970,7 +2286,7 @@
                 particlesContainer.appendChild(particle);
             }
         }
-        
+
         // Contador animado para estadísticas
         function animateStats() {
             const statItems = document.querySelectorAll('.stat-number');
@@ -1991,7 +2307,7 @@
                 }, 30);
             });
         }
-        
+
         // Observador de intersección para animaciones
         function setupIntersectionObserver() {
             const observerOptions = {
@@ -2020,7 +2336,7 @@
             const statsSection = document.querySelector('.stats-section');
             if (statsSection) observer.observe(statsSection);
         }
-        
+
         // Ocultar preloader cuando todo cargue
         window.addEventListener('load', function() {
             const preloader = document.getElementById('preloader');
@@ -2044,9 +2360,7 @@
                         
                         // Mostrar notificación de bienvenida
                         setTimeout(() => {
-                            if (typeof showNotification === 'function') {
-                                showNotification('🎨 ¡Bienvenido a IMPRESIONES GRAFIC! Descubre 25 años de experiencia en diseño e impresión.', 'info');
-                            }
+                            alert('🎨 ¡Bienvenido a IMPRESIONES GRAFIC! Descubre 25 años de experiencia en diseño e impresión.');
                         }, 1000);
                         
                     }, 500);
@@ -2156,18 +2470,31 @@
             if (/iphone|ipad|ipod/.test(userAgent)) {
                 document.body.classList.add('ios');
             }
-            
-            if (/chrome/.test(userAgent) && /android/.test(userAgent)) {
-                document.body.classList.add('android-chrome');
-            }
-            
-            if (/safari/.test(userAgent) && !/chrome/.test(userAgent) && /iphone|ipad/.test(userAgent)) {
-                document.body.classList.add('ios-safari');
-            }
         }
         
         // Llamar detección de dispositivo
         detectDevice();
+        
+        // Cerrar modales con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePdfViewer();
+                closePortfolioModal();
+            }
+        });
+        
+        // Cerrar modales haciendo clic fuera del contenido
+        document.querySelectorAll('.pdf-modal-overlay, .portfolio-modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    if (this.id === 'pdfModal') {
+                        closePdfViewer();
+                    } else if (this.id === 'portfolioModal') {
+                        closePortfolioModal();
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
